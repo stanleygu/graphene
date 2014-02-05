@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{height || 800}}" ng-attr-width="{{width || 800}}">
+  <style>
+  svg .node.species {
+    stroke: #FFB800;
+    stroke-width: 3px;
+    size: 300px;
+  }
+  svg .node.reaction {
+    stroke: #8089F7;
+    opacity: 0;
+    stroke-width: 1.5px;
+  }
+  svg .link {
+    stroke: #999;
+    stroke-opacity: .6;
+    stroke-width: 3px;
+  }
+  svg .link.modifier {
+    stroke-dasharray: 5, 5;
+  }
+  svg .node-label {
+    font-size: 14px;
+    font-family: Georgia;
+    font-weight: bolder;
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+
+/*  svg .node.selected {
+    stroke: #FF0000;
+  }
+  svg .link.selected {
+    stroke: #FF0000;
+  }*/
+  svg marker {
+    stroke: none;
+    fill: #999;
+    opacity: 1;
+    overflow: visible;
+  }
+  </style>
+  <defs>
+    <marker case-sensitive="refX,refY" id="production" viewBox="0 -5 10 10" ng-attr-refX="{{sizeLookup['species'] - 22}}"
+    ng-attr-refY="{{0}}" markerWidth="15" markerHeight="15" orient="auto">
+      <path transform="rotate(-90)" ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path>
+      <!-- <path d="M0,-5L10,0L0,5"></path> -->
+    </marker>
+    <marker case-sensitive="refX,refY" id="degradation" viewBox="0 -5 10 10" ng-attr-refX="{{0}}"
+    ng-attr-refY="{{0}}" markerWidth="15" markerHeight="15" orient="auto">
+      <path transform="rotate(-90)" ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path>
+      <!-- <path d="M0,-5L10,0L0,5"></path> -->
+    </marker>
+    <marker case-sensitive="refX,refY" id="modifier" markerWidth="8" markerHeight="8"
+    ng-attr-refX="{{0}}" ng-attr-refY="{{0}}" fill="black" orient="auto">
+          <path ng-attr-d="{{arrow({size: 5, type: 'circle'})}}"></path>
+      <!-- <circle cx="1" cy="1" r="1" fill="black" stroke="black" opacity=".6"></circle> -->
+    </marker>
+    <linearGradient id="gradient">
+      <stop offset="5%" stop-color="#FFDC9E"></stop>
+      <stop offset="95%" stop-color="#FFF"></stop>
+    </linearGradient>
+    <linearGradient id="reactionGradient">
+      <stop offset="5%" stop-color="#B0C0FF"></stop>
+      <stop offset="95%" stop-color="#FFF"></stop>
+    </linearGradient>
+  </defs>
+  <g ng-attr-transform="translate({{translate.x}}, {{translate.y}})scale({{scale}})">
+    <g>
+      <line ng-click="App.selectReaction(link.source.id); isSelected = !isSelected" ng-repeat="link in lines.production"
+      ng-class="{selected: isSelected}" class="reaction production link" ng-attr-x1="{{getReactionPosition(link.source.id).x}}" marker-end="url(#production)"
+      ng-attr-y1="{{getReactionPosition(link.source.id).y}}" ng-attr-x2="{{link.target.x}}" ng-attr-y2="{{link.target.y}}">
+      </line>
+    </g>
+    <g>
+      <line ng-click="App.selectReaction(link.target.id); isSelected = !isSelected" ng-repeat="link in lines.reactant"
+      ng-class="{selected: isSelected}" class="reaction reactant link" ng-attr-x1="{{link.source.x}}" ng-attr-y1="{{link.source.y}}"
+      ng-attr-x2="{{getReactionPosition(link.target.id).x}}" ng-attr-y2="{{getReactionPosition(link.target.id).y}}">
+      </line>
+    </g>
+    <g>
+      <line ng-click="App.selectReaction(link.target.id); isSelected = !isSelected" ng-repeat="link in lines.degradation"
+      ng-class="{selected: isSelected}" class="reaction degradation link" ng-attr-x1="{{link.source.x}}" marker-end="url(#degradation)"
+      ng-attr-y1="{{link.source.y}}" ng-attr-x2="{{extendPoint(link.source, link.target, 20).x}}" ng-attr-y2="{{extendPoint(link.source, link.target, 20).y}}">
+      </line>
+    </g>
+    <g>
+      <line ng-click="App.selectReaction(link.target.id); isSelected = !isSelected" ng-repeat="link in lines.modifier"
+      ng-class="{selected: isSelected}" class="modifier link" ng-attr-x1="{{link.source.x}}" ng-attr-y1="{{link.source.y}}"
+      ng-attr-x2="{{getReactionPosition(link.target.id).x}}" ng-attr-y2="{{getReactionPosition(link.target.id).y}}" marker-end="url(#modifier)">
+      </line>
+    </g>
+    <g draggable ng-repeat="node in species" ng-attr-transform="translate({{node.x}},{{node.y}})">
+      <circle ng-class="{selected: isSelected}" class="species node" ng-attr-r="{{sizeLookup.species}}" fill="url(#gradient)"
+      ng-click="App.selectSpecies(node.id); isSelected = !isSelected;">
+        <title>ID: {{node.id}}, Name: {{node.name}}</title>
+      </circle>
+      <text class="node-label">{{node.id}}</text>
+    </g>
+    <g draggable ng-repeat="node in reactions" ng-attr-transform="translate({{node.x}},{{node.y}})">
+      <circle ng-class="node.classes" class="node" ng-attr-r="{{sizeLookup.reaction}}"
+      fill="url(#reactionGradient)" ng-click="openReactionModal(node)">
+        <title>ID: {{node.id}}, Name: {{node.name}}</title>
+      </circle>
+      <text class="node-label">{{}}</text>
+    </g>
+  </g>
+</svg>

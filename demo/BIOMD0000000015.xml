@@ -1,0 +1,2240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<sbml xmlns="http://www.sbml.org/sbml/level2" level="2" metaid="metaid_000001" version="1">
+  <model id="Curto" name="Curto1998_purineMetabol" metaid="metaid_0000002">
+    <notes>
+      <body xmlns="http://www.w3.org/1999/xhtml">
+        <p>This is a purine metabolism model that is geared toward studies of gout.</p>
+            <p>The model is fully described in Curto et al., MBSC 151 (1998) pp 1-49</p>
+            <p>The model uses Generalized Mass Action (GMA;i.e. power law) descriptions of reaction rate laws.</p>
+            <p>Such descriptions are local approximations that assume independent substrate binding.</p>
+            </body>
+      
+    </notes>
+    <annotation>
+      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+        <rdf:Description rdf:about="#metaid_0000002">
+          <dc:creator>
+            <rdf:Bag>
+              <rdf:li rdf:parseType="Resource">
+                <vCard:N rdf:parseType="Resource">
+                  <vCard:Family>Le Novère</vCard:Family>
+                  <vCard:Given>Nicolas</vCard:Given>
+                </vCard:N>
+                <vCard:EMAIL>lenov@ebi.ac.uk</vCard:EMAIL>
+                <vCard:ORG rdf:parseType="Resource">
+                  <vCard:Orgname>EMBL-EBI</vCard:Orgname>
+                </vCard:ORG>
+              </rdf:li>
+              <rdf:li rdf:parseType="Resource">
+                <vCard:N rdf:parseType="Resource">
+                  <vCard:Family>Radivoyevitch</vCard:Family>
+                  <vCard:Given>Tomas</vCard:Given>
+                </vCard:N>
+                <vCard:EMAIL>txr24@po.cwru.edu</vCard:EMAIL>
+                <vCard:ORG rdf:parseType="Resource">
+                  <vCard:Orgname>CASE western research university</vCard:Orgname>
+                </vCard:ORG>
+              </rdf:li>
+            </rdf:Bag>
+          </dc:creator>
+          <dcterms:created rdf:parseType="Resource">
+            <dcterms:W3CDTF>2005-03-06T13:52:00Z</dcterms:W3CDTF>
+          </dcterms:created>
+          <dcterms:modified rdf:parseType="Resource">
+            <dcterms:W3CDTF>2012-05-15T15:50:06Z</dcterms:W3CDTF>
+          </dcterms:modified>
+          <bqmodel:is>
+            <rdf:Bag>
+              <rdf:li rdf:resource="http://identifiers.org/biomodels.db/MODEL6617035399"/>
+            </rdf:Bag>
+          </bqmodel:is>
+          <bqmodel:is>
+            <rdf:Bag>
+              <rdf:li rdf:resource="http://identifiers.org/biomodels.db/BIOMD0000000015"/>
+            </rdf:Bag>
+          </bqmodel:is>
+          <bqmodel:isDescribedBy>
+            <rdf:Bag>
+              <rdf:li rdf:resource="http://identifiers.org/pubmed/9664759"/>
+            </rdf:Bag>
+          </bqmodel:isDescribedBy>
+          <bqbiol:isVersionOf>
+            <rdf:Bag>
+              <rdf:li rdf:resource="http://identifiers.org/obo.go/GO:0006144"/>
+            </rdf:Bag>
+          </bqbiol:isVersionOf>
+          <bqbiol:is>
+            <rdf:Bag>
+              <rdf:li rdf:resource="http://identifiers.org/kegg.pathway/hsa00230"/>
+              <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_522"/>
+            </rdf:Bag>
+          </bqbiol:is>
+          <bqbiol:occursIn>
+            <rdf:Bag>
+              <rdf:li rdf:resource="http://identifiers.org/taxonomy/9606"/>
+            </rdf:Bag>
+          </bqbiol:occursIn>
+        </rdf:Description>
+      </rdf:RDF>
+    </annotation>
+      <listOfUnitDefinitions>
+      <unitDefinition id="substance" name="micromole (default)" metaid="metaid_0000059">
+        <notes>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+                <p>Default unit of substance redefined to micromole by comparison with the article. Nicolas Le Novere</p>
+                    </body>
+          
+        </notes>
+        <listOfUnits>
+          <unit scale="-6" metaid="_782367" offset="0" multiplier="1" kind="mole"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="time" name="minute (default)" metaid="metaid_0000060">
+        <notes>
+          <body xmlns="http://www.w3.org/1999/xhtml">
+                <p>Default unit of time redefined to minute by comparison with the article. Nicolas Le Novere</p>
+                    </body>
+          
+        </notes>
+        <listOfUnits>
+          <unit metaid="_782379" offset="0" multiplier="60" kind="second"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="cell" metaid="metaid_0000003" size="1">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000003">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.go/GO:0005623"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </compartment>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="PRPP" initialAmount="5.01742" hasOnlySubstanceUnits="true" name="phosphoribosylpyrophosphate" metaid="metaid_0000004" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000004">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:17111"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00119"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="IMP" initialAmount="98.2634" hasOnlySubstanceUnits="true" name="inosine monophosphate" metaid="metaid_0000005" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000005">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:17202"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00130"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="SAMP" initialAmount="0.198189" hasOnlySubstanceUnits="true" name="adenylosuccinate" metaid="metaid_0000006" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000006">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:15919"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C03794"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="ATP" initialAmount="2475.35" hasOnlySubstanceUnits="true" name="ATP_ADP_AMP_Ado" metaid="metaid_0000007" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000007">
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00002"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00020"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00212"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00008"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:16761"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:16027"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:16335"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:15422"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="SAM" initialAmount="3.99187" hasOnlySubstanceUnits="true" name="s-adenosyl-L-methionine" metaid="metaid_0000008" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000008">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:15414"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00019"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="Ade" initialAmount="0.98473" hasOnlySubstanceUnits="true" name="adenine" metaid="metaid_0000009" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000009">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:16708"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00147"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="XMP" initialAmount="24.793" hasOnlySubstanceUnits="true" name="xanthosine monophosphate" metaid="metaid_0000010" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000010">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:15652"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00655"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="GTP" initialAmount="410.223" hasOnlySubstanceUnits="true" name="GTP_GDP_GMP" metaid="metaid_0000011" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000011">
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:15996"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:17552"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:17345"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00044"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00144"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00035"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="dATP" initialAmount="6.01413" hasOnlySubstanceUnits="true" name="dATP_dADP_dAMP_dAdo" metaid="metaid_0000012" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000012">
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:17713"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:17256"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:16174"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:16284"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00559"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00360"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00206"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00131"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="dGTP" initialAmount="3.02581" hasOnlySubstanceUnits="true" name="dGTP_dGDP_dGMP" metaid="metaid_0000013" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000013">
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:16497"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:16192"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:28862"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00361"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00362"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00286"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="RNA" initialAmount="2.86805E4" hasOnlySubstanceUnits="true" metaid="metaid_0000014" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000014">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00046"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="DNA" initialAmount="5179.34" hasOnlySubstanceUnits="true" metaid="metaid_0000015" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000015">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00039"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="HX" initialAmount="9.51785" hasOnlySubstanceUnits="true" name="dIno_Ino_HX" metaid="metaid_0000016" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000016">
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:28997"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:17368"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:17596"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00294"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C05512"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00262"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="Xa" initialAmount="5.05941" hasOnlySubstanceUnits="true" name="xanthine" metaid="metaid_0000017" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000017">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:17712"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00385"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="Gua" initialAmount="5.50638" hasOnlySubstanceUnits="true" name="guanine" metaid="metaid_0000018" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000018">
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:17172"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:16235"/>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:16450"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00387"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00330"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00242"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="UA" initialAmount="100.293" hasOnlySubstanceUnits="true" name="uric acid" metaid="metaid_0000019" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000019">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:17775"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00366"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="R5P" initialAmount="18" hasOnlySubstanceUnits="true" name="ribose-5-phosphate" metaid="metaid_0000020" boundaryCondition="true" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000020">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:17797"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00117"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species id="Pi" initialAmount="1400" hasOnlySubstanceUnits="true" name="phosphate" metaid="metaid_0000021" boundaryCondition="true" compartment="cell">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000021">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.chebi/CHEBI:18367"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.compound/C00009"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="ada" metaid="metaid_0000022" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000022">
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01560"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_1687"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/3.5.4.4"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="ATP" metaid="_782391"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="HX" metaid="_782403"/>
+        </listOfProducts>
+        <kineticLaw metaid="_782415">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> aada </ci>
+              <apply>
+                <power/>
+                <ci> ATP </ci>
+                <ci> fada4 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="aada" metaid="_782427" value="0.001062"/>
+            <parameter id="fada4" metaid="_782439" value="0.97"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="ade" metaid="metaid_0000023" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000023">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.go/GO:0006146"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="Ade" metaid="_782451"/>
+        </listOfReactants>
+        <kineticLaw metaid="_782463">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> aade </ci>
+              <apply>
+                <power/>
+                <ci> Ade </ci>
+                <ci> fade6 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="aade" metaid="_782475" value="0.01"/>
+            <parameter id="fade6" metaid="_782487" value="0.55"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="adna" metaid="metaid_0000024" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000024">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R00375"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.7.7.7"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="dATP" metaid="_782499"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="DNA" metaid="_782511"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="dGTP" metaid="_782523"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_782535">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> aadna </ci>
+              <apply>
+                <power/>
+                <ci> dATP </ci>
+                <ci> fdnap9 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> dGTP </ci>
+                <ci> fdnap10 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="aadna" metaid="_782548" value="3.2789"/>
+            <parameter id="fdnap9" metaid="_782560" value="0.42"/>
+            <parameter id="fdnap10" metaid="_782572" value="0.33"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="adrnr" metaid="metaid_0000025" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000025">
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/1.17.4.1"/>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/1.17.4.2"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R02014"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R02017"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_2136"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="ATP" metaid="_782584"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="dATP" metaid="_782596"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="dGTP" metaid="_782608"/>
+          <modifierSpeciesReference species="dATP" metaid="_782620"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_782632">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> aadrnr </ci>
+              <apply>
+                <power/>
+                <ci> ATP </ci>
+                <ci> fadrnr4 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> dATP </ci>
+                <ci> fadrnr9 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> dGTP </ci>
+                <ci> fadrnr10 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="aadrnr" metaid="_782644" value="0.0602"/>
+            <parameter id="fadrnr4" metaid="_782656" value="0.1"/>
+            <parameter id="fadrnr9" metaid="_782668" value="-0.3"/>
+            <parameter id="fadrnr10" metaid="_782680" value="0.87"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="ampd" metaid="metaid_0000026" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000026">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/3.5.4.6"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R00181"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="ATP" metaid="_782692"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="IMP" metaid="_782704"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="GTP" metaid="_782716"/>
+          <modifierSpeciesReference species="Pi" metaid="_782728"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_782740">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> aampd </ci>
+              <apply>
+                <power/>
+                <ci> ATP </ci>
+                <ci> fampd4 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> GTP </ci>
+                <ci> fampd8 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> Pi </ci>
+                <ci> fampd18 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="aampd" metaid="_782752" value="0.02688"/>
+            <parameter id="fampd4" metaid="_782764" value="0.8"/>
+            <parameter id="fampd8" metaid="_782776" value="-0.03"/>
+            <parameter id="fampd18" metaid="_782788" value="-0.1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="aprt" metaid="metaid_0000027" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000027">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R00190"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.4.2.7"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="PRPP" metaid="_782800"/>
+          <speciesReference species="Ade" metaid="_782812"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ATP" metaid="_782824"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="ATP" metaid="_782836"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_782848">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> aaprt </ci>
+              <apply>
+                <power/>
+                <ci> PRPP </ci>
+                <ci> faprt1 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> ATP </ci>
+                <ci> faprt4 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> Ade </ci>
+                <ci> faprt6 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="aaprt" metaid="_782860" value="233.8"/>
+            <parameter id="faprt1" metaid="_782872" value="0.5"/>
+            <parameter id="faprt4" metaid="_782884" value="-0.8"/>
+            <parameter id="faprt6" metaid="_782896" value="0.75"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="arna" metaid="metaid_0000028" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000028">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R00435"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.7.7.6"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="ATP" metaid="_782908"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="RNA" metaid="_782920"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="GTP" metaid="_782933"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_782945">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> aarna </ci>
+              <apply>
+                <power/>
+                <ci> ATP </ci>
+                <ci> frnap4 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> GTP </ci>
+                <ci> frnap8 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="aarna" metaid="_782958" value="614.5"/>
+            <parameter id="frnap4" metaid="_782970" value="0.05"/>
+            <parameter id="frnap8" metaid="_782982" value="0.13"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="asuc" metaid="metaid_0000029" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000029">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01135"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_42"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/6.3.4.4"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="IMP" metaid="_782995"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="SAMP" metaid="_783007"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="ATP" metaid="_783019"/>
+          <modifierSpeciesReference species="GTP" metaid="_783031"/>
+          <modifierSpeciesReference species="Pi" metaid="_783043"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_783056">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> aasuc </ci>
+              <apply>
+                <power/>
+                <ci> IMP </ci>
+                <ci> fasuc2 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> ATP </ci>
+                <ci> fasuc4 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> GTP </ci>
+                <ci> fasuc8 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> Pi </ci>
+                <ci> fasuc18 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="aasuc" metaid="_783069" value="3.5932"/>
+            <parameter id="fasuc2" metaid="_783081" value="0.4"/>
+            <parameter id="fasuc4" metaid="_783093" value="-0.24"/>
+            <parameter id="fasuc8" metaid="_783105" value="0.2"/>
+            <parameter id="fasuc18" metaid="_783117" value="-0.05"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="asli" metaid="metaid_0000030" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000030">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01083"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_1042"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/4.3.2.2"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="SAMP" metaid="_783129"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ATP" metaid="_783141"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="ATP" metaid="_783153"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_783165">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> aasli </ci>
+              <apply>
+                <power/>
+                <ci> SAMP </ci>
+                <ci> fasli3 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> ATP </ci>
+                <ci> fasli4 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="aasli" metaid="_783177" value="66544"/>
+            <parameter id="fasli3" metaid="_783189" value="0.99"/>
+            <parameter id="fasli4" metaid="_783201" value="-0.95"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="dada" metaid="metaid_0000031" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000031">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R02556"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_2135"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/3.5.4.4"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="dATP" metaid="_783213"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="HX" metaid="_783225"/>
+        </listOfProducts>
+        <kineticLaw metaid="_783237">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> adada </ci>
+              <apply>
+                <power/>
+                <ci> dATP </ci>
+                <ci> fdada9 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="adada" metaid="_783249" value="0.03333"/>
+            <parameter id="fdada9" metaid="_783262" value="1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="den" metaid="metaid_0000032" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000032">
+              <bqbiol:hasPart>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01072"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01127"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R04591"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R04560"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R04559"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R04209"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R04208"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R04463"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R04325"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R04144"/>
+                </rdf:Bag>
+              </bqbiol:hasPart>
+              <bqbiol:hasPart>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/3.5.4.10"/>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.1.2.3"/>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/4.3.2.2"/>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/6.3.2.6"/>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/4.1.1.21"/>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/6.3.3.1"/>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/6.3.5.3"/>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.1.2.2"/>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/6.3.4.13"/>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.4.2.14"/>
+                </rdf:Bag>
+              </bqbiol:hasPart>
+              <bqbiol:hasPart>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_263"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_1427"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_285"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_740"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_1509"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_1917"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_589"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_1463"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_812"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_108"/>
+                </rdf:Bag>
+              </bqbiol:hasPart>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="PRPP" metaid="_783275"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="IMP" metaid="_783287"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="dGTP" metaid="_783299"/>
+          <modifierSpeciesReference species="IMP" metaid="_783311"/>
+          <modifierSpeciesReference species="ATP" metaid="_783323"/>
+          <modifierSpeciesReference species="GTP" metaid="_783335"/>
+          <modifierSpeciesReference species="Pi" metaid="_783347"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_783359">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> aden </ci>
+              <apply>
+                <power/>
+                <ci> PRPP </ci>
+                <ci> fden1 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> IMP </ci>
+                <ci> fden2 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> ATP </ci>
+                <ci> fden4 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> GTP </ci>
+                <ci> fden8 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> Pi </ci>
+                <ci> fden18 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="aden" metaid="_783371" value="5.2728"/>
+            <parameter id="fden1" metaid="_783383" value="2"/>
+            <parameter id="fden2" metaid="_783395" value="-0.06"/>
+            <parameter id="fden4" metaid="_783408" value="-0.25"/>
+            <parameter id="fden8" metaid="_783420" value="-0.2"/>
+            <parameter id="fden18" metaid="_783432" value="-0.08"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="dgnuc" metaid="metaid_0000033" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000033">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01968"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_1209"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/3.1.3.5"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="dGTP" metaid="_783444"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Gua" metaid="_783456"/>
+        </listOfProducts>
+        <kineticLaw metaid="_783468">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> adgnuc </ci>
+              <apply>
+                <power/>
+                <ci> dGTP </ci>
+                <ci> fdgnuc10 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="adgnuc" metaid="_783480" value="0.03333"/>
+            <parameter id="fdgnuc10" metaid="_783492" value="1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="dnaa" metaid="metaid_0000034" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000034">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.go/GO:0006308"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="DNA" metaid="_783504"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="dATP" metaid="_783516"/>
+        </listOfProducts>
+        <kineticLaw metaid="_783528">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> adnaa </ci>
+              <apply>
+                <power/>
+                <ci> DNA </ci>
+                <ci> fdnan12 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="adnaa" metaid="_783540" value="0.001938"/>
+            <parameter id="fdnan12" metaid="_783552" value="1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="dnag" metaid="metaid_0000035" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000035">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.go/GO:0006308"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="DNA" metaid="_783564"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="dGTP" metaid="_783576"/>
+        </listOfProducts>
+        <kineticLaw metaid="_783588">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> adnag </ci>
+              <apply>
+                <power/>
+                <ci> DNA </ci>
+                <ci> fdnan12 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="adnag" metaid="_783600" value="0.001318"/>
+            <parameter id="fdnan12" metaid="_783612" value="1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="gdna" metaid="metaid_0000036" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000036">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.7.7.7"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R00376"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="dGTP" metaid="_783624"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="DNA" metaid="_783636"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="dATP" metaid="_783648"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_783660">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> agdna </ci>
+              <apply>
+                <power/>
+                <ci> dATP </ci>
+                <ci> fdnap9 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> dGTP </ci>
+                <ci> fdnap10 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="agdna" metaid="_783672" value="2.2296"/>
+            <parameter id="fdnap9" metaid="_783685" value="0.42"/>
+            <parameter id="fdnap10" metaid="_783697" value="0.33"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="gdrnr" metaid="metaid_0000037" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000037">
+              <bqbiol:hasVersion>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/1.17.4.1"/>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/1.17.4.2"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R02020"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R02019"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_906"/>
+                </rdf:Bag>
+              </bqbiol:hasVersion>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="GTP" metaid="_783709"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="dGTP" metaid="_783721"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="dATP" metaid="_783733"/>
+          <modifierSpeciesReference species="dGTP" metaid="_783745"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_783757">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> agdrnr </ci>
+              <apply>
+                <power/>
+                <ci> GTP </ci>
+                <ci> fgdrnr8 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> dATP </ci>
+                <ci> fgdrnr9 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> dGTP </ci>
+                <ci> fgdrnr10 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="agdrnr" metaid="_783770" value="0.1199"/>
+            <parameter id="fgdrnr8" metaid="_783782" value="0.4"/>
+            <parameter id="fgdrnr9" metaid="_783794" value="-1.2"/>
+            <parameter id="fgdrnr10" metaid="_783806" value="-0.39"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="gmpr" metaid="metaid_0000038" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000038">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01134"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/1.7.1.7"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="GTP" metaid="_783818"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="IMP" metaid="_783830"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="XMP" metaid="_783843"/>
+          <modifierSpeciesReference species="ATP" metaid="_783855"/>
+          <modifierSpeciesReference species="IMP" metaid="_783867"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_783879">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> agmpr </ci>
+              <apply>
+                <power/>
+                <ci> IMP </ci>
+                <ci> fgmpr2 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> ATP </ci>
+                <ci> fgmpr4 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> XMP </ci>
+                <ci> fgmpr7 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> GTP </ci>
+                <ci> fgmpr8 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="agmpr" metaid="_783891" value="0.3005"/>
+            <parameter id="fgmpr2" metaid="_783903" value="-0.15"/>
+            <parameter id="fgmpr4" metaid="_783915" value="-0.07"/>
+            <parameter id="fgmpr7" metaid="_783927" value="-0.76"/>
+            <parameter id="fgmpr8" metaid="_783939" value="0.7"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="gmps" metaid="metaid_0000039" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000039">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01231"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_628"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/6.3.5.2"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="XMP" metaid="_783951"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="GTP" metaid="_783963"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="ATP" metaid="_783975"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_783987">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> agmps </ci>
+              <apply>
+                <power/>
+                <ci> ATP </ci>
+                <ci> fgmps4 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> XMP </ci>
+                <ci> fgmps7 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="agmps" metaid="_783999" value="0.3738"/>
+            <parameter id="fgmps4" metaid="_784011" value="0.12"/>
+            <parameter id="fgmps7" metaid="_784023" value="0.16"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="gnuc" metaid="metaid_0000040" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000040">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01227"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_1774"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/3.1.3.5"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="GTP" metaid="_784035"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Gua" metaid="_784047"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="Pi" metaid="_784059"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_784071">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> agnuc </ci>
+              <apply>
+                <power/>
+                <ci> GTP </ci>
+                <ci> fgnuc8 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> Pi </ci>
+                <ci> fgnuc18 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="agnuc" metaid="_784084" value="0.2511"/>
+            <parameter id="fgnuc8" metaid="_784096" value="0.9"/>
+            <parameter id="fgnuc18" metaid="_784108" value="-0.34"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="gprt" metaid="metaid_0000041" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000041">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01229"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.4.2.7"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="Gua" metaid="_784120"/>
+          <speciesReference species="PRPP" metaid="_784132"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="GTP" metaid="_784144"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="GTP" metaid="_784156"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_784168">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> agprt </ci>
+              <apply>
+                <power/>
+                <ci> PRPP </ci>
+                <ci> fgprt1 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> GTP </ci>
+                <ci> fgprt8 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> Gua </ci>
+                <ci> fgprt15 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="agprt" metaid="_784180" value="361.69"/>
+            <parameter id="fgprt1" metaid="_784192" value="1.2"/>
+            <parameter id="fgprt8" metaid="_784204" value="-1.2"/>
+            <parameter id="fgprt15" metaid="_784216" value="0.42"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="grna" metaid="metaid_0000042" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000042">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R00441"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.7.7.6"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="GTP" metaid="_784228"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="RNA" metaid="_784240"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="ATP" metaid="_784252"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_784264">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> agrna </ci>
+              <apply>
+                <power/>
+                <ci> ATP </ci>
+                <ci> frnap4 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> GTP </ci>
+                <ci> frnap8 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="agrna" metaid="_784276" value="409.6"/>
+            <parameter id="frnap4" metaid="_784288" value="0.05"/>
+            <parameter id="frnap8" metaid="_784300" value="0.13"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="gua" metaid="metaid_0000043" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000043">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01676"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_1442"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/3.5.4.3"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="Gua" metaid="_784312"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Xa" metaid="_784324"/>
+        </listOfProducts>
+        <kineticLaw metaid="_784336">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> agua </ci>
+              <apply>
+                <power/>
+                <ci> Gua </ci>
+                <ci> fgua15 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="agua" metaid="_784348" value="0.4919"/>
+            <parameter id="fgua15" metaid="_784360" value="0.5"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="hprt" metaid="metaid_0000044" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000044">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01132"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.4.2.8"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="HX" metaid="_784372"/>
+          <speciesReference species="PRPP" metaid="_784384"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="IMP" metaid="_784396"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="IMP" metaid="_784408"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_784420">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> ahprt </ci>
+              <apply>
+                <power/>
+                <ci> PRPP </ci>
+                <ci> fhprt1 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> IMP </ci>
+                <ci> fhprt2 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> HX </ci>
+                <ci> fhprt13 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="ahprt" metaid="_784432" value="12.569"/>
+            <parameter id="fhprt1" metaid="_784444" value="1.1"/>
+            <parameter id="fhprt2" metaid="_784456" value="-0.89"/>
+            <parameter id="fhprt13" metaid="_784468" value="0.48"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="hx" metaid="metaid_0000045" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000045">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.go/GO:0009114"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="HX" metaid="_784480"/>
+        </listOfReactants>
+        <kineticLaw metaid="_784492">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> ahx </ci>
+              <apply>
+                <power/>
+                <ci> HX </ci>
+                <ci> fhx13 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="ahx" metaid="_784504" value="0.003793"/>
+            <parameter id="fhx13" metaid="_784516" value="1.12"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="hxd" metaid="metaid_0000046" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000046">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01769"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_401"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/1.17.3.2"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="HX" metaid="_784528"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Xa" metaid="_784540"/>
+        </listOfProducts>
+        <kineticLaw metaid="_784552">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> ahxd </ci>
+              <apply>
+                <power/>
+                <ci> HX </ci>
+                <ci> fhxd13 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="ahxd" metaid="_784564" value="0.2754"/>
+            <parameter id="fhxd13" metaid="_784576" value="0.65"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="impd" metaid="metaid_0000047" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000047">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01130"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_1488"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/1.1.1.205"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="IMP" metaid="_784588"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="XMP" metaid="_784601"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="GTP" metaid="_784613"/>
+          <modifierSpeciesReference species="XMP" metaid="_784625"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_784637">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> aimpd </ci>
+              <apply>
+                <power/>
+                <ci> IMP </ci>
+                <ci> fimpd2 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> XMP </ci>
+                <ci> fimpd7 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> GTP </ci>
+                <ci> fimpd8 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="aimpd" metaid="_784649" value="1.2823"/>
+            <parameter id="fimpd2" metaid="_784661" value="0.15"/>
+            <parameter id="fimpd7" metaid="_784673" value="-0.09"/>
+            <parameter id="fimpd8" metaid="_784685" value="-0.03"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="inuc" metaid="metaid_0000048" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000048">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01126"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_430"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/3.1.3.5"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="IMP" metaid="_784697"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="HX" metaid="_784710"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="Pi" metaid="_784722"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_784735">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> ainuc </ci>
+              <apply>
+                <power/>
+                <ci> IMP </ci>
+                <ci> finuc2 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> Pi </ci>
+                <ci> finuc18 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="ainuc" metaid="_784747" value="0.9135"/>
+            <parameter id="finuc2" metaid="_784759" value="0.8"/>
+            <parameter id="finuc18" metaid="_784771" value="-0.36"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="mat" metaid="metaid_0000049" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000049">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R00177"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.5.1.6"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="ATP" metaid="_784783"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="SAM" metaid="_784795"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="SAM" metaid="_784808"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_784820">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> amat </ci>
+              <apply>
+                <power/>
+                <ci> ATP </ci>
+                <ci> fmat4 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> SAM </ci>
+                <ci> fmat5 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="amat" metaid="_784832" value="7.2067"/>
+            <parameter id="fmat4" metaid="_784844" value="0.2"/>
+            <parameter id="fmat5" metaid="_784856" value="-0.6"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="polyam" metaid="metaid_0000050" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000050">
+              <bqbiol:hasPart>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R02869"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R00178"/>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01401"/>
+                </rdf:Bag>
+              </bqbiol:hasPart>
+              <bqbiol:hasPart>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/3.2.2.16"/>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.5.1.22"/>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/4.1.1.50"/>
+                </rdf:Bag>
+              </bqbiol:hasPart>
+              <bqbiol:isPartOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.pathway/map00330"/>
+                </rdf:Bag>
+              </bqbiol:isPartOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="SAM" metaid="_784868"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Ade" metaid="_784880"/>
+        </listOfProducts>
+        <kineticLaw metaid="_784892">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> apolyam </ci>
+              <apply>
+                <power/>
+                <ci> SAM </ci>
+                <ci> fpolyam5 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="apolyam" metaid="_784904" value="0.29"/>
+            <parameter id="fpolyam5" metaid="_784916" value="0.9"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="prpps" metaid="metaid_0000051" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000051">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01049"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.7.6.1"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="R5P" metaid="_784928"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PRPP" metaid="_784940"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="ATP" metaid="_784952"/>
+          <modifierSpeciesReference species="GTP" metaid="_784964"/>
+          <modifierSpeciesReference species="Pi" metaid="_784976"/>
+          <modifierSpeciesReference species="PRPP" metaid="_784988"/>
+        </listOfModifiers>
+        <kineticLaw metaid="_785000">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> aprpps </ci>
+              <apply>
+                <power/>
+                <ci> PRPP </ci>
+                <ci> fprpps1 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> ATP </ci>
+                <ci> fprpps4 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> GTP </ci>
+                <ci> fprpps8 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> R5P </ci>
+                <ci> fprpps17 </ci>
+              </apply>
+              <apply>
+                <power/>
+                <ci> Pi </ci>
+                <ci> fprpps18 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="aprpps" metaid="_785012" value="0.9"/>
+            <parameter id="fprpps1" metaid="_785024" value="-0.03"/>
+            <parameter id="fprpps4" metaid="_785037" value="-0.45"/>
+            <parameter id="fprpps8" metaid="_785049" value="-0.04"/>
+            <parameter id="fprpps17" metaid="_785061" value="0.65"/>
+            <parameter id="fprpps18" metaid="_785073" value="0.7"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="pyr" metaid="metaid_0000052" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000052">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R01870"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_33"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isPartOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.pathway/map00240"/>
+                </rdf:Bag>
+              </bqbiol:isPartOf>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/2.4.2.10"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="PRPP" metaid="_785085"/>
+        </listOfReactants>
+        <kineticLaw metaid="_785097">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> apyr </ci>
+              <apply>
+                <power/>
+                <ci> PRPP </ci>
+                <ci> fpyr1 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="apyr" metaid="_785109" value="1.2951"/>
+            <parameter id="fpyr1" metaid="_785121" value="1.27"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="rnaa" metaid="metaid_0000053" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000053">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.go/GO:0006401"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="RNA" metaid="_785133"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ATP" metaid="_785145"/>
+        </listOfProducts>
+        <kineticLaw metaid="_785157">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> arnaa </ci>
+              <apply>
+                <power/>
+                <ci> RNA </ci>
+                <ci> frnan11 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="arnaa" metaid="_785169" value="0.06923"/>
+            <parameter id="frnan11" metaid="_785181" value="1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="rnag" metaid="metaid_0000054" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000054">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.go/GO:0006401"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="RNA" metaid="_785193"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="GTP" metaid="_785205"/>
+        </listOfProducts>
+        <kineticLaw metaid="_785217">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> arnag </ci>
+              <apply>
+                <power/>
+                <ci> RNA </ci>
+                <ci> frnan11 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="arnag" metaid="_785229" value="0.04615"/>
+            <parameter id="frnan11" metaid="_785241" value="1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="trans" metaid="metaid_0000055" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000055">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.go/GO:0008757"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="SAM" metaid="_785253"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ATP" metaid="_785265"/>
+        </listOfProducts>
+        <kineticLaw metaid="_785277">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> atrans </ci>
+              <apply>
+                <power/>
+                <ci> SAM </ci>
+                <ci> ftrans5 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="atrans" metaid="_785289" value="8.8539"/>
+            <parameter id="ftrans5" metaid="_785301" value="0.33"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="ua" metaid="metaid_0000056" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000056">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.go/GO:0007588"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="UA" metaid="_785313"/>
+        </listOfReactants>
+        <kineticLaw metaid="_785325">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> aua </ci>
+              <apply>
+                <power/>
+                <ci> UA </ci>
+                <ci> fua16 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="aua" metaid="_785337" value="8.744E-5"/>
+            <parameter id="fua16" metaid="_785349" value="2.21"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="x" metaid="metaid_0000057" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000057">
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/obo.go/GO:0009115"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="Xa" metaid="_785361"/>
+        </listOfReactants>
+        <kineticLaw metaid="_785373">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> ax </ci>
+              <apply>
+                <power/>
+                <ci> Xa </ci>
+                <ci> fx14 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="ax" metaid="_785385" value="0.0012"/>
+            <parameter id="fx14" metaid="_785397" value="2"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="xd" metaid="metaid_0000058" reversible="false">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#metaid_0000058">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/kegg.reaction/R02107"/>
+                  <rdf:li rdf:resource="http://identifiers.org/reactome/REACT_624"/>
+                </rdf:Bag>
+              </bqbiol:is>
+              <bqbiol:isVersionOf>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="http://identifiers.org/ec-code/1.17.3.2"/>
+                </rdf:Bag>
+              </bqbiol:isVersionOf>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+              <listOfReactants>
+          <speciesReference species="Xa" metaid="_785409"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="UA" metaid="_785421"/>
+        </listOfProducts>
+        <kineticLaw metaid="_785433">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> axd </ci>
+              <apply>
+                <power/>
+                <ci> Xa </ci>
+                <ci> fxd14 </ci>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter id="axd" metaid="_785445" value="0.949"/>
+            <parameter id="fxd14" metaid="_785457" value="0.55"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

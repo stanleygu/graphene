@@ -1,0 +1,45 @@
+<html>
+
+<head>
+  <script src="nodegraph-standalone.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Embeddable and Customizable Layouts</h1>
+    <p>I can place my models right inside my HTML.</p>
+    <nodegraph sbml-url="BIOMD0000000001.xml" height="400" width="800"></nodegraph>
+    <p>In fact, here is another one!</p>
+    <nodegraph sbml-url="BIOMD0000000012.xml" height="400" width="800"></nodegraph>
+    <p>And here are a bunch in a table!</p>
+    <table class="table">
+      <tr>
+        <td>
+          <nodegraph sbml-url="BIOMD0000000016.xml" height="200" width="400"></nodegraph>
+        </td>
+        <td>
+          <nodegraph sbml-url="BIOMD0000000010.xml" height="200" width="400"></nodegraph>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <nodegraph sbml-url="BIOMD0000000003.xml" height="200" width="400"></nodegraph>
+        </td>
+        <td>
+          <nodegraph sbml-url="BIOMD0000000008.xml" height="200" width="400"></nodegraph>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+
+</html>

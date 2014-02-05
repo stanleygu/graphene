@@ -1,0 +1,29 @@
+{
+  "name": "nodegraph",
+  "version": "0.0.1",
+  "authors": [
+    "Stanley Gu <stanleygu@gmail.com>"
+  ],
+  "main": "build/nodegraph.min.js",
+  "keywords": [
+    "graph",
+    "networks",
+    "biology",
+    "sbml"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/stanley-gu/nodegraph",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.11",
+    "d3": "~3.4.1",
+    "x2js": "*",
+    "underscore": "~1.5.2"
+  }
+}

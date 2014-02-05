@@ -1,0 +1,34 @@
+{
+  "name": "nodegraph",
+  "version": "0.0.1",
+  "description": "",
+  "main": "build/nodegraph.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stanley-gu/nodegraph.git"
+  },
+  "keywords": [
+    "graphs"
+  ],
+  "author": "Stanley Gu <stanleygu@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stanley-gu/nodegraph/issues"
+  },
+  "homepage": "https://github.com/stanley-gu/nodegraph",
+  "devDependencies": {
+    "gulp-util": "~2.2.14",
+    "gulp": "~3.5.1",
+    "gulp-concat": "~2.1.7",
+    "gulp-uglify": "~0.2.0",
+    "gulp-html2js": "0.0.1",
+    "gulp-bower": "0.0.2",
+    "gulp-ngmin": "~0.1.2",
+    "gulp-clean": "~0.2.4",
+    "gulp-rename": "~0.2.2",
+    "gulp-connect": "~0.3.0"
+  }
+}
