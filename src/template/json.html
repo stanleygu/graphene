@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{1800}}" ng-attr-width="{{width || 800}}">
+  <style>
+  svg .node {
+    stroke: #FFB800;
+    stroke-width: 3px;
+    size: 300px;
+  }
+  svg .node.reaction {
+    stroke: #8089F7;
+    opacity: 0;
+    stroke-width: 1.5px;
+  }
+  svg .link {
+    stroke: #999;
+    stroke-opacity: .6;
+    stroke-width: 3px;
+  }
+  svg .link.modifier {
+    stroke-dasharray: 5, 5;
+  }
+  svg .node-label {
+    color: #333;
+    stroke-width: 0;
+    font-size: 14px;
+    font-family: Georgia;
+    font-weight: bolder;
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+  /*  svg .node.selected {
+    stroke: #FF0000;
+  }
+  svg .link.selected {
+    stroke: #FF0000;
+  }*/
+  svg marker {
+    stroke: none;
+    fill: #999;
+    opacity: 1;
+    overflow: visible;
+  }
+  svg .box {
+    stroke: #000;
+    fill: none;
+  }
+  </style>
+  <defs>
+    <marker case-sensitive="refX,refY" id="arrow" viewBox="0 -5 10 10" ng-attr-refX="{{sizeLookup['species'] - 22}}"
+    ng-attr-refY="{{0}}" markerWidth="15" markerHeight="15" orient="auto">
+      <path transform="rotate(-90)" ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path>
+      <!-- <path d="M0,-5L10,0L0,5"></path> -->
+    </marker>
+    <marker case-sensitive="refX,refY" id="degradation" viewBox="0 -5 10 10" ng-attr-refX="{{0}}"
+    ng-attr-refY="{{0}}" markerWidth="15" markerHeight="15" orient="auto">
+      <path transform="rotate(-90)" ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path>
+      <!-- <path d="M0,-5L10,0L0,5"></path> -->
+    </marker>
+    <marker case-sensitive="refX,refY" id="modifier" markerWidth="8" markerHeight="8"
+    ng-attr-refX="{{0}}" ng-attr-refY="{{0}}" fill="black" orient="auto">
+      <path ng-attr-d="{{arrow({size: 5, type: 'circle'})}}"></path>
+      <!-- <circle cx="1" cy="1" r="1" fill="black" stroke="black" opacity=".6"></circle> -->
+    </marker>
+    <linearGradient id="gradient">
+      <stop offset="5%" stop-color="#FFDC9E"></stop>
+      <stop offset="95%" stop-color="#FFF"></stop>
+    </linearGradient>
+    <linearGradient id="reactionGradient">
+      <stop offset="5%" stop-color="#B0C0FF"></stop>
+      <stop offset="95%" stop-color="#FFF"></stop>
+    </linearGradient>
+  </defs>
+  <g ng-attr-transform="translate({{translate.x}}, {{translate.y}})scale({{scale}})">
+    <g>
+      <line ng-repeat="link in edges" class="link" ng-attr-x1="{{link.source.x}}" ng-attr-y1="{{link.source.y + link.source.group * height}}"
+      ng-attr-x2="{{link.target.x}}" ng-attr-y2="{{link.target.y + link.target.group * height}}"
+      marker-end="url(#arrow)">
+      </line>
+    </g>
+    <g ng-repeat="group in groups">
+      <g ng-repeat="node in group.nodes" class="node" ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * height}})">
+        <circle ng-attr-r="{{30}}" fill="url(#gradient)">
+          <title>ID: {{node.id}}, Name: {{node.name}}</title>
+        </circle>
+        <text class="node-label">{{node.name}}</text>
+      </g>
+      <rect class="box" ng-attr-x="{{0}}" ng-attr-y="{{$index * height}}" ng-attr-width="{{width}}"
+      ng-attr-height="{{height}}" ng-attr-x2="{{width}}"></rect>
+      <text x="650" ng-attr-y="{{($index + 1) * height}}" font-family="Georgia" font-size="40">{{group.name}}</text>
+    </g>
+  </g>
+</svg>

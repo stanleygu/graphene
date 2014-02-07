@@ -1,4 +1,4 @@
-angular.module('nodegraph-standalone', ['template/default.html', 'nodegraph']);
+angular.module('nodegraph-standalone', ['template/default.html', 'template/json.html', 'nodegraph']);
 
 angular.element(document).ready(function() {
   'use strict';

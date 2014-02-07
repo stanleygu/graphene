@@ -79,10 +79,10 @@ gulp.task('html2js', ['clean'], function() {
 gulp.task('connect', connect.server({
   root: __dirname,
   port: 9000,
-  livereload: true,
-  open: {
-    browser: 'Google Chrome' // if not working OS X browser: 'Google Chrome'
-  }
+  livereload: true
+  // open: {
+  //   browser: 'Google Chrome' // if not working OS X browser: 'Google Chrome'
+  // }
 }));
 
 gulp.task('clean', function() {

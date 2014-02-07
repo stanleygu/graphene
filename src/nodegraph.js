@@ -1,13 +1,15 @@
 'use strict';
 
 angular.module('nodegraph')
-  .directive('nodegraph', function($http) {
+  .directive('nodegraph', function($http, $templateCache, $compile) {
     return {
       templateUrl: 'template/default.html',
       restrict: 'E',
       scope: {
         'ngModel': '=?',
         'sbmlUrl': '@?',
+        'jsonUrl': '@?',
+        'template': '@',
         'linkDistance': '=?',
         'charge': '=?',
         'height': '=?',
@@ -23,6 +25,65 @@ angular.module('nodegraph')
         'runForceLayout': '=?'
       },
       link: function postLink(scope, element) {
+        function loadTemplate(template) {
+          $http.get(template, {
+            cache: $templateCache
+          })
+            .success(function(templateContent) {
+              element.children().remove();
+              element.append($compile(templateContent)(scope));
+              initializeGraph();
+            });
+        }
+
+        if (scope.jsonUrl) {
+          $http.get(scope.jsonUrl).success(function(data) {
+            scope.ngModel = data;
+            scope.edges = _.map(data.edges, function(edge) {
+              return {
+                source: _.find(data.nodes, function(n) {
+                  return n.id === edge[0];
+                }),
+                target: _.find(data.nodes, function(n) {
+                  return n.id === edge[1];
+                }),
+              };
+            });
+
+            var sections = data.timeSlots;
+
+            scope.groups = [];
+            var count = 0;
+            _.each(sections, function(sect, key) {
+              var nodes = _.filter(data.nodes, function(n) {
+                return _.contains(sect, n.id);
+              });
+              _.each(nodes, function(n) {
+                n.group = count;
+              });
+              var links = _.filter(scope.edges, function(l) {
+                return _.contains(sect, l.source.id) && _.contains(sect, l.target.id);
+              });
+              scope.d3ForceLayout(nodes, links, {
+                bounds: {
+                  w: scope.width,
+                  h: scope.height
+                }
+              });
+              scope.groups.push({
+                nodes: nodes,
+                links: links,
+                name: key
+              });
+              count += 1;
+            });
+
+            // var force = scope.d3ForceLayout(data.nodes, edges);
+            // scope.nodes = force.nodes();
+            // scope.links = force.links();
+            loadTemplate(scope.template);
+          });
+        }
 
         if (scope.sbmlUrl) {
           $http.get(scope.sbmlUrl).success(function(data) {
@@ -31,6 +92,7 @@ angular.module('nodegraph')
             scope.runForceLayout();
           });
         }
+
 
         scope.translate = {};
         scope.scale = 1;
@@ -49,7 +111,11 @@ angular.module('nodegraph')
           .scaleExtent([0.5, 8])
           .on('zoom', zoomed);
 
-        d3.select(element.find('svg')[0]).call(zoom);
+        function initializeGraph() {
+          d3.select(element.find('svg')[0]).call(zoom);
+          scope.svg = element;
+        }
+
 
         scope.arrow = d3.svg.symbol().size(function(d) {
           return d.size;
@@ -57,7 +123,6 @@ angular.module('nodegraph')
           return d.type;
         });
 
-        scope.svg = element;
 
 
         var arrayify = function(s) {
@@ -238,6 +303,26 @@ angular.module('nodegraph')
           };
         };
 
+        scope.d3ForceLayout = function(nodes, links, params) {
+          var force = d3.layout.force()
+            .charge(scope.charge || -700)
+            .linkDistance(scope.linkDistance || 40)
+            .size([scope.width || 800, scope.height || 800]);
+          force
+            .nodes(nodes)
+            .links(links)
+            .on('tick', function() {
+              scope.$digest();
+              if (params.bounds) {
+                _.each(nodes, function(n) {
+                  n.x = Math.max(scope.sizeLookup.species, Math.min(params.bounds.w - scope.sizeLookup.species, n.x));
+                  n.y = Math.max(scope.sizeLookup.species, Math.min(params.bounds.h - scope.sizeLookup.species, n.y));
+                });
+              }
+            })
+            .start();
+          return force;
+        };
         scope.runForceLayout = function() {
           if (scope.ngModel && scope.ngModel.sbml) {
             scope.reactionInfo = {};

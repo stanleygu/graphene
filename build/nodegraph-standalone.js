@@ -31873,7 +31873,7 @@ function X2JS(config) {
 
 }).call(this);
 
-angular.module('nodegraph-standalone', ['template/default.html', 'nodegraph']);
+angular.module('nodegraph-standalone', ['template/default.html', 'template/json.html', 'nodegraph']);
 
 angular.element(document).ready(function() {
   'use strict';
@@ -31992,19 +31992,117 @@ angular.module('template/default.html', []).run(['$templateCache', function($tem
     '');
 }]);
 
+angular.module('template/json.html', []).run(['$templateCache', function($templateCache) {
+  $templateCache.put('template/json.html',
+    '<svg xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{1800}}" ng-attr-width="{{width || 800}}">\n' +
+    '  <style>\n' +
+    '  svg .node {\n' +
+    '    stroke: #FFB800;\n' +
+    '    stroke-width: 3px;\n' +
+    '    size: 300px;\n' +
+    '  }\n' +
+    '  svg .node.reaction {\n' +
+    '    stroke: #8089F7;\n' +
+    '    opacity: 0;\n' +
+    '    stroke-width: 1.5px;\n' +
+    '  }\n' +
+    '  svg .link {\n' +
+    '    stroke: #999;\n' +
+    '    stroke-opacity: .6;\n' +
+    '    stroke-width: 3px;\n' +
+    '  }\n' +
+    '  svg .link.modifier {\n' +
+    '    stroke-dasharray: 5, 5;\n' +
+    '  }\n' +
+    '  svg .node-label {\n' +
+    '    color: #333;\n' +
+    '    stroke-width: 0;\n' +
+    '    font-size: 14px;\n' +
+    '    font-family: Georgia;\n' +
+    '    font-weight: bolder;\n' +
+    '    text-anchor: middle;\n' +
+    '    dominant-baseline: middle;\n' +
+    '  }\n' +
+    '  /*  svg .node.selected {\n' +
+    '    stroke: #FF0000;\n' +
+    '  }\n' +
+    '  svg .link.selected {\n' +
+    '    stroke: #FF0000;\n' +
+    '  }*/\n' +
+    '  svg marker {\n' +
+    '    stroke: none;\n' +
+    '    fill: #999;\n' +
+    '    opacity: 1;\n' +
+    '    overflow: visible;\n' +
+    '  }\n' +
+    '  svg .box {\n' +
+    '    stroke: #000;\n' +
+    '    fill: none;\n' +
+    '  }\n' +
+    '  </style>\n' +
+    '  <defs>\n' +
+    '    <marker case-sensitive="refX,refY" id="arrow" viewBox="0 -5 10 10" ng-attr-refX="{{sizeLookup[\'species\'] - 22}}"\n' +
+    '    ng-attr-refY="{{0}}" markerWidth="15" markerHeight="15" orient="auto">\n' +
+    '      <path transform="rotate(-90)" ng-attr-d="{{arrow({size: 5, type: \'triangle-down\'})}}"></path>\n' +
+    '      <!-- <path d="M0,-5L10,0L0,5"></path> -->\n' +
+    '    </marker>\n' +
+    '    <marker case-sensitive="refX,refY" id="degradation" viewBox="0 -5 10 10" ng-attr-refX="{{0}}"\n' +
+    '    ng-attr-refY="{{0}}" markerWidth="15" markerHeight="15" orient="auto">\n' +
+    '      <path transform="rotate(-90)" ng-attr-d="{{arrow({size: 5, type: \'triangle-down\'})}}"></path>\n' +
+    '      <!-- <path d="M0,-5L10,0L0,5"></path> -->\n' +
+    '    </marker>\n' +
+    '    <marker case-sensitive="refX,refY" id="modifier" markerWidth="8" markerHeight="8"\n' +
+    '    ng-attr-refX="{{0}}" ng-attr-refY="{{0}}" fill="black" orient="auto">\n' +
+    '      <path ng-attr-d="{{arrow({size: 5, type: \'circle\'})}}"></path>\n' +
+    '      <!-- <circle cx="1" cy="1" r="1" fill="black" stroke="black" opacity=".6"></circle> -->\n' +
+    '    </marker>\n' +
+    '    <linearGradient id="gradient">\n' +
+    '      <stop offset="5%" stop-color="#FFDC9E"></stop>\n' +
+    '      <stop offset="95%" stop-color="#FFF"></stop>\n' +
+    '    </linearGradient>\n' +
+    '    <linearGradient id="reactionGradient">\n' +
+    '      <stop offset="5%" stop-color="#B0C0FF"></stop>\n' +
+    '      <stop offset="95%" stop-color="#FFF"></stop>\n' +
+    '    </linearGradient>\n' +
+    '  </defs>\n' +
+    '  <g ng-attr-transform="translate({{translate.x}}, {{translate.y}})scale({{scale}})">\n' +
+    '    <g>\n' +
+    '      <line ng-repeat="link in edges" class="link" ng-attr-x1="{{link.source.x}}" ng-attr-y1="{{link.source.y + link.source.group * height}}"\n' +
+    '      ng-attr-x2="{{link.target.x}}" ng-attr-y2="{{link.target.y + link.target.group * height}}"\n' +
+    '      marker-end="url(#arrow)">\n' +
+    '      </line>\n' +
+    '    </g>\n' +
+    '    <g ng-repeat="group in groups">\n' +
+    '      <g ng-repeat="node in group.nodes" class="node" ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * height}})">\n' +
+    '        <circle ng-attr-r="{{30}}" fill="url(#gradient)">\n' +
+    '          <title>ID: {{node.id}}, Name: {{node.name}}</title>\n' +
+    '        </circle>\n' +
+    '        <text class="node-label">{{node.name}}</text>\n' +
+    '      </g>\n' +
+    '      <rect class="box" ng-attr-x="{{0}}" ng-attr-y="{{$index * height}}" ng-attr-width="{{width}}"\n' +
+    '      ng-attr-height="{{height}}" ng-attr-x2="{{width}}"></rect>\n' +
+    '      <text x="650" ng-attr-y="{{($index + 1) * height}}" font-family="Georgia" font-size="40">{{group.name}}</text>\n' +
+    '    </g>\n' +
+    '  </g>\n' +
+    '</svg>\n' +
+    '');
+}]);
+
 'use strict';
 
 angular.module('nodegraph', []);
 'use strict';
 
 angular.module('nodegraph')
-  .directive('nodegraph', function($http) {
+  .directive('nodegraph', function($http, $templateCache, $compile) {
     return {
       templateUrl: 'template/default.html',
       restrict: 'E',
       scope: {
         'ngModel': '=?',
         'sbmlUrl': '@?',
+        'jsonUrl': '@?',
+        'template': '@',
         'linkDistance': '=?',
         'charge': '=?',
         'height': '=?',
@@ -32020,6 +32118,65 @@ angular.module('nodegraph')
         'runForceLayout': '=?'
       },
       link: function postLink(scope, element) {
+        function loadTemplate(template) {
+          $http.get(template, {
+            cache: $templateCache
+          })
+            .success(function(templateContent) {
+              element.children().remove();
+              element.append($compile(templateContent)(scope));
+              initializeGraph();
+            });
+        }
+
+        if (scope.jsonUrl) {
+          $http.get(scope.jsonUrl).success(function(data) {
+            scope.ngModel = data;
+            scope.edges = _.map(data.edges, function(edge) {
+              return {
+                source: _.find(data.nodes, function(n) {
+                  return n.id === edge[0];
+                }),
+                target: _.find(data.nodes, function(n) {
+                  return n.id === edge[1];
+                }),
+              };
+            });
+
+            var sections = data.timeSlots;
+
+            scope.groups = [];
+            var count = 0;
+            _.each(sections, function(sect, key) {
+              var nodes = _.filter(data.nodes, function(n) {
+                return _.contains(sect, n.id);
+              });
+              _.each(nodes, function(n) {
+                n.group = count;
+              });
+              var links = _.filter(scope.edges, function(l) {
+                return _.contains(sect, l.source.id) && _.contains(sect, l.target.id);
+              });
+              scope.d3ForceLayout(nodes, links, {
+                bounds: {
+                  w: scope.width,
+                  h: scope.height
+                }
+              });
+              scope.groups.push({
+                nodes: nodes,
+                links: links,
+                name: key
+              });
+              count += 1;
+            });
+
+            // var force = scope.d3ForceLayout(data.nodes, edges);
+            // scope.nodes = force.nodes();
+            // scope.links = force.links();
+            loadTemplate(scope.template);
+          });
+        }
 
         if (scope.sbmlUrl) {
           $http.get(scope.sbmlUrl).success(function(data) {
@@ -32028,6 +32185,7 @@ angular.module('nodegraph')
             scope.runForceLayout();
           });
         }
+
 
         scope.translate = {};
         scope.scale = 1;
@@ -32046,7 +32204,11 @@ angular.module('nodegraph')
           .scaleExtent([0.5, 8])
           .on('zoom', zoomed);
 
-        d3.select(element.find('svg')[0]).call(zoom);
+        function initializeGraph() {
+          d3.select(element.find('svg')[0]).call(zoom);
+          scope.svg = element;
+        }
+
 
         scope.arrow = d3.svg.symbol().size(function(d) {
           return d.size;
@@ -32054,7 +32216,6 @@ angular.module('nodegraph')
           return d.type;
         });
 
-        scope.svg = element;
 
 
         var arrayify = function(s) {
@@ -32235,6 +32396,26 @@ angular.module('nodegraph')
           };
         };
 
+        scope.d3ForceLayout = function(nodes, links, params) {
+          var force = d3.layout.force()
+            .charge(scope.charge || -700)
+            .linkDistance(scope.linkDistance || 40)
+            .size([scope.width || 800, scope.height || 800]);
+          force
+            .nodes(nodes)
+            .links(links)
+            .on('tick', function() {
+              scope.$digest();
+              if (params.bounds) {
+                _.each(nodes, function(n) {
+                  n.x = Math.max(scope.sizeLookup.species, Math.min(params.bounds.w - scope.sizeLookup.species, n.x));
+                  n.y = Math.max(scope.sizeLookup.species, Math.min(params.bounds.h - scope.sizeLookup.species, n.y));
+                });
+              }
+            })
+            .start();
+          return force;
+        };
         scope.runForceLayout = function() {
           if (scope.ngModel && scope.ngModel.sbml) {
             scope.reactionInfo = {};
