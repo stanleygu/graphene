@@ -50,7 +50,6 @@ gulp.task('standalone', ['build'], function() {
     .pipe(rename({
       suffix: '-standalone'
     }))
-    .pipe(gulp.dest(paths.demo))
     .pipe(gulp.dest(paths.build))
     .pipe(connect.reload());
 });
@@ -86,7 +85,7 @@ gulp.task('connect', connect.server({
 }));
 
 gulp.task('clean', function() {
-  gulp.src(paths.built, {
+  gulp.src(paths.build, {
     read: false
   })
     .pipe(clean());

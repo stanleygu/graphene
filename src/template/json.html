@@ -78,9 +78,9 @@
     </g>
     <g ng-repeat="group in groups">
       <g ng-repeat="node in group.nodes" class="node" ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * height}})">
-        <circle ng-attr-r="{{30}}" fill="url(#gradient)">
+        <rect x="-25" y="-15" width="50" height="30" ng-attr-r="{{30}}" fill="url(#gradient)">
           <title>ID: {{node.id}}, Name: {{node.name}}</title>
-        </circle>
+        </rect>
         <text class="node-label">{{node.name}}</text>
       </g>
       <rect class="box" ng-attr-x="{{0}}" ng-attr-y="{{$index * height}}" ng-attr-width="{{width}}"
