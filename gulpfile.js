@@ -26,15 +26,16 @@ var names = {
 };
 
 var paths = {
-  srcs: ['src/*.js'],
+  srcs: ['src/app.js', 'src/controllers/*.js', 'src/directives/*.js'],
   built: ['build/*.js'],
-  standalone: ['bower_components/angular/angular.js', 'bower_components/d3/d3.js', 'bower_components/x2js/xml2json.js', 'bower_components/underscore/underscore.js', 'src/standalone/*.js' , 'build/**/*.js'],
+  standalone: ['bower_components/angular/angular.js', 'bower_components/d3/d3.js', 'bower_components/x2js/xml2json.js', 'bower_components/underscore/underscore.js', 'src/standalone/*.js', 'build/**/*.js'],
   templates: ['src/**/*.html'],
   build: 'build/',
   demo: 'demo/'
 };
 
 gulp.task('min', ['standalone'], function() {
+  // Minify and copy all JavaScript (except vendor scripts)
   return gulp.src(paths.built)
     .pipe(ngmin())
     .pipe(uglify())
@@ -55,7 +56,6 @@ gulp.task('standalone', ['build'], function() {
 });
 
 gulp.task('build', ['bower', 'html2js'], function() {
-  // Minify and copy all JavaScript (except vendor scripts)
   return gulp.src(paths.srcs)
     .pipe(concat(names.main))
     .pipe(gulp.dest(paths.build));
@@ -66,7 +66,7 @@ gulp.task('bower', function() {
 });
 
 gulp.task('html2js', ['clean'], function() {
-  gulp.src(paths.templates)
+  return gulp.src(paths.templates)
     .pipe(html2js({
       quoteChar: '\'',
       module: 'nodegraph.templates'
@@ -78,14 +78,15 @@ gulp.task('html2js', ['clean'], function() {
 gulp.task('connect', connect.server({
   root: __dirname,
   port: 9000,
-  livereload: true
-  // open: {
-  //   browser: 'Google Chrome' // if not working OS X browser: 'Google Chrome'
-  // }
+  livereload: true,
+  open: {
+    target: 'http://localhost:9000/demo',
+    browser: 'Google Chrome' // if not working OS X browser: 'Google Chrome'
+  }
 }));
 
 gulp.task('clean', function() {
-  gulp.src(paths.build, {
+  return gulp.src(paths.build, {
     read: false
   })
     .pipe(clean());

@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('nodegraph', []);
+angular.module('sg.nodegraph', []);

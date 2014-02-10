@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{height || 800}}" ng-attr-width="{{width || 800}}">
+<svg ng-controller="sgSbmlLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{height || 800}}" ng-attr-width="{{width || 800}}">
   <style>
   svg .node.species {
     stroke: #FFB800;
@@ -67,14 +67,14 @@
   <g ng-attr-transform="translate({{translate.x}}, {{translate.y}})scale({{scale}})">
     <g>
       <line ng-click="App.selectReaction(link.source.id); isSelected = !isSelected" ng-repeat="link in lines.production"
-      ng-class="{selected: isSelected}" class="reaction production link" ng-attr-x1="{{getReactionPosition(link.source.id).x}}" marker-end="url(#production)"
-      ng-attr-y1="{{getReactionPosition(link.source.id).y}}" ng-attr-x2="{{link.target.x}}" ng-attr-y2="{{link.target.y}}">
+      ng-class="{selected: isSelected}" class="reaction production link" ng-attr-x1="{{getReactionPosition(link).x}}" marker-end="url(#production)"
+      ng-attr-y1="{{getReactionPosition(link).y}}" ng-attr-x2="{{link.target.x}}" ng-attr-y2="{{link.target.y}}">
       </line>
     </g>
     <g>
       <line ng-click="App.selectReaction(link.target.id); isSelected = !isSelected" ng-repeat="link in lines.reactant"
       ng-class="{selected: isSelected}" class="reaction reactant link" ng-attr-x1="{{link.source.x}}" ng-attr-y1="{{link.source.y}}"
-      ng-attr-x2="{{getReactionPosition(link.target.id).x}}" ng-attr-y2="{{getReactionPosition(link.target.id).y}}">
+      ng-attr-x2="{{getReactionPosition(link).x}}" ng-attr-y2="{{getReactionPosition(link).y}}">
       </line>
     </g>
     <g>
@@ -86,7 +86,7 @@
     <g>
       <line ng-click="App.selectReaction(link.target.id); isSelected = !isSelected" ng-repeat="link in lines.modifier"
       ng-class="{selected: isSelected}" class="modifier link" ng-attr-x1="{{link.source.x}}" ng-attr-y1="{{link.source.y}}"
-      ng-attr-x2="{{getReactionPosition(link.target.id).x}}" ng-attr-y2="{{getReactionPosition(link.target.id).y}}" marker-end="url(#modifier)">
+      ng-attr-x2="{{getReactionPosition(link).x}}" ng-attr-y2="{{getReactionPosition(link).y}}" marker-end="url(#modifier)">
       </line>
     </g>
     <g draggable ng-repeat="node in species" ng-attr-transform="translate({{node.x}},{{node.y}})">

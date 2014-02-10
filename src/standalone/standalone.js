@@ -1,5 +1,5 @@
-angular.module('nodegraph-standalone', ['template/default.html', 'template/json.html', 'nodegraph']);
-
+'use strict';
+angular.module('nodegraph-standalone', ['template/sbml.html', 'template/tidal.html', 'sg.nodegraph']);
 angular.element(document).ready(function() {
   'use strict';
   angular.module('myApp', ['nodegraph-standalone']);
