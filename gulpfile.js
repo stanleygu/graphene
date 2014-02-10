@@ -79,10 +79,10 @@ gulp.task('connect', connect.server({
   root: __dirname,
   port: 9000,
   livereload: true,
-  open: {
-    target: 'http://localhost:9000/demo',
-    browser: 'Google Chrome' // if not working OS X browser: 'Google Chrome'
-  }
+  // open: {
+  //   target: 'http://localhost:9000/demo',
+  //   browser: 'Google Chrome' // if not working OS X browser: 'Google Chrome'
+  // }
 }));
 
 gulp.task('clean', function() {

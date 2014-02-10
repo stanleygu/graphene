@@ -101,10 +101,21 @@ angular.module('sg.nodegraph')
       }
     };
 
-    $scope.$watch('links', function(newVal) {
+    $scope.$watchCollection('links', function(newVal) {
       if (newVal) {
         $scope.lines = $scope.classifyLinks($scope.links);
       }
-    }, true);
+    });
+
+    $scope.$watchCollection('nodes', function(newVal) {
+      if (newVal) {
+        $scope.species = _.filter($scope.nodes, function(n) {
+          return _.contains(n.classes, 'species');
+        });
+        $scope.reactions = _.filter($scope.nodes, function(n) {
+          return _.contains(n.classes, 'reaction');
+        });
+      }
+    })
 
   });

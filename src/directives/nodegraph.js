@@ -11,6 +11,7 @@ angular.module('sg.nodegraph')
         'template': '@',
         'nodes': '=?',
         'links': '=?',
+        'params': '=?',
         'linkDistance': '=?',
         'charge': '=?',
         'height': '=?',
@@ -18,10 +19,9 @@ angular.module('sg.nodegraph')
         'scale': '=?',
         'force': '=?',
         'svg': '=?',
-        'species': '=?',
-        'reactions': '=?',
         'translate': '=?',
-        'runForceLayout': '=?'
+        'forceLayout': '=?',
+        'additionalData': '=?'
       },
       link: function postLink(scope, element) {
         function loadTemplate(template) {
@@ -41,52 +41,15 @@ angular.module('sg.nodegraph')
           scope._ = _;
         }
 
-        if (scope.jsonUrl) {
-          $http.get(scope.jsonUrl).success(function(data) {
-            scope.ngModel = data;
-            scope.edges = _.map(data.edges, function(edge) {
-              return {
-                source: _.find(data.nodes, function(n) {
-                  return n.id === edge[0];
-                }),
-                target: _.find(data.nodes, function(n) {
-                  return n.id === edge[1];
-                }),
-              };
-            });
+        var watching = ['links', 'nodes'];
 
-            var sections = data.timeSlots;
-
-            scope.groups = [];
-            var count = 0;
-            _.each(sections, function(sect, key) {
-              var nodes = _.filter(data.nodes, function(n) {
-                return _.contains(sect, n.id);
-              });
-              _.each(nodes, function(n) {
-                n.group = count;
-              });
-              var links = _.filter(scope.edges, function(l) {
-                return _.contains(sect, l.source.id) && _.contains(sect, l.target.id);
-              });
-              scope.d3ForceLayout(nodes, links, {
-                bounds: {
-                  w: scope.width,
-                  h: scope.height,
-                },
-                size: 30
-              });
-              scope.groups.push({
-                nodes: nodes,
-                links: links,
-                name: key
-              });
-              count += 1;
-            });
-
-            loadTemplate(scope.template);
+        _.each(watching, function(w) {
+          scope.$watchCollection(w, function(newVal) {
+            if (newVal) {
+              scope.forceLayout(scope.nodes, scope.links, scope.params);
+            }
           });
-        }
+        });
 
         scope.translate = {};
         scope.scale = 1;
@@ -110,7 +73,6 @@ angular.module('sg.nodegraph')
           scope.svg = element;
         }
 
-
         scope.arrow = d3.svg.symbol().size(function(d) {
           return d.size;
         }).type(function(d) {
@@ -126,7 +88,7 @@ angular.module('sg.nodegraph')
           };
         };
 
-        scope.d3ForceLayout = function(nodes, links, params) {
+        scope.forceLayout = function(nodes, links, params) {
           var force = d3.layout.force()
             .charge(scope.charge || -700)
             .linkDistance(scope.linkDistance || 40)
@@ -136,7 +98,7 @@ angular.module('sg.nodegraph')
             .links(links)
             .on('tick', function() {
               scope.$digest();
-              if (params.bounds) {
+              if (params && params.bounds) {
                 _.each(nodes, function(n) {
                   n.x = Math.max(params.size, Math.min(params.bounds.w - params.size, n.x));
                   n.y = Math.max(params.size, Math.min(params.bounds.h - params.size, n.y));

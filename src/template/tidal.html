@@ -71,12 +71,12 @@
   </defs>
   <g ng-attr-transform="translate({{translate.x}}, {{translate.y}})scale({{scale}})">
     <g>
-      <line ng-repeat="link in edges" class="link" ng-attr-x1="{{link.source.x}}" ng-attr-y1="{{link.source.y + link.source.group * height}}"
+      <line ng-repeat="link in additionalData.edges" class="link" ng-attr-x1="{{link.source.x}}" ng-attr-y1="{{link.source.y + link.source.group * height}}"
       ng-attr-x2="{{link.target.x}}" ng-attr-y2="{{link.target.y + link.target.group * height}}"
       marker-end="url(#arrow)">
       </line>
     </g>
-    <g ng-repeat="group in groups">
+    <g ng-repeat="group in additionalData.groups">
       <g ng-repeat="node in group.nodes" class="node" ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * height}})">
         <rect x="-25" y="-15" width="50" height="30" ng-attr-r="{{30}}" fill="url(#gradient)">
           <title>ID: {{node.id}}, Name: {{node.name}}</title>
