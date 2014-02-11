@@ -40,7 +40,7 @@
   }
   </style>
   <defs>
-    <marker case-sensitive="refX,refY" id="production" viewBox="0 -5 10 10" ng-attr-refX="{{sizeLookup['species'] - 22}}"
+    <marker case-sensitive="refX,refY" id="production" viewBox="0 -5 10 10" ng-attr-refX="{{0}}"
     ng-attr-refY="{{0}}" markerWidth="15" markerHeight="15" orient="auto">
       <path transform="rotate(-90)" ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path>
       <!-- <path d="M0,-5L10,0L0,5"></path> -->
@@ -66,9 +66,33 @@
   </defs>
   <g ng-attr-transform="translate({{translate.x}}, {{translate.y}})scale({{scale}})">
     <g>
-      <line ng-click="App.selectReaction(link.source.id); isSelected = !isSelected" ng-repeat="link in lines.production"
+      <!-- <line ng-click="App.selectReaction(link.source.id); isSelected = !isSelected" ng-repeat="link in lines.production"
       ng-class="{selected: isSelected}" class="reaction production link" ng-attr-x1="{{getReactionPosition(link).x}}" marker-end="url(#production)"
       ng-attr-y1="{{getReactionPosition(link).y}}" ng-attr-x2="{{link.target.x}}" ng-attr-y2="{{link.target.y}}">
+      </line> -->
+      <line ng-click="App.selectReaction(link.source.id); isSelected = !isSelected" ng-repeat="link in lines.production"
+      ng-class="{selected: isSelected}" class="reaction production link" ng-attr-x1="{{getReactionPosition(link).x}}" marker-end="url(#production)"
+      ng-attr-y1="{{getReactionPosition(link).y}}" ng-attr-x2="{{getLineIntersectionWithRectangle({
+        x1: getReactionPosition(link).x,
+        y1: getReactionPosition(link).y,
+        x2: link.target.x,
+        y2: link.target.y
+      }, {
+        x1: link.target.x - (nodeSize.width/2 + spacer),
+        y1: link.target.y - (nodeSize.height/2 + spacer),
+        x2: link.target.x + (nodeSize.width/2 + spacer),
+        y2: link.target.y + (nodeSize.height/2 + spacer)
+      }).x}}" ng-attr-y2="{{getLineIntersectionWithRectangle({
+        x1: getReactionPosition(link).x,
+        y1: getReactionPosition(link).y,
+        x2: link.target.x,
+        y2: link.target.y
+      }, {
+        x1: link.target.x - (nodeSize.width/2 + spacer),
+        y1: link.target.y - (nodeSize.height/2 + spacer),
+        x2: link.target.x + (nodeSize.width/2 + spacer),
+        y2: link.target.y + (nodeSize.height/2 + spacer)
+      }).y}}">
       </line>
     </g>
     <g>
@@ -90,10 +114,14 @@
       </line>
     </g>
     <g draggable ng-repeat="node in species" ng-attr-transform="translate({{node.x}},{{node.y}})">
-      <circle ng-class="{selected: isSelected}" class="species node" ng-attr-r="{{sizeLookup.species}}" fill="url(#gradient)"
+      <!-- <circle ng-class="{selected: isSelected}" class="species node" ng-attr-r="{{sizeLookup.species}}" fill="url(#gradient)"
       ng-click="App.selectSpecies(node.id); isSelected = !isSelected;">
         <title>ID: {{node.id}}, Name: {{node.name}}</title>
-      </circle>
+      </circle> -->
+      <rect ng-class="{selected: isSelected}" class="species node" ng-attr-x="{{-nodeSize.width/2}}" ng-attr-y="{{-nodeSize.height/2}}" ng-attr-width="{{nodeSize.width}}" ng-attr-height="{{nodeSize.height}}" ng-attr-r="{{sizeLookup.species}}" fill="url(#gradient)"
+      ng-click="App.selectSpecies(node.id); isSelected = !isSelected;">
+        <title>ID: {{node.id}}, Name: {{node.name}}</title>
+      </rect>
       <text class="node-label">{{node.id}}</text>
     </g>
     <g draggable ng-repeat="node in reactions" ng-attr-transform="translate({{node.x}},{{node.y}})">
