@@ -118,7 +118,7 @@
       ng-click="App.selectSpecies(node.id); isSelected = !isSelected;">
         <title>ID: {{node.id}}, Name: {{node.name}}</title>
       </circle> -->
-      <rect ng-class="{selected: isSelected}" class="species node" ng-attr-x="{{-nodeSize.width/2}}" ng-attr-y="{{-nodeSize.height/2}}" ng-attr-width="{{nodeSize.width}}" ng-attr-height="{{nodeSize.height}}" ng-attr-r="{{sizeLookup.species}}" fill="url(#gradient)"
+      <rect ng-class="{selected: isSelected}" class="species node" ng-attr-x="{{-nodeSize.width/2}}" ng-attr-y="{{-nodeSize.height/2}}" ng-attr-width="{{nodeSize.width}}" ng-attr-height="{{nodeSize.height}}" ng-attr-ry="{{nodeSize.height/2}}" fill="url(#gradient)"
       ng-click="App.selectSpecies(node.id); isSelected = !isSelected;">
         <title>ID: {{node.id}}, Name: {{node.name}}</title>
       </rect>

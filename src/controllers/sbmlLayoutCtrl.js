@@ -192,6 +192,13 @@ angular.module('sg.nodegraph')
           }
         }
       });
+
+      if (!intersection) {
+        intersection = {
+          x: (rect.x1 + rect.x2)/2,
+          y: (rect.y1 + rect.y2)/2
+        };
+      }
       return intersection;
     };
 
