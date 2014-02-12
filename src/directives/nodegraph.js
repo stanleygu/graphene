@@ -14,6 +14,7 @@ angular.module('sg.nodegraph')
         'params': '=?',
         'linkDistance': '=?',
         'charge': '=?',
+        'gravity': '=?',
         'height': '=?',
         'width': '=?',
         'scale': '=?',
@@ -92,6 +93,7 @@ angular.module('sg.nodegraph')
           var force = d3.layout.force()
             .charge(scope.charge || -700)
             .linkDistance(scope.linkDistance || 40)
+            .gravity(scope.gravity || 0.1)
             .size([scope.width || 800, scope.height || 800]);
           force
             .nodes(nodes)

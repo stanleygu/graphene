@@ -5,14 +5,14 @@
 </head>
 
 <body>
-  <div ng-init="sbmlUrl = 'BIOMD0000000001.xml'">
+  <div ng-init="sbmlUrl = 'MSinai.xml'">
     <div>
       <sg-nodegraph ng-controller="sgSbmlDataCtrl" links="links" nodes="nodes" height="500"
-      width="800" charge="-500" linkDistance="80" params="{}" start="start" template="template/sbml.html"></sg-nodegraph>
+      width="800" charge="-800" linkDistance="80" params="{}" start="start" template="template/sbml.html"></sg-nodegraph>
     </div>
   </div>
   <div ng-init="jsonUrl = 'networkNDV.json'">
-    <sg-nodegraph ng-controller="sgTidalDataCtrl" additional-data="additionalData" force-layout="forceLayout" height="500" width="800" charge="-5000"
+    <sg-nodegraph ng-controller="sgTidalDataCtrl" gravity="0.5" additional-data="additionalData" force-layout="forceLayout" height="500" width="800" charge="-20000"
     linkDistance="80" template="template/tidal.html"></sg-nodegraph>
 
 </body>

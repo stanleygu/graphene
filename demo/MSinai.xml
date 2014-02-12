@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by XMLPrettyPrinter on 1/27/2014 from JDesigner 2.4.32 -->
+<sbml xmlns = "http://www.sbml.org/sbml/level2" level = "2" version = "1" xmlns:jd2 = "http://www.sys-bio.org/sbml/jd2">
+   <!--                     -->
+   <!--  Model Starts Here  -->
+   <!--                     -->
+   <model id = "cell">
+      <listOfCompartments>
+         <compartment id = "compartment" size = "1"/>
+      </listOfCompartments>
+      <listOfSpecies>
+         <species id = "IFNbmRNA" boundaryCondition = "false" initialConcentration = "0" compartment = "compartment"/>
+         <species id = "IFNb" boundaryCondition = "false" initialConcentration = "0" compartment = "compartment"/>
+         <species id = "IRF7mRNA" boundaryCondition = "false" initialConcentration = "0" compartment = "compartment"/>
+         <species id = "STAT2Pn" boundaryCondition = "false" initialConcentration = "0" compartment = "compartment"/>
+         <species id = "DNA" boundaryCondition = "true" initialConcentration = "0" compartment = "compartment"/>
+      </listOfSpecies>
+      <listOfParameters>
+         <parameter id = "r1" value = "0.003"/>
+         <parameter id = "b1" value = "0.28"/>
+         <parameter id = "time" value = "1"/>
+         <parameter id = "r2" value = "6E-005"/>
+         <parameter id = "KK2" value = "0.002"/>
+         <parameter id = "r4" value = "0.00036"/>
+         <parameter id = "b4" value = "0.2"/>
+         <parameter id = "k4" value = "0.69"/>
+         <parameter id = "r3" value = "0.36"/>
+         <parameter id = "KK3" value = "0.0043"/>
+         <parameter id = "k3" value = "1.24"/>
+         <parameter id = "k1" value = "0.28"/>
+      </listOfParameters>
+      <listOfReactions>
+         <reaction id = "_J1" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "DNA" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <speciesReference species = "IFNbmRNA" stoichiometry = "1"/>
+            </listOfProducts>
+            <kineticLaw>
+               <math xmlns = "http://www.w3.org/1998/Math/MathML">
+                  <apply>
+                     <times/>
+                     <ci>
+                           r1
+                     </ci>
+                     <apply>
+                        <exp/>
+                        <apply>
+                           <times/>
+                           <apply>
+                              <minus/>
+                              <ci>
+                                    b1
+                              </ci>
+                           </apply>
+                           <csymbol encoding = "text" definitionURL = "http://www.sbml.org/sbml/symbols/time">
+                                 time
+                           </csymbol>
+                        </apply>
+                     </apply>
+                  </apply>
+               </math>
+            </kineticLaw>
+         </reaction>
+         <reaction id = "_J3" reversible = "false">
+            <listOfProducts>
+               <speciesReference species = "IFNb" stoichiometry = "1"/>
+            </listOfProducts>
+            <listOfModifiers>
+               <modifierSpeciesReference species = "IFNbmRNA"/>
+            </listOfModifiers>
+            <kineticLaw>
+               <math xmlns = "http://www.w3.org/1998/Math/MathML">
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <times/>
+                        <ci>
+                              r2
+                        </ci>
+                        <ci>
+                              IFNbmRNA
+                        </ci>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <ci>
+                              KK2
+                        </ci>
+                        <ci>
+                              IFNbmRNA
+                        </ci>
+                     </apply>
+                  </apply>
+               </math>
+            </kineticLaw>
+         </reaction>
+         <reaction id = "_J4" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "DNA" stoichiometry = "1"/>
+            </listOfReactants>
+            <listOfProducts>
+               <speciesReference species = "IRF7mRNA" stoichiometry = "1"/>
+            </listOfProducts>
+            <listOfModifiers>
+               <modifierSpeciesReference species = "STAT2Pn"/>
+            </listOfModifiers>
+            <kineticLaw>
+               <math xmlns = "http://www.w3.org/1998/Math/MathML">
+                  <apply>
+                     <times/>
+                     <ci>
+                           r4
+                     </ci>
+                     <apply>
+                        <exp/>
+                        <apply>
+                           <times/>
+                           <apply>
+                              <minus/>
+                              <ci>
+                                    b4
+                              </ci>
+                           </apply>
+                           <csymbol encoding = "text" definitionURL = "http://www.sbml.org/sbml/symbols/time">
+                                 time
+                           </csymbol>
+                        </apply>
+                     </apply>
+                     <ci>
+                           STAT2Pn
+                     </ci>
+                  </apply>
+               </math>
+            </kineticLaw>
+         </reaction>
+         <reaction id = "_J5" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "IRF7mRNA" stoichiometry = "1"/>
+            </listOfReactants>
+            <kineticLaw>
+               <math xmlns = "http://www.w3.org/1998/Math/MathML">
+                  <apply>
+                     <times/>
+                     <ci>
+                           k4
+                     </ci>
+                     <ci>
+                           IRF7mRNA
+                     </ci>
+                  </apply>
+               </math>
+            </kineticLaw>
+         </reaction>
+         <reaction id = "_J6" reversible = "false">
+            <listOfProducts>
+               <speciesReference species = "STAT2Pn" stoichiometry = "1"/>
+            </listOfProducts>
+            <listOfModifiers>
+               <modifierSpeciesReference species = "IFNb"/>
+            </listOfModifiers>
+            <kineticLaw>
+               <math xmlns = "http://www.w3.org/1998/Math/MathML">
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <times/>
+                        <ci>
+                              r3
+                        </ci>
+                        <ci>
+                              IFNb
+                        </ci>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <ci>
+                              KK3
+                        </ci>
+                        <ci>
+                              IFNb
+                        </ci>
+                     </apply>
+                  </apply>
+               </math>
+            </kineticLaw>
+         </reaction>
+         <reaction id = "_J7" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "STAT2Pn" stoichiometry = "1"/>
+            </listOfReactants>
+            <kineticLaw>
+               <math xmlns = "http://www.w3.org/1998/Math/MathML">
+                  <apply>
+                     <times/>
+                     <ci>
+                           k3
+                     </ci>
+                     <ci>
+                           STAT2Pn
+                     </ci>
+                  </apply>
+               </math>
+            </kineticLaw>
+         </reaction>
+         <reaction id = "J7" reversible = "false">
+            <listOfReactants>
+               <speciesReference species = "IFNbmRNA" stoichiometry = "1"/>
+            </listOfReactants>
+            <kineticLaw>
+               <math xmlns = "http://www.w3.org/1998/Math/MathML">
+                  <apply>
+                     <times/>
+                     <ci>
+                           k1
+                     </ci>
+                     <ci>
+                           IFNbmRNA
+                     </ci>
+                  </apply>
+               </math>
+            </kineticLaw>
+         </reaction>
+      </listOfReactions>
+   </model>
+</sbml>
