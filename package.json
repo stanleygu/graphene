@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stanley-gu/nodegraph.git"
+    "url": "https://github.com/stanleygu/nodegraph.git"
   },
   "keywords": [
     "graphs"
@@ -16,9 +16,9 @@
   "author": "Stanley Gu <stanleygu@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stanley-gu/nodegraph/issues"
+    "url": "https://github.com/stanleygu/nodegraph/issues"
   },
-  "homepage": "https://github.com/stanley-gu/nodegraph",
+  "homepage": "https://github.com/stanleygu/nodegraph",
   "devDependencies": {
     "gulp-util": "~2.2.14",
     "gulp": "~3.5.1",

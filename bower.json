@@ -12,7 +12,7 @@
     "sbml"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/stanley-gu/nodegraph",
+  "homepage": "https://github.com/stanleygu/nodegraph",
   "ignore": [
     "**/.*",
     "node_modules",
