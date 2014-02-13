@@ -1,18 +1,13 @@
-<svg ng-controller="sgTidalLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{1800}}" ng-attr-width="{{width || 800}}">
-  <style>
+<svg ng-controller="sgTidalLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{1800}}"
+ng-attr-width="{{width || 800}}">
+  <style scoped>
   svg .node {
     stroke: #FFB800;
     stroke-width: 3px;
     size: 300px;
   }
-  svg .node.reaction {
-    stroke: #8089F7;
-    opacity: 0;
-    stroke-width: 1.5px;
-  }
   svg .link {
-    stroke: #999;
-    stroke-opacity: .6;
+    stroke: black;
     stroke-width: 3px;
   }
   svg .link.modifier {
@@ -33,9 +28,9 @@
   svg .link.selected {
     stroke: #FF0000;
   }*/
-  svg marker {
-    stroke: none;
-    fill: #999;
+  svg marker#arrow {
+    stroke: rgb(97, 116, 255);
+    stroke-width: 0.5;
     opacity: 1;
     overflow: visible;
   }
@@ -47,7 +42,7 @@
   <defs>
     <marker case-sensitive="refX,refY" id="arrow" viewBox="0 -5 10 10" ng-attr-refX="{{0}}"
     ng-attr-refY="{{0}}" markerWidth="15" markerHeight="15" orient="auto">
-      <path transform="rotate(-90)" ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path>
+      <path fill="url(#markerGradient)" transform="rotate(-90)" ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path>
       <!-- <path d="M0,-5L10,0L0,5"></path> -->
     </marker>
     <marker case-sensitive="refX,refY" id="degradation" viewBox="0 -5 10 10" ng-attr-refX="{{0}}"
@@ -64,6 +59,10 @@
       <stop offset="5%" stop-color="#FFDC9E"></stop>
       <stop offset="95%" stop-color="#FFF"></stop>
     </linearGradient>
+    <linearGradient id="markerGradient">
+      <stop offset="5%" stop-color="rgb(97, 116, 255)"></stop>
+      <stop offset="95%" stop-color="#FFF"></stop>
+    </linearGradient>
     <linearGradient id="reactionGradient">
       <stop offset="5%" stop-color="#B0C0FF"></stop>
       <stop offset="95%" stop-color="#FFF"></stop>
@@ -71,36 +70,37 @@
   </defs>
   <g ng-attr-transform="translate({{translate.x}}, {{translate.y}})scale({{scale}})">
     <g>
-      <line ng-repeat="link in additionalData.edges" ng-if="link.target.id !== link.source.id" class="link" ng-attr-x1="{{link.source.x}}" ng-attr-y1="{{link.source.y + link.source.group * height}}"
-
-      ng-attr-x2="{{getLineIntersectionWithRectangle({
+      <line ng-attr-opacity="{{link.opacity}}" ng-mouseover="mouseoverLink(link)" ng-mouseleave="mouseleaveLink(link)" ng-repeat="link in additionalData.edges"
+      ng-if="link.target.id !== link.source.id" class="link" ng-attr-x1="{{link.source.x}}"
+      ng-attr-y1="{{link.source.y + link.source.group * height}}" ng-attr-x2="{{getLineIntersectionWithRectangle({
         x1: link.source.x,
-        y1: link.source.y,
+        y1: link.source.y + link.source.group * height,
         x2: link.target.x,
-        y2: link.target.y
+        y2: link.target.y + link.target.group * height
       }, {
         x1: link.target.x - (nodeSize.width/2 + spacer),
-        y1: link.target.y - (nodeSize.height/2 + spacer),
+        y1: link.target.y - (nodeSize.height/2 + spacer) + link.target.group * height,
         x2: link.target.x + (nodeSize.width/2 + spacer),
-        y2: link.target.y + (nodeSize.height/2 + spacer)
+        y2: link.target.y + (nodeSize.height/2 + spacer) + link.target.group * height
       }).x}}" ng-attr-y2="{{getLineIntersectionWithRectangle({
         x1: link.source.x,
-        y1: link.source.y,
+        y1: link.source.y + link.source.group * height,
         x2: link.target.x,
-        y2: link.target.y
+        y2: link.target.y + link.target.group * height
       }, {
         x1: link.target.x - (nodeSize.width/2 + spacer),
-        y1: link.target.y - (nodeSize.height/2 + spacer),
+        y1: link.target.y - (nodeSize.height/2 + spacer) + link.target.group * height,
         x2: link.target.x + (nodeSize.width/2 + spacer),
-        y2: link.target.y + (nodeSize.height/2 + spacer)
-      }).y + link.target.group * height}}"
-
-      marker-end="url(#arrow)">
+        y2: link.target.y + (nodeSize.height/2 + spacer) + link.target.group * height
+      }).y}}" marker-end="url(#arrow)">
       </line>
     </g>
     <g ng-repeat="group in additionalData.groups">
-      <g ng-repeat="node in group.nodes" class="node" ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * height}})">
-        <rect draggable ng-attr-x="{{-nodeSize.width/2}}" ng-attr-y="{{-nodeSize.height/2}}" ng-attr-width="{{nodeSize.width}}" ng-attr-height="{{nodeSize.height}}" ng-attr-r="{{sizeLookup.species}}" ng-attr-ry="{{nodeSize.height/2}}" fill="url(#gradient)">
+      <g ng-mouseover="mouseoverNode(node)" ng-mouseleave="mouseleaveNode(node)" ng-attr-opacity="{{node.opacity}}"
+      ng-repeat="node in group.nodes" class="node" ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * height}})">
+        <rect draggable ng-attr-x="{{-nodeSize.width/2}}" ng-attr-y="{{-nodeSize.height/2}}"
+        ng-attr-width="{{nodeSize.width}}" ng-attr-height="{{nodeSize.height}}" ng-attr-r="{{sizeLookup.species}}"
+        ng-attr-ry="{{nodeSize.height/2}}" fill="url(#gradient)">
           <title>ID: {{node.id}}, Name: {{node.name}}</title>
         </rect>
         <text class="node-label">{{node.name}}</text>

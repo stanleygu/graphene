@@ -89,11 +89,54 @@ angular.module('sg.nodegraph')
       });
       if (!intersection) {
         intersection = {
-          x: (rect.x1 + rect.x2)/2,
-          y: (rect.y1 + rect.y2)/2
+          x: (rect.x1 + rect.x2) / 2,
+          y: (rect.y1 + rect.y2) / 2
         };
       }
       return intersection;
+    };
+
+    $scope.mouseoverLink = function(link) {
+      console.log(link);
+    };
+    $scope.mouseleaveLink = function(link) {
+      console.log(link);
+    };
+    var OPACITY = {
+      focused: 1,
+      unfocused: 0.1
+    };
+    $scope.mouseoverNode = function(node) {
+      node.opacity = OPACITY.focused;
+      _.each($scope.additionalData.groups, function(g) {
+        _.each(g.nodes, function(n) {
+          if (n.id !== node.id) {
+            n.opacity = OPACITY.unfocused;
+          }
+        });
+      });
+      _.each($scope.additionalData.edges, function(edge) {
+        if (edge.source.id !== node.id && edge.target.id !== node.id) {
+          edge.opacity = OPACITY.unfocused;
+        } else {
+          edge.opacity = OPACITY.focused;
+          edge.target.opacity = OPACITY.focused;
+          edge.source.opacity = OPACITY.focused;
+        }
+      });
+
+      console.log(node);
+    };
+    $scope.mouseleaveNode = function() {
+      _.each($scope.additionalData.groups, function(g) {
+        _.each(g.nodes, function(n) {
+          n.opacity = 1;
+        });
+      });
+      _.each($scope.additionalData.edges, function(edge) {
+        edge.opacity = OPACITY.focused;
+      });
+
     };
 
   });

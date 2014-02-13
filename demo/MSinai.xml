@@ -13,7 +13,6 @@
          <species id = "IFNb" boundaryCondition = "false" initialConcentration = "0" compartment = "compartment"/>
          <species id = "IRF7mRNA" boundaryCondition = "false" initialConcentration = "0" compartment = "compartment"/>
          <species id = "STAT2Pn" boundaryCondition = "false" initialConcentration = "0" compartment = "compartment"/>
-         <species id = "DNA" boundaryCondition = "true" initialConcentration = "0" compartment = "compartment"/>
       </listOfSpecies>
       <listOfParameters>
          <parameter id = "r1" value = "0.003"/>
@@ -31,9 +30,6 @@
       </listOfParameters>
       <listOfReactions>
          <reaction id = "_J1" reversible = "false">
-            <listOfReactants>
-               <speciesReference species = "DNA" stoichiometry = "1"/>
-            </listOfReactants>
             <listOfProducts>
                <speciesReference species = "IFNbmRNA" stoichiometry = "1"/>
             </listOfProducts>
@@ -97,9 +93,6 @@
             </kineticLaw>
          </reaction>
          <reaction id = "_J4" reversible = "false">
-            <listOfReactants>
-               <speciesReference species = "DNA" stoichiometry = "1"/>
-            </listOfReactants>
             <listOfProducts>
                <speciesReference species = "IRF7mRNA" stoichiometry = "1"/>
             </listOfProducts>

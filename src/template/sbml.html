@@ -1,67 +1,72 @@
-<svg ng-controller="sgSbmlLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{height || 800}}"
-ng-attr-width="{{width || 800}}">
-  <style>
-  svg .node.species {
-    stroke: #FFB800;
-    stroke-width: 3px;
-    size: 300px;
-  }
-  svg .node.reaction {
-    stroke: #8089F7;
-    opacity: 0;
-    stroke-width: 1.5px;
-  }
-  svg .link {
-    stroke: #999;
-    stroke-opacity: .6;
-    stroke-width: 3px;
-  }
-  svg .link.modifier {
-    stroke-dasharray: 5, 5;
-  }
-  svg .node-label {
-    font-size: 14px;
-    font-family: Georgia;
-    font-weight: bolder;
-    text-anchor: middle;
-    dominant-baseline: middle;
-  }
-  /*  svg .node.selected {
+<style scoped>
+svg .node.species {
+  stroke: #FFB800;
+  stroke-width: 3px;
+  size: 300px;
+}
+svg .node.reaction {
+  stroke: #8089F7;
+  opacity: 0;
+  stroke-width: 1.5px;
+}
+svg .link {
+  stroke:'black';
+  stroke-width: 3px;
+}
+svg .link.modifier {
+  stroke-dasharray: 5, 5;
+}
+svg .node-label {
+  font-size: 14px;
+  font-family: Georgia;
+  font-weight: bolder;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+/*  svg .node.selected {
     stroke: #FF0000;
   }
   svg .link.selected {
     stroke: #FF0000;
   }*/
-  svg marker {
-    stroke: none;
-    fill: #999;
-    opacity: 1;
-    overflow: visible;
-  }
-  svg .null-symbol {
-    fill: none;
-    stroke: #999;
-    stroke-width: 3px;
-  }
-  </style>
+ svg marker {
+  stroke: none;
+  fill: #999;
+  opacity: 1;
+  overflow: visible;
+}
+svg .null-symbol {
+  fill: none;
+  stroke: #999;
+  stroke-width: 3px;
+}
+</style>
+<svg ng-controller="sgSbmlLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{height || 800}}"
+ng-attr-width="{{width || 800}}">
   <defs>
     <marker case-sensitive="refX,refY" id="production" viewBox="0 -5 10 10" ng-attr-refX="{{0}}"
     ng-attr-refY="{{0}}" markerWidth="15" markerHeight="15" orient="auto">
-      <path transform="rotate(-90)" ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path>
+      <path stroke-width="0.5" stroke="rgb(97, 116, 255)" fill="url(#markerGradient)" transform="rotate(-90)"
+      ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path>
       <!-- <path d="M0,-5L10,0L0,5"></path> -->
     </marker>
     <marker case-sensitive="refX,refY" id="degradation" viewBox="0 -5 10 10" ng-attr-refX="{{0}}"
     ng-attr-refY="{{0}}" markerWidth="15" markerHeight="15" orient="auto">
-      <path transform="rotate(-90)" ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path>
+      <path stroke-width="0.5" stroke="rgb(97, 116, 255)" fill="url(#markerGradient)" transform="rotate(-90)"
+      ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path>
       <!-- <path d="M0,-5L10,0L0,5"></path> -->
     </marker>
-    <marker case-sensitive="refX,refY" id="modifier" markerWidth="8" markerHeight="8"
-    ng-attr-refX="{{0}}" ng-attr-refY="{{0}}" fill="black" orient="auto">
-      <path ng-attr-d="{{arrow({size: 5, type: 'circle'})}}"></path>
-      <!-- <circle cx="1" cy="1" r="1" fill="black" stroke="black" opacity=".6"></circle> -->
+    <marker case-sensitive="refX,refY" id="modifier" viewBox="0 0 10 10" markerWidth="30" markerHeight="30"
+    ng-attr-refX="{{-0.4}}" ng-attr-refY="{{0}}" orient="auto">
+      <path stroke="black" stroke-width="0.3" fill="none" ng-attr-d="{{arrow({size: 1, type: 'circle'})}}"></path>
+      <!-- <circle cx="1" cy="1" r="1" fill="none" stroke-width="0.5" stroke="black"></circle> -->
     </marker>
     <linearGradient id="gradient">
       <stop offset="5%" stop-color="#FFDC9E"></stop>
+      <stop offset="95%" stop-color="#FFF"></stop>
+    </linearGradient>
+    <linearGradient id="markerGradient">
+      <stop offset="5%" stop-color="rgb(97, 116, 255)"></stop>
       <stop offset="95%" stop-color="#FFF"></stop>
     </linearGradient>
     <linearGradient id="reactionGradient">
@@ -117,15 +122,16 @@ ng-attr-width="{{width || 800}}">
       <g class="null-symbol">
         <circle ng-attr-cx="{{extendPoint(link.source, link.target, 40).x}}" ng-attr-cy="{{extendPoint(link.source, link.target, 40).y}}"
         r="8"></circle>
-        <line ng-attr-x1="{{extendPoint(link.source, link.target, 40).x - 8}}" ng-attr-y1="{{extendPoint(link.source, link.target, 40).y + 8}}" ng-attr-x2="{{extendPoint(link.source, link.target, 40).x + 8}}" ng-attr-y2="{{extendPoint(link.source, link.target, 40).y - 8}}"></line>
-
+        <line ng-attr-x1="{{extendPoint(link.source, link.target, 40).x - 8}}" ng-attr-y1="{{extendPoint(link.source, link.target, 40).y + 8}}"
+        ng-attr-x2="{{extendPoint(link.source, link.target, 40).x + 8}}" ng-attr-y2="{{extendPoint(link.source, link.target, 40).y - 8}}"></line>
       </g>
     </g>
     <g>
       <line ng-click="App.selectReaction(link.target.id); isSelected = !isSelected" ng-repeat="link in lines.modifier"
       ng-class="{selected: isSelected}" class="modifier link" ng-attr-x1="{{link.source.x}}"
-      ng-attr-y1="{{link.source.y}}" ng-attr-x2="{{getReactionPosition(link).x}}"
-      ng-attr-y2="{{getReactionPosition(link).y}}" marker-end="url(#modifier)">
+      ng-attr-y1="{{link.source.y}}" ng-attr-x2="{{extendPoint(link.source, getReactionPosition(link), -19).x}}"
+      ng-attr-y2="{{extendPoint(link.source, getReactionPosition(link), -19).y}}"
+      marker-end="url(#modifier)">
       </line>
     </g>
     <g draggable ng-repeat="node in species" ng-attr-transform="translate({{node.x}},{{node.y}})">

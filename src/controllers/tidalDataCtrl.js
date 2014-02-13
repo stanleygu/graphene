@@ -30,7 +30,7 @@ angular.module('sg.nodegraph')
           var links = _.filter($scope.edges, function(l) {
             return _.contains(sect, l.source.id) && _.contains(sect, l.target.id);
           });
-          $scope.forceLayout(nodes, links, {
+          $scope.forceLayout(nodes, [], {
             bounds: {
               w: 800,
               h: 500,
