@@ -6,15 +6,13 @@
 
 <body>
   <div ng-init="sbmlUrl = 'MSinai.xml'">
-    <div>
-      <sg-nodegraph ng-controller="sgSbmlDataCtrl" links="links" nodes="nodes" height="500"
-      width="800" charge="-800" linkDistance="80" params="{}" start="start" template="template/sbml.html"></sg-nodegraph>
-    </div>
+    <sg-nodegraph ng-controller="sgSbmlDataCtrl" links="links" nodes="nodes" height="500"
+    width="800" charge="-800" linkDistance="80" params="{}" start="start" template="template/sbml.html"></sg-nodegraph>
   </div>
   <div ng-init="jsonUrl = 'networkNDV.json'">
-    <sg-nodegraph ng-controller="sgTidalDataCtrl" additional-data="additionalData" force-layout="forceLayout" height="500" width="800" charge="-1200"
-    linkDistance="80" template="template/tidal.html"></sg-nodegraph>
-
+    <sg-nodegraph ng-controller="sgTidalDataCtrl" additional-data="additionalData" force-layout="forceLayout"
+    height="500" width="800" charge="-1200" linkDistance="80" template="template/tidal.html"></sg-nodegraph>
+  </div>
 </body>
 
 </html>
