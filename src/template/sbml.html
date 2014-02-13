@@ -44,22 +44,19 @@ svg .null-symbol {
 <svg ng-controller="sgSbmlLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{height || 800}}"
 ng-attr-width="{{width || 800}}">
   <defs>
-    <marker case-sensitive="refX,refY" id="production" viewBox="0 -5 10 10" ng-attr-refX="{{0}}"
-    ng-attr-refY="{{0}}" markerWidth="15" markerHeight="15" orient="auto">
-      <path stroke-width="0.5" stroke="rgb(97, 116, 255)" fill="url(#markerGradient)" transform="rotate(-90)"
-      ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path>
-      <!-- <path d="M0,-5L10,0L0,5"></path> -->
+    <marker case-sensitive="refX,refY" id="production" viewBox="0 0 10 10" ng-attr-refX="{{-2}}"
+    ng-attr-refY="{{0}}" markerWidth="10" markerHeight="10" orient="auto">
+      <path fill="url(#markerGradient)" stroke="rgb(97, 116, 255)" transform="rotate(-90)"
+      ng-attr-d="{{arrow({size: 10, type: 'triangle-down'})}}"></path>
     </marker>
-    <marker case-sensitive="refX,refY" id="degradation" viewBox="0 -5 10 10" ng-attr-refX="{{0}}"
-    ng-attr-refY="{{0}}" markerWidth="15" markerHeight="15" orient="auto">
-      <path stroke-width="0.5" stroke="rgb(97, 116, 255)" fill="url(#markerGradient)" transform="rotate(-90)"
-      ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path>
-      <!-- <path d="M0,-5L10,0L0,5"></path> -->
+    <marker case-sensitive="refX,refY" id="degradation" viewBox="0 0 10 10" ng-attr-refX="{{-2}}"
+    ng-attr-refY="{{0}}" markerWidth="10" markerHeight="10" orient="auto">
+      <path stroke="rgb(97, 116, 255)" fill="url(#markerGradient)" transform="rotate(-90)"
+      ng-attr-d="{{arrow({size: 10, type: 'triangle-down'})}}"></path>
     </marker>
-    <marker case-sensitive="refX,refY" id="modifier" viewBox="0 0 10 10" markerWidth="30" markerHeight="30"
-    ng-attr-refX="{{-0.4}}" ng-attr-refY="{{0}}" orient="auto">
+    <marker case-sensitive="refX,refY" id="modifier" viewBox="0 0 10 10" markerWidth="30"
+    markerHeight="30" ng-attr-refX="{{-0.4}}" ng-attr-refY="{{0}}" orient="auto">
       <path stroke="black" stroke-width="0.3" fill="none" ng-attr-d="{{arrow({size: 1, type: 'circle'})}}"></path>
-      <!-- <circle cx="1" cy="1" r="1" fill="none" stroke-width="0.5" stroke="black"></circle> -->
     </marker>
     <linearGradient id="gradient">
       <stop offset="5%" stop-color="#FFDC9E"></stop>
@@ -120,10 +117,10 @@ ng-attr-width="{{width || 800}}">
       ng-attr-y2="{{extendPoint(link.source, link.target, 20).y}}">
       </line>
       <g class="null-symbol">
-        <circle ng-attr-cx="{{extendPoint(link.source, link.target, 40).x}}" ng-attr-cy="{{extendPoint(link.source, link.target, 40).y}}"
+        <circle ng-attr-cx="{{extendPoint(link.source, link.target, 45).x}}" ng-attr-cy="{{extendPoint(link.source, link.target, 45).y}}"
         r="8"></circle>
-        <line ng-attr-x1="{{extendPoint(link.source, link.target, 40).x - 8}}" ng-attr-y1="{{extendPoint(link.source, link.target, 40).y + 8}}"
-        ng-attr-x2="{{extendPoint(link.source, link.target, 40).x + 8}}" ng-attr-y2="{{extendPoint(link.source, link.target, 40).y - 8}}"></line>
+        <line ng-attr-x1="{{extendPoint(link.source, link.target, 45).x - 8}}" ng-attr-y1="{{extendPoint(link.source, link.target, 45).y + 8}}"
+        ng-attr-x2="{{extendPoint(link.source, link.target, 45).x + 8}}" ng-attr-y2="{{extendPoint(link.source, link.target, 45).y - 8}}"></line>
       </g>
     </g>
     <g>

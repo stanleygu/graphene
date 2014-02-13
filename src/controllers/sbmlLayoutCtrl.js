@@ -8,7 +8,7 @@ angular.module('sg.nodegraph')
       height: 30
     };
 
-    $scope.spacer = 10;
+    $scope.spacer = 15;
 
     $scope.classifyLinks = function(links) {
       var lines = {

@@ -8,7 +8,7 @@ angular.module('sg.nodegraph')
       height: 30
     };
 
-    $scope.spacer = 10;
+    $scope.spacer = 15;
 
     function checkLineIntersection(line1StartX, line1StartY, line1EndX,
       line1EndY, line2StartX, line2StartY, line2EndX, line2EndY) {
@@ -102,26 +102,27 @@ angular.module('sg.nodegraph')
     $scope.mouseleaveLink = function(link) {
       console.log(link);
     };
-    var OPACITY = {
+    $scope.OPACITY = {
       focused: 1,
-      unfocused: 0.1
+      unfocused: 0.1,
+      normal: 0.6 
     };
     $scope.mouseoverNode = function(node) {
-      node.opacity = OPACITY.focused;
+      node.opacity = $scope.OPACITY.focused;
       _.each($scope.additionalData.groups, function(g) {
         _.each(g.nodes, function(n) {
           if (n.id !== node.id) {
-            n.opacity = OPACITY.unfocused;
+            n.opacity = $scope.OPACITY.unfocused;
           }
         });
       });
       _.each($scope.additionalData.edges, function(edge) {
         if (edge.source.id !== node.id && edge.target.id !== node.id) {
-          edge.opacity = OPACITY.unfocused;
+          edge.opacity = $scope.OPACITY.unfocused;
         } else {
-          edge.opacity = OPACITY.focused;
-          edge.target.opacity = OPACITY.focused;
-          edge.source.opacity = OPACITY.focused;
+          edge.opacity = $scope.OPACITY.focused;
+          edge.target.opacity = $scope.OPACITY.focused;
+          edge.source.opacity = $scope.OPACITY.focused;
         }
       });
 
@@ -134,7 +135,7 @@ angular.module('sg.nodegraph')
         });
       });
       _.each($scope.additionalData.edges, function(edge) {
-        edge.opacity = OPACITY.focused;
+        edge.opacity = $scope.OPACITY.normal;
       });
 
     };
