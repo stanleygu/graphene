@@ -1,58 +1,53 @@
-<style scoped>
-svg .node.species {
-  stroke: #FFB800;
-  stroke-width: 3px;
-  size: 300px;
-}
-svg .node.reaction {
-  stroke: #8089F7;
-  opacity: 0;
-  stroke-width: 1.5px;
-}
-svg .link {
-  stroke:'black';
-  stroke-width: 3px;
-}
-svg .link.modifier {
-  stroke-dasharray: 5, 5;
-}
-svg .node-label {
-  font-size: 14px;
-  font-family: Georgia;
-  font-weight: bolder;
-  text-anchor: middle;
-  dominant-baseline: middle;
-}
-/*  svg .node.selected {
+<svg ng-controller="sgSbmlLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{height || 800}}"
+ng-attr-width="{{width || 800}}">
+  <style>
+  svg .node.species {
+    stroke: #FFB800;
+    stroke-width: 3px;
+    size: 300px;
+  }
+  svg .node.reaction {
+    stroke: #8089F7;
+    opacity: 0;
+    stroke-width: 1.5px;
+  }
+  svg .link {
+    stroke: black;
+    stroke-width: 3px;
+  }
+  svg .link.modifier {
+    stroke-dasharray: 5, 5;
+  }
+  svg .node-label {
+    font-size: 14px;
+    font-family: Georgia;
+    font-weight: bolder;
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+  /*  svg .node.selected {
     stroke: #FF0000;
   }
   svg .link.selected {
     stroke: #FF0000;
   }*/
- svg marker {
-  stroke: none;
-  fill: #999;
-  opacity: 1;
-  overflow: visible;
-}
-svg .null-symbol {
-  fill: none;
-  stroke: #999;
-  stroke-width: 3px;
-}
-</style>
-<svg ng-controller="sgSbmlLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{height || 800}}"
-ng-attr-width="{{width || 800}}">
+  svg marker {
+    overflow: visible;
+  }
+  svg .null-symbol {
+    fill: none;
+    stroke: black;
+    stroke-width: 3px;
+  }
+  </style>
   <defs>
     <marker case-sensitive="refX,refY" id="production" viewBox="0 0 10 10" ng-attr-refX="{{-2}}"
     ng-attr-refY="{{0}}" markerWidth="10" markerHeight="10" orient="auto">
-      <path fill="url(#markerGradient)" stroke="rgb(97, 116, 255)" transform="rotate(-90)"
-      ng-attr-d="{{arrow({size: 10, type: 'triangle-down'})}}"></path>
+      <path fill="url(#markerGradient)" stroke="#0013FF" transform="rotate(-90)" ng-attr-d="{{arrow({size: 10, type: 'triangle-down'})}}"></path>
     </marker>
     <marker case-sensitive="refX,refY" id="degradation" viewBox="0 0 10 10" ng-attr-refX="{{-2}}"
     ng-attr-refY="{{0}}" markerWidth="10" markerHeight="10" orient="auto">
-      <path stroke="rgb(97, 116, 255)" fill="url(#markerGradient)" transform="rotate(-90)"
-      ng-attr-d="{{arrow({size: 10, type: 'triangle-down'})}}"></path>
+      <path fill="url(#markerGradient)" stroke="#0013FF" transform="rotate(-90)" ng-attr-d="{{arrow({size: 10, type: 'triangle-down'})}}"></path>
     </marker>
     <marker case-sensitive="refX,refY" id="modifier" viewBox="0 0 10 10" markerWidth="30"
     markerHeight="30" ng-attr-refX="{{-0.4}}" ng-attr-refY="{{0}}" orient="auto">

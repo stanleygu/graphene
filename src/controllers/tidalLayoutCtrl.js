@@ -96,6 +96,10 @@ angular.module('sg.nodegraph')
       return intersection;
     };
 
+    // $scope.$watch('additionalData')
+
+
+
     $scope.mouseoverLink = function(link) {
       console.log(link);
     };
@@ -105,7 +109,7 @@ angular.module('sg.nodegraph')
     $scope.OPACITY = {
       focused: 1,
       unfocused: 0.1,
-      normal: 0.6 
+      normal: 0.6
     };
     $scope.mouseoverNode = function(node) {
       node.opacity = $scope.OPACITY.focused;

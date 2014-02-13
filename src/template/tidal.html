@@ -29,7 +29,7 @@ ng-attr-width="{{width || 800}}">
     stroke: #FF0000;
   }*/
   svg marker#arrow {
-    stroke: rgb(97, 116, 255);
+    stroke: #0013FF;
     opacity: 1;
     overflow: visible;
   }
@@ -126,7 +126,7 @@ ng-attr-width="{{width || 800}}">
       </g>
       <rect class="box" ng-attr-x="{{0}}" ng-attr-y="{{$index * height}}" ng-attr-width="{{width}}"
       ng-attr-height="{{height}}" ng-attr-x2="{{width}}"></rect>
-      <text x="650" ng-attr-y="{{($index + 1) * height}}" font-family="Georgia" font-size="40">{{group.name}}</text>
+      <text opacity="0.5" x="640" ng-attr-y="{{($index + 1) * height - spacer}}" font-family="Georgia" font-size="40">{{group.name}}</text>
     </g>
   </g>
 </svg>

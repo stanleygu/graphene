@@ -95,6 +95,9 @@ angular.module('sg.nodegraph')
             .linkDistance(scope.linkDistance || 40)
             .gravity(scope.gravity || 0.1)
             .size([scope.width || 800, scope.height || 800]);
+          _.each(nodes, function(n) {
+            n.force = force;
+          });
           force
             .nodes(nodes)
             .links(links)
@@ -131,6 +134,10 @@ angular.module('sg.nodegraph')
   .directive('draggable', function($document) {
     return {
       link: function(scope, element) {
+
+        // d3.select(element[0]).data([scope.node]).call(scope.node.force.drag);
+        // scope.node.force.drag(d3.select(element[0])[0]);
+        
         var offset = {};
 
         element.css({
