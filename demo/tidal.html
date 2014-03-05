@@ -5,7 +5,8 @@
 </head>
 
 <body>
-  <div ng-init="jsonUrl = 'networkNDV.json'">
+  <!--<div ng-init="jsonUrl = 'networkNDV.json'">-->
+  <div ng-init='json = { "nodes": [{ "id": 0, "name": "FOSL1" }, { "id": 1, "name": "RELA" }], "edges": [ [0, 1], [1, 0] ], "timeSlots": { "8 hours": [0], "12 hours": [1] } }'>
     <sg-nodegraph ng-controller="sgTidalDataCtrl" additional-data="additionalData" force-layout="forceLayout"
     height="500" width="800" charge="-1200" linkDistance="80" template="template/tidal.html"></sg-nodegraph>
   </div>
