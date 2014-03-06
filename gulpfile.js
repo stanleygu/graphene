@@ -28,7 +28,7 @@ var names = {
 var paths = {
   srcs: ['src/app.js', 'src/controllers/*.js', 'src/directives/*.js'],
   built: ['build/*.js'],
-  standalone: ['bower_components/angular/angular.js', 'bower_components/d3/d3.js', 'bower_components/x2js/xml2json.js', 'bower_components/underscore/underscore.js', 'build/**/*.js', 'src/standalone/*.js'],
+  standalone: ['bower_components/angular/angular.js', 'bower_components/d3/d3.js', 'bower_components/x2js/xml2json.js', 'bower_components/lodash/dist/lodash.js', 'build/**/*.js', 'src/standalone/*.js'],
   templates: ['src/**/*.html'],
   build: 'build/',
   demo: 'demo/'

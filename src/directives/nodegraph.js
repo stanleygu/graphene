@@ -69,8 +69,13 @@ angular.module('sg.nodegraph')
           .scaleExtent([0.5, 8])
           .on('zoom', zoomed);
 
+        scope.$watch('enable-zoom', function(newVal) {
+          if(newVal) {
+            d3.select(element.find('svg')[0]).call(zoom);
+          }
+        });
+
         function initializeGraph() {
-          d3.select(element.find('svg')[0]).call(zoom);
           scope.svg = element;
         }
 
@@ -102,12 +107,15 @@ angular.module('sg.nodegraph')
             .nodes(nodes)
             .links(links)
             .on('tick', function() {
-              scope.$digest();
               if (params && params.bounds) {
                 _.each(nodes, function(n) {
                   n.x = Math.max(params.size, Math.min(params.bounds.w - params.size, n.x));
                   n.y = Math.max(params.size, Math.min(params.bounds.h - params.size, n.y));
                 });
+              }
+              if (force.alpha() < 0.01) {
+                force.stop();
+                scope.$digest();
               }
             })
             .start();
@@ -137,7 +145,7 @@ angular.module('sg.nodegraph')
 
         // d3.select(element[0]).data([scope.node]).call(scope.node.force.drag);
         // scope.node.force.drag(d3.select(element[0])[0]);
-        
+
         var offset = {};
 
         element.css({
