@@ -94,8 +94,8 @@ gulp.task('clean', function() {
 
 // Rerun the task when a file changes
 gulp.task('watch', function() {
-  gulp.watch(paths.srcs, ['min']);
-  gulp.watch(paths.templates, ['min']);
+  gulp.watch(paths.srcs, ['standalone']);
+  gulp.watch(paths.templates, ['standalone']);
 });
 
 // The default task (called when you run `gulp` from cli)

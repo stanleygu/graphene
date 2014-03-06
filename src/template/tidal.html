@@ -124,10 +124,8 @@ ng-attr-width="{{width || 800}}">
         </rect>
         <text class="node-label">{{node.name}}</text>
       </g>
-      <!--<rect class="box" ng-attr-x="{{0}}" ng-attr-y="{{$index * height}}" ng-attr-width="{{width}}"
-      ng-attr-height="{{height}}" ng-attr-x2="{{width}}"></rect>-->
-      <line class="box" ng-attr-x1="{{0}}" ng-attr-x2="{{width}}" ng-attr-y1="{{($index + 1) * height}}" ng-attr-y2="{{($index + 1) * height}}" />
-      <text opacity="0.5" x="640" ng-attr-y="{{($index + 1) * height - spacer}}" font-family="Georgia" font-size="40">{{group.name}}</text>
+      <line ng-show="!$last" class="box" ng-attr-x1="{{0}}" ng-attr-x2="{{width}}" ng-attr-y1="{{($index + 1) * height}}" ng-attr-y2="{{($index + 1) * height}}" />
+      <text opacity="0.5" x="610" ng-attr-y="{{($index + 1) * height - spacer}}" font-family="Georgia" font-size="40">{{group.name}}</text>
     </g>
   </g>
 </svg>

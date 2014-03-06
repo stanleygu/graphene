@@ -17,6 +17,7 @@ angular.module('sg.nodegraph')
         'gravity': '=?',
         'height': '=?',
         'width': '=?',
+        'nodeSize': '=?',
         'scale': '=?',
         'force': '=?',
         'svg': '=?',
@@ -94,7 +95,7 @@ angular.module('sg.nodegraph')
           };
         };
 
-        scope.forceLayout = function(nodes, links, params) {
+        scope.forceLayout = function(nodes, links) {
           var force = d3.layout.force()
             .charge(scope.charge || -700)
             .linkDistance(scope.linkDistance || 40)
@@ -103,18 +104,22 @@ angular.module('sg.nodegraph')
           _.each(nodes, function(n) {
             n.force = force;
           });
+          var ran = false;
           force
             .nodes(nodes)
             .links(links)
             .on('tick', function() {
-              if (params && params.bounds) {
+              if (scope.height && scope.width && scope.nodeSize) {
                 _.each(nodes, function(n) {
-                  n.x = Math.max(params.size, Math.min(params.bounds.w - params.size, n.x));
-                  n.y = Math.max(params.size, Math.min(params.bounds.h - params.size, n.y));
+                  n.x = Math.max(scope.nodeSize.width, Math.min(scope.width - scope.nodeSize.width, n.x));
+                  n.y = Math.max(scope.nodeSize.height, Math.min(scope.height - scope.nodeSize.height, n.y));
                 });
+                if(!ran) {
+                  scope.$digest();
+                  ran = true;
+                }
               }
-              if (force.alpha() < 0.01) {
-                force.stop();
+              if (force.alpha() <= 0.00001) {
                 scope.$digest();
               }
             })
