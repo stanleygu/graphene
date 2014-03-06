@@ -12,7 +12,7 @@ angular.module('sg.nodegraph')
 
     // Timeout to let forceLayout function to be available
     $timeout(function() {
-      $scope.$watch('data', function(newVal) {
+      var unwatch = $scope.$watch('data', function(newVal) {
         if (newVal) {
           var data = newVal;
           $scope.edges = _.map(data.edges, function(edge) {
@@ -59,6 +59,8 @@ angular.module('sg.nodegraph')
             groups: $scope.groups,
             edges: $scope.edges
           };
+
+          unwatch();
 
         }
       }, 200);

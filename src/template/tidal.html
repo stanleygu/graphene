@@ -1,4 +1,4 @@
-<svg ng-controller="sgTidalLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{additionalData.groups.length * height}}"
+<svg ng-controller="sgTidalLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{additionalData && additionalData.groups.length * height || 500}}"
 ng-attr-width="{{width || 800}}">
   <style scoped>
   svg .node {

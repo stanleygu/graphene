@@ -101,10 +101,8 @@ angular.module('sg.nodegraph')
 
 
     $scope.mouseoverLink = function(link) {
-      console.log(link);
     };
     $scope.mouseleaveLink = function(link) {
-      console.log(link);
     };
     $scope.OPACITY = {
       focused: 1,
@@ -129,8 +127,6 @@ angular.module('sg.nodegraph')
           edge.source.opacity = $scope.OPACITY.focused;
         }
       });
-
-      console.log(node);
     };
     $scope.mouseleaveNode = function() {
       _.each($scope.additionalData.groups, function(g) {
