@@ -119,7 +119,7 @@ angular.module('sg.nodegraph')
                   ran = true;
                 }
               }
-              if (force.alpha() <= 0.00001) {
+              if (force.alpha() <= 0.01) {
                 scope.$digest();
               }
             })
