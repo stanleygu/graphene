@@ -30,9 +30,24 @@ angular.module('sg.nodegraph')
 
             var sections = data.timeSlots;
 
+            var orderedKeys = _.keys(sections).sort(function(a, b) {
+              var reA = /[^a-zA-Z]/g;
+              var reN = /[^0-9]/g;
+              var aA = a.replace(reA, '');
+              var bA = b.replace(reA, '');
+              if (aA === bA) {
+                var aN = parseInt(a.replace(reN, ''), 10);
+                var bN = parseInt(b.replace(reN, ''), 10);
+                return aN === bN ? 0 : aN > bN ? 1 : -1;
+              } else {
+                return aA > bA ? 1 : -1;
+              }
+            });
+
             $scope.groups = [];
             var count = 0;
-            _.each(sections, function(sect, key) {
+            _.each(orderedKeys, function(key) {
+              var sect = sections[key];
               var nodes = _.filter(data.nodes, function(n) {
                 return _.contains(sect, n.id);
               });

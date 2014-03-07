@@ -3,7 +3,7 @@
 angular.module('sg.nodegraph')
   .controller('sgTidalLayoutCtrl', function($scope) {
 
-    $scope.spacer = 15;
+    $scope.spacer = 10;
 
     function checkLineIntersection(line1StartX, line1StartY, line1EndX,
       line1EndY, line2StartX, line2StartY, line2EndX, line2EndY) {
