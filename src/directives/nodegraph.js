@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sg.nodegraph')
-  .directive('sgNodegraph', function($http, $templateCache, $compile) {
+  .directive('sgNodegraph', function($http, $templateCache, $compile, $window) {
     return {
       restrict: 'E',
       scope: {
@@ -22,6 +22,8 @@ angular.module('sg.nodegraph')
         'force': '=?',
         'svg': '=?',
         'translate': '=?',
+        'layoutComplete': '=?',
+        'layoutStopThreshold': '=?',
         'forceLayout': '=?',
         'additionalData': '=?'
       },
@@ -119,8 +121,15 @@ angular.module('sg.nodegraph')
                   ran = true;
                 }
               }
-              if (force.alpha() <= 0.01) {
+              var thres = scope.layoutStopThreshold || 0.01;
+              if(force.alpha() <= thres) {
+                force.stop();
                 scope.$digest();
+                if (scope.layoutComplete) {
+                  if (_.isFunction($window[scope.layoutComplete])) {
+                    $window[scope.layoutComplete]();
+                  }
+                }
               }
             })
             .start();
