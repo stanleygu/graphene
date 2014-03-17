@@ -6,6 +6,7 @@ angular.module('sg.nodegraph')
       restrict: 'E',
       scope: {
         'ngModel': '=?',
+        'sbml': '=?',
         'sbmlUrl': '@?',
         'jsonUrl': '@?',
         'template': '@',
@@ -27,6 +28,10 @@ angular.module('sg.nodegraph')
         'forceLayout': '=?',
         'additionalData': '=?'
       },
+      // templateUrl: function(element, attr) {
+      //   return attr.template ? attr.template : 'template/sbml.html';
+      // },
+      // templateUrl: 'template/sbml.html',
       link: function postLink(scope, element) {
         function loadTemplate(template) {
           $http.get(template, {
@@ -73,7 +78,7 @@ angular.module('sg.nodegraph')
           .on('zoom', zoomed);
 
         scope.$watch('enable-zoom', function(newVal) {
-          if(newVal) {
+          if (newVal) {
             d3.select(element.find('svg')[0]).call(zoom);
           }
         });
@@ -90,7 +95,8 @@ angular.module('sg.nodegraph')
 
         scope.extendPoint = function(start, end, distance) {
           // var slope = (end.y - start.y) / (end.x - start.x);
-          var length = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2));
+          var length = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y -
+            start.y, 2));
           return {
             x: end.x + (end.x - start.x) / length * distance,
             y: end.y + (end.y - start.y) / length * distance
@@ -113,16 +119,18 @@ angular.module('sg.nodegraph')
             .on('tick', function() {
               if (scope.height && scope.width && scope.nodeSize) {
                 _.each(nodes, function(n) {
-                  n.x = Math.max(scope.nodeSize.width, Math.min(scope.width - scope.nodeSize.width, n.x));
-                  n.y = Math.max(scope.nodeSize.height, Math.min(scope.height - scope.nodeSize.height, n.y));
+                  n.x = Math.max(scope.nodeSize.width, Math.min(scope.width -
+                    scope.nodeSize.width, n.x));
+                  n.y = Math.max(scope.nodeSize.height, Math.min(scope.height -
+                    scope.nodeSize.height, n.y));
                 });
-                if(!ran) {
+                if (!ran) {
                   scope.$digest();
                   ran = true;
                 }
               }
               var thres = scope.layoutStopThreshold || 0.01;
-              if(force.alpha() <= thres) {
+              if (force.alpha() <= thres) {
                 force.stop();
                 scope.$digest();
                 if (scope.layoutComplete) {

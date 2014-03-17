@@ -4,7 +4,7 @@
   "authors": [
     "Stanley Gu <stanleygu@gmail.com>"
   ],
-  "main": "build/nodegraph.min.js",
+  "main": "build/nodegraph.js",
   "keywords": [
     "graph",
     "networks",

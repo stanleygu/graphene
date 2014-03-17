@@ -10,6 +10,14 @@ angular.module('sg.nodegraph')
       });
     }
 
+    $scope.$watch('sbml', function(newVal) {
+      if (newVal) {
+        var x2js = new X2JS();
+        $scope.ngModel = x2js.xml_str2json(newVal);
+        runForceLayout();
+      }
+    });
+
     function runForceLayout() {
       $scope.reactionInfo = {};
       $scope.nodes = getNodes($scope.ngModel.sbml.model);

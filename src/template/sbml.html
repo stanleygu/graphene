@@ -68,10 +68,6 @@ ng-attr-width="{{width || 800}}">
   </defs>
   <g ng-attr-transform="translate({{translate.x}}, {{translate.y}})scale({{scale}})">
     <g>
-      <!-- <line ng-click="App.selectReaction(link.source.id); isSelected = !isSelected" ng-repeat="link in lines.production"
-      ng-class="{selected: isSelected}" class="reaction production link" ng-attr-x1="{{getReactionPosition(link).x}}" marker-end="url(#production)"
-      ng-attr-y1="{{getReactionPosition(link).y}}" ng-attr-x2="{{link.target.x}}" ng-attr-y2="{{link.target.y}}">
-      </line> -->
       <line ng-click="App.selectReaction(link.source.id); isSelected = !isSelected" ng-repeat="link in lines.production"
       ng-class="{selected: isSelected}" class="reaction production link" ng-attr-x1="{{getReactionPosition(link).x}}"
       marker-end="url(#production)" ng-attr-y1="{{getReactionPosition(link).y}}"
@@ -127,10 +123,6 @@ ng-attr-width="{{width || 800}}">
       </line>
     </g>
     <g draggable ng-repeat="node in species" ng-attr-transform="translate({{node.x}},{{node.y}})">
-      <!-- <circle ng-class="{selected: isSelected}" class="species node" ng-attr-r="{{sizeLookup.species}}" fill="url(#gradient)"
-      ng-click="App.selectSpecies(node.id); isSelected = !isSelected;">
-        <title>ID: {{node.id}}, Name: {{node.name}}</title>
-      </circle> -->
       <rect ng-class="{selected: isSelected}" class="species node" ng-attr-x="{{-nodeSize.width/2}}"
       ng-attr-y="{{-nodeSize.height/2}}" ng-attr-width="{{nodeSize.width}}" ng-attr-height="{{nodeSize.height}}"
       ng-attr-ry="{{nodeSize.height/2}}" fill="url(#gradient)" ng-click="App.selectSpecies(node.id); isSelected = !isSelected;">
