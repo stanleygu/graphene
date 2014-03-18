@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sg.nodegraph')
+angular.module('sg.graphene')
   .controller('sgTidalLayoutCtrl', function($scope) {
 
     $scope.aspectRatio = 3; // ratio of width to height

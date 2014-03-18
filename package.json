@@ -1,14 +1,14 @@
 {
-  "name": "nodegraph",
+  "name": "graphene",
   "version": "0.0.1",
   "description": "",
-  "main": "build/nodegraph.min.js",
+  "main": "build/graphene.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stanleygu/nodegraph.git"
+    "url": "https://github.com/stanleygu/graphene.git"
   },
   "keywords": [
     "graphs"
@@ -16,9 +16,9 @@
   "author": "Stanley Gu <stanleygu@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stanleygu/nodegraph/issues"
+    "url": "https://github.com/stanleygu/graphene/issues"
   },
-  "homepage": "https://github.com/stanleygu/nodegraph",
+  "homepage": "https://github.com/stanleygu/graphene",
   "devDependencies": {
     "gulp-util": "~2.2.14",
     "gulp": "~3.5.1",

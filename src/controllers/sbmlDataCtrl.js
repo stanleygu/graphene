@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sg.nodegraph')
+angular.module('sg.graphene')
   .controller('sgSbmlDataCtrl', function($scope, $http) {
     if ($scope.sbmlUrl) {
       $http.get($scope.sbmlUrl).success(function(data) {

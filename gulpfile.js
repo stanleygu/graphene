@@ -11,18 +11,18 @@ var connect = require('gulp-connect');
 
 // 1)
 // templates.html  -> templates.js
-// srcs -> nodegraph.js
+// srcs -> graphene.js
 
 // 2)
-// nodegraph.js + templates.js + angular -> nodegraph.standalone.js
+// graphene.js + templates.js + angular -> graphene.standalone.js
 
 // 3)
 // all files -> minified
 
 var names = {
-  main: 'nodegraph.js',
-  standalone: 'nodegraph-standalone.js',
-  templates: 'nodegraph-templates.js'
+  main: 'graphene.js',
+  standalone: 'graphene-standalone.js',
+  templates: 'graphene-templates.js'
 };
 
 var paths = {
@@ -82,7 +82,7 @@ gulp.task('html2js', ['clean'], function() {
   return gulp.src(paths.templates)
     .pipe(html2js({
       quoteChar: '\'',
-      module: 'nodegraph.templates'
+      module: 'graphene.templates'
     }))
     .pipe(concat(names.templates))
     .pipe(gulp.dest(paths.build));
@@ -116,7 +116,7 @@ gulp.task('default', ['standalone', 'watch', 'connect']);
 
 gulp.task('dist', ['min'], function() {
   return gulp.src(['demo/index.html', 'demo/sampleJSONwithProps.json',
-    'build/nodegraph.min.js', 'build/nodegraph-standalone.min.js',
+    'build/graphene.min.js', 'build/graphene-standalone.min.js',
     'bower.json'
   ])
     .pipe(gulp.dest('dist'));

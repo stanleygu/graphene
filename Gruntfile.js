@@ -26,7 +26,7 @@ module.exports = function(grunt) {
       },
       pages: {
         options: {
-          remote: 'https://github.com/stanleygu/nodegraph.git',
+          remote: 'https://github.com/stanleygu/graphene.git',
           branch: 'gh-pages'
         }
       }

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('sg.nodegraph')
-  .directive('sgNodegraph', function($http, $templateCache, $compile, $window) {
+angular.module('sg.graphene')
+  .directive('sgGraphene', function($http, $templateCache, $compile, $window) {
     return {
       restrict: 'E',
       scope: {

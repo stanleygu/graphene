@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sg.nodegraph', [])
+angular.module('sg.graphene', [])
   .config(['$compileProvider',
     function($compileProvider) {
       // blobs need to be whitelisted for img and a tags

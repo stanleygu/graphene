@@ -1,10 +1,10 @@
 {
-  "name": "nodegraph",
+  "name": "graphene",
   "version": "0.0.1",
   "authors": [
     "Stanley Gu <stanleygu@gmail.com>"
   ],
-  "main": "nodegraph.min.js",
+  "main": "graphene.min.js",
   "keywords": [
     "graph",
     "networks",

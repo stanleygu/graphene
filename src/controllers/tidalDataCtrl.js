@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sg.nodegraph')
+angular.module('sg.graphene')
   .controller('sgTidalDataCtrl', function($scope, $http) {
     if ($scope.jsonUrl) {
       $http.get($scope.jsonUrl).success(function(data) {

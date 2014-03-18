@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sg.nodegraph')
+angular.module('sg.graphene')
   .controller('sgSbmlLayoutCtrl', function($scope) {
 
     $scope.nodeSize = {
