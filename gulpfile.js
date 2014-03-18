@@ -112,9 +112,12 @@ gulp.task('watch', function() {
 });
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', ['build', 'watch', 'connect']);
+gulp.task('default', ['standalone', 'watch', 'connect']);
 
 gulp.task('dist', ['min'], function() {
-  return gulp.src(['build/nodegraph.min.js', 'build/nodegraph-standalone.min.js', 'bower.json'])
+  return gulp.src(['demo/index.html', 'demo/sampleJSONwithProps.json',
+    'build/nodegraph.min.js', 'build/nodegraph-standalone.min.js',
+    'bower.json'
+  ])
     .pipe(gulp.dest('dist'));
 });

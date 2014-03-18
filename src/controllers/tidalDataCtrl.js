@@ -10,6 +10,19 @@ angular.module('sg.nodegraph')
       $scope.data = $scope.json;
     }
 
+    var urlify = function(content) {
+      var blob = new Blob([content], {
+        type: 'text/plain'
+      });
+      return (window.URL || window.webkitURL).createObjectURL(blob);
+    };
+    $scope.svgToUrl = function() {
+      var svg = $scope.svg.find('svg')[0];
+      var x = new XMLSerializer();
+      $scope.svgUrl = urlify(x.serializeToString(svg));
+    };
+
+
     // Timeout to let forceLayout function to be available
     //
     var unwatchFunc = $scope.$watch('forceLayout', function(newVal) {
@@ -20,11 +33,12 @@ angular.module('sg.nodegraph')
             $scope.edges = _.map(data.edges, function(edge) {
               return {
                 source: _.find(data.nodes, function(n) {
-                  return n.id === edge[0];
+                  return n.id === edge.nodes[0];
                 }),
                 target: _.find(data.nodes, function(n) {
-                  return n.id === edge[1];
+                  return n.id === edge.nodes[1];
                 }),
+                type: edge.type
               };
             });
 

@@ -1,0 +1,14 @@
+<html>
+
+<head>
+  <script src="../build/nodegraph-standalone.js"></script>
+</head>
+
+<body>
+  <div ng-init="sbmlUrl = 'MSinai.xml'">
+    <sg-nodegraph ng-controller="sgSbmlDataCtrl" links="links" nodes="nodes" height="500"
+    width="800" charge="-850" linkDistance="80" params="{}" start="start" template="template/sbml.html"></sg-nodegraph>
+  </div>
+</body>
+
+</html>

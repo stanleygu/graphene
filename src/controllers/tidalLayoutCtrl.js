@@ -3,6 +3,9 @@
 angular.module('sg.nodegraph')
   .controller('sgTidalLayoutCtrl', function($scope) {
 
+    $scope.aspectRatio = 3; // ratio of width to height
+    $scope.scaleFactor = 0.1; // decrease of the original size
+
     $scope.spacer = 10;
 
     function checkLineIntersection(line1StartX, line1StartY, line1EndX,
