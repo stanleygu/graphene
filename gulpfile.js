@@ -99,4 +99,4 @@ gulp.task('watch', function() {
 });
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', ['min', 'watch', 'connect']);
+gulp.task('default', ['build', 'watch', 'connect']);
