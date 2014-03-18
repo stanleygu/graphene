@@ -29,6 +29,12 @@
     "gulp-ngmin": "~0.1.2",
     "gulp-clean": "~0.2.4",
     "gulp-rename": "~0.2.2",
-    "gulp-connect": "~0.3.0"
+    "gulp-connect": "~0.3.0",
+    "grunt": "^0.4.2",
+    "grunt-build-control": "^0.1.2",
+    "grunt-contrib-jshint": "~0.7.1",
+    "load-grunt-tasks": "~0.2.0",
+    "time-grunt": "~0.2.1",
+    "jshint-stylish": "~0.1.3"
   }
 }

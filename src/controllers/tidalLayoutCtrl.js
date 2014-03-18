@@ -93,12 +93,6 @@ angular.module('sg.nodegraph')
 
     // $scope.$watch('additionalData')
 
-
-
-    $scope.mouseoverLink = function(link) {
-    };
-    $scope.mouseleaveLink = function(link) {
-    };
     $scope.OPACITY = {
       focused: 1,
       unfocused: 0.1,
