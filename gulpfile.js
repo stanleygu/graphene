@@ -28,7 +28,11 @@ var names = {
 var paths = {
   srcs: ['src/app.js', 'src/controllers/*.js', 'src/directives/*.js'],
   built: ['build/*.js'],
-  standalone: ['bower_components/angular/angular.js', 'bower_components/d3/d3.js', 'bower_components/x2js/xml2json.js', 'bower_components/lodash/dist/lodash.js', 'build/**/*.js', 'src/standalone/*.js'],
+  standalone: ['bower_components/angular/angular.js',
+    'bower_components/d3/d3.js', 'bower_components/x2js/xml2json.js',
+    'bower_components/lodash/dist/lodash.js', 'build/**/*.js',
+    'src/standalone/*.js'
+  ],
   templates: ['src/**/*.html'],
   build: 'build/',
   demo: 'demo/'
@@ -46,6 +50,15 @@ gulp.task('min', ['standalone'], function() {
 });
 
 gulp.task('standalone', ['build'], function() {
+  return gulp.src(paths.standalone)
+    .pipe(concat(names.main))
+    .pipe(rename({
+      suffix: '-standalone'
+    }))
+    .pipe(gulp.dest(paths.build));
+});
+
+gulp.task('connect-standalone', ['build'], function() {
   return gulp.src(paths.standalone)
     .pipe(concat(names.main))
     .pipe(rename({
@@ -94,9 +107,14 @@ gulp.task('clean', function() {
 
 // Rerun the task when a file changes
 gulp.task('watch', function() {
-  gulp.watch(paths.srcs, ['standalone']);
-  gulp.watch(paths.templates, ['standalone']);
+  gulp.watch(paths.srcs, ['connect-standalone']);
+  gulp.watch(paths.templates, ['connect-standalone']);
 });
 
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', ['build', 'watch', 'connect']);
+
+gulp.task('dist', ['min'], function() {
+  return gulp.src(['build/nodegraph.min.js', 'bower.json'])
+    .pipe(gulp.dest('dist'));
+});
