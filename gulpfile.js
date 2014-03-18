@@ -115,6 +115,6 @@ gulp.task('watch', function() {
 gulp.task('default', ['build', 'watch', 'connect']);
 
 gulp.task('dist', ['min'], function() {
-  return gulp.src(['build/nodegraph.min.js', 'bower.json'])
+  return gulp.src(['build/nodegraph.min.js', 'build/nodegraph-standalone.min.js', 'bower.json'])
     .pipe(gulp.dest('dist'));
 });
