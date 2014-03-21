@@ -58,6 +58,13 @@ angular.module('sg.graphene')
               }
             });
 
+            var sizes = {};
+            sizes.max = _.max(data.nodes, function(n) {
+              return n.size;
+            });
+            sizes.min = _.min(data.nodes, function(n) {
+              return n.size;
+            });
             $scope.groups = [];
             var count = 0;
             _.each(orderedKeys, function(key) {
@@ -67,10 +74,19 @@ angular.module('sg.graphene')
               });
               _.each(nodes, function(n) {
                 n.group = count;
+                n.scaleFactor = (n.size - sizes.min.size) / (sizes.max.size - sizes.min.size);
+                n.width = $scope.nodeSize.min.width +
+                  (($scope.nodeSize.max.width - $scope.nodeSize.min.width) *
+                  n.scaleFactor);
+                n.height = $scope.nodeSize.min.height +
+                  (($scope.nodeSize.max.height - $scope.nodeSize.min.height) *
+                  n.scaleFactor);
               });
+
               var links = _.filter($scope.edges, function(l) {
                 return _.contains(sect, l.source.id) && _.contains(sect, l.target.id);
               });
+
               $scope.forceLayout(nodes, []);
               $scope.groups.push({
                 nodes: nodes,

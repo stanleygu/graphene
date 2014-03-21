@@ -11,7 +11,8 @@
 </head>
 
 <body>
-  <div ng-init="nodeSize={width: 80, height: 30}; subgraph={height: 200, width: 800};
+  <div ng-init="nodeSize={min: {width: 80, height: 30}, max: {width: 160, height: 60}}; 
+    subgraph={height: 200, width: 800};
     jsonUrl = 'sampleJSONwithProps.json'">
     <div ng-controller="sgTidalDataCtrl">
       <div>

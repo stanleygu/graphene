@@ -119,10 +119,10 @@ angular.module('sg.graphene')
             .on('tick', function() {
               if (scope.height && scope.width && scope.nodeSize) {
                 _.each(nodes, function(n) {
-                  n.x = Math.max(scope.nodeSize.width, Math.min(scope.width -
-                    scope.nodeSize.width, n.x));
-                  n.y = Math.max(scope.nodeSize.height, Math.min(scope.height -
-                    scope.nodeSize.height, n.y));
+                  n.x = Math.max(n.width, Math.min(scope.width -
+                    n.width, n.x));
+                  n.y = Math.max(n.height, Math.min(scope.height -
+                    n.height, n.y));
                 });
                 if (!ran) {
                   scope.$digest();

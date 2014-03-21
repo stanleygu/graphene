@@ -70,46 +70,51 @@
         x2: link.target.x,
         y2: link.target.y + link.target.group * height
       }, {
-        x1: link.source.x - (nodeSize.width/2 + spacer),
-        y1: link.source.y - (nodeSize.height/2 + spacer) + link.source.group * height,
-        x2: link.source.x + (nodeSize.width/2 + spacer),
-        y2: link.source.y + (nodeSize.height/2 + spacer) + link.source.group * height
+        x1: link.source.x - link.source.width/2 + spacer,
+        y1: link.source.y - link.source.height/2 + spacer + link.source.group * height,
+        x2: link.source.x + link.source.width/2 + spacer,
+        y2: link.source.y + link.source.height/2 + spacer + link.source.group * height
       }).x}}" ng-attr-y1="{{getLineIntersectionWithRectangle({
         x1: link.source.x,
         y1: link.source.y + link.source.group * height,
         x2: link.target.x,
         y2: link.target.y + link.target.group * height
       }, {
-        x1: link.source.x - (nodeSize.width/2 + spacer),
-        y1: link.source.y - (nodeSize.height/2 + spacer) + link.source.group * height,
-        x2: link.source.x + (nodeSize.width/2 + spacer),
-        y2: link.source.y + (nodeSize.height/2 + spacer) + link.source.group * height
+        x1: link.source.x - link.source.width/2 + spacer,
+        y1: link.source.y - link.source.height/2 + spacer + link.source.group * height,
+        x2: link.source.x + link.source.width/2 + spacer,
+        y2: link.source.y + link.source.height/2 + spacer + link.source.group * height
       }).y}}" ng-attr-x2="{{getLineIntersectionWithRectangle({
         x1: link.source.x,
         y1: link.source.y + link.source.group * height,
         x2: link.target.x,
         y2: link.target.y + link.target.group * height
       }, {
-        x1: link.target.x - (nodeSize.width/2 + spacer),
-        y1: link.target.y - (nodeSize.height/2 + spacer) + link.target.group * height,
-        x2: link.target.x + (nodeSize.width/2 + spacer),
-        y2: link.target.y + (nodeSize.height/2 + spacer) + link.target.group * height
+        x1: link.target.x - link.target.width/2 + spacer,
+        y1: link.target.y - link.target.height/2 + spacer + link.target.group * height,
+        x2: link.target.x + link.target.width/2 + spacer,
+        y2: link.target.y + link.target.height/2 + spacer + link.target.group * height
       }).x}}" ng-attr-y2="{{getLineIntersectionWithRectangle({
         x1: link.source.x,
         y1: link.source.y + link.source.group * height,
         x2: link.target.x,
         y2: link.target.y + link.target.group * height
       }, {
-        x1: link.target.x - (nodeSize.width/2 + spacer),
-        y1: link.target.y - (nodeSize.height/2 + spacer) + link.target.group * height,
-        x2: link.target.x + (nodeSize.width/2 + spacer),
-        y2: link.target.y + (nodeSize.height/2 + spacer) + link.target.group * height
+        x1: link.target.x - link.target.width/2 + spacer,
+        y1: link.target.y - link.target.height/2 + spacer + link.target.group * height,
+        x2: link.target.x + link.target.width/2 + spacer,
+        y2: link.target.y + link.target.height/2 + spacer + link.target.group * height
       }).y}}" marker-end="url(#arrow)">
       </line>
     </g>
     <g ng-repeat="group in additionalData.groups">
       <g draggable ng-mouseover="mouseoverNode(node)" ng-mouseleave="mouseleaveNode(node)" ng-attr-opacity="{{node.opacity}}" ng-repeat="node in group.nodes" class="node" ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * height}})">
-        <rect ng-attr-x="{{-node.size*aspectRatio*scaleFactor/2}}" ng-attr-y="{{-node.size*scaleFactor/2}}" ng-attr-width="{{node.size*scaleFactor*aspectRatio}}" ng-attr-height="{{node.size*scaleFactor}}" ng-attr-r="{{sizeLookup.species}}" ng-attr-ry="{{node.size*scaleFactor}}" fill="url(#gradient)">
+        <rect ng-attr-x="{{-node.width/2}}" 
+        ng-attr-y="{{-node.height/2}}" 
+        ng-attr-width="{{node.width}}" 
+        ng-attr-height="{{node.height}}" 
+        ng-attr-ry="{{node.width}}" 
+        fill="url(#gradient)">
           <title>ID: {{node.id}}, Name: {{node.name}}</title>
         </rect>
         <text class="node-label">{{node.name}}</text>
