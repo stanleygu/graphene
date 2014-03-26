@@ -1,13 +1,31 @@
 <html>
 
 <head>
-  <script src="../build/graphene-standalone.js"></script>
+  <script src="../bower_components/angular/angular.js"></script>
+  <script src="../bower_components/d3/d3.js"></script>
+  <script src="../bower_components/lodash/dist/lodash.js"></script>
+  <script src="../bower_components/x2js/xml2json.js"></script>
+  <script src="../src/app.js"></script>
+  <script src="../src/standalone/standalone.js"></script>
+  <script src="../src/controllers/sbmlDataCtrl.js"></script>
+  <script src="../src/controllers/sbmlLayoutCtrl.js"></script>
+  <script src="../src/directives/graphene.js"></script>
+  <script src="../build/graphene-templates.js"></script>
 </head>
 
 <body>
-  <div ng-init="sbmlUrl = 'MSinai.xml'">
-    <sg-nodegraph ng-controller="sgSbmlDataCtrl" links="links" nodes="nodes" height="500"
-    width="800" charge="-850" linkDistance="80" params="{}" start="start" template="template/sbml.html"></sg-nodegraph>
+  <div ng-init="
+    sbmlUrl='MSinai.xml';
+    width=800;
+    height=500;
+    charge=-850;
+    linkDistance=80;
+    nodeSize = {
+      width: 80,
+      height: 30
+    };
+    ">
+    <sg-graphene ng-controller="sgSbmlDataCtrl" imports="exports" template="template/sbml.html"></sg-graphene>
   </div>
 </body>
 

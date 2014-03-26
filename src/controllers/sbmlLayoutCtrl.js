@@ -3,16 +3,12 @@
 angular.module('sg.graphene')
   .controller('sgSbmlLayoutCtrl', function($scope) {
 
-    $scope.nodeSize = {
-      width: 100,
-      height: 30
-    };
-
     $scope.spacer = 18;
 
     $scope.classifyLinks = function(links) {
       var lines = {
         production: [],
+        generation: [],
         reactant: [],
         degradation: [],
         modifier: []
@@ -40,7 +36,12 @@ angular.module('sg.graphene')
           lines.modifier.push(line);
         } else if (_.contains(source.classes, 'reaction')) {
           if (_.contains(target.classes, 'species')) {
-            lines.production.push(line);
+            if (linkMap[source.id].asTarget.length > 0) {
+              // source has some edges from it
+              lines.production.push(line);
+            } else {
+              lines.generation.push(line);
+            }
           }
         } else if (_.contains(source.classes, 'species')) {
           if (_.contains(target.classes, 'reaction')) {
@@ -195,21 +196,39 @@ angular.module('sg.graphene')
 
       if (!intersection) {
         intersection = {
-          x: (rect.x1 + rect.x2)/2,
-          y: (rect.y1 + rect.y2)/2
+          x: (rect.x1 + rect.x2) / 2,
+          y: (rect.y1 + rect.y2) / 2
         };
       }
       return intersection;
     };
 
-    $scope.$watchCollection('links', function(newVal) {
+    $scope.extendPoint = function(start, end, distance) {
+      // var slope = (end.y - start.y) / (end.x - start.x);
+      var length = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y -
+        start.y, 2));
+      return {
+        x: end.x + (end.x - start.x) / length * distance,
+        y: end.y + (end.y - start.y) / length * distance
+      };
+    };
+
+    $scope.arrow = d3.svg.symbol().size(function(d) {
+      return d.size;
+    }).type(function(d) {
+      return d.type;
+    });
+
+    $scope.$watchCollection('imports.links', function(newVal) {
       if (newVal) {
+        $scope.links = $scope.imports.links;
         $scope.lines = $scope.classifyLinks($scope.links);
       }
     });
 
-    $scope.$watchCollection('nodes', function(newVal) {
+    $scope.$watchCollection('imports.nodes', function(newVal) {
       if (newVal) {
+        $scope.nodes = $scope.imports.nodes;
         $scope.species = _.filter($scope.nodes, function(n) {
           return _.contains(n.classes, 'species');
         });
