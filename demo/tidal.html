@@ -1,7 +1,16 @@
 <html>
 
 <head>
-  <script src="../build/graphene-standalone.js"></script>
+  <script src="../bower_components/angular/angular.js"></script>
+  <script src="../bower_components/d3/d3.js"></script>
+  <script src="../bower_components/lodash/dist/lodash.js"></script>
+  <script src="../bower_components/x2js/xml2json.js"></script>
+  <script src="../src/app.js"></script>
+  <script src="../src/standalone/standalone.js"></script>
+  <script src="../src/controllers/tidalDataCtrl.js"></script>
+  <script src="../src/controllers/tidalLayoutCtrl.js"></script>
+  <script src="../src/directives/graphene.js"></script>
+  <script src="../build/graphene-templates.js"></script>
   <script>
     window.myCb = function()
     {
@@ -11,9 +20,20 @@
 </head>
 
 <body>
-  <div ng-init="nodeSize={min: {width: 80, height: 30}, max: {width: 160, height: 60}}; 
+  <div ng-init="
+    nodeSize={min: {width: 80, height: 30}, max: {width: 160, height: 60}}; 
+    jsonUrl = 'sampleJSONwithProps.json';
+    sbmlUrl='MSinai.xml';
+    width=800;
+    height=500;
     subgraph={height: 200, width: 800};
-    jsonUrl = 'sampleJSONwithProps.json'">
+    charge=-850;
+    linkDistance=80;
+    nodeSize = {
+      width: 80,
+      height: 30
+    };
+    ">
     <div ng-controller="sgTidalDataCtrl">
       <sg-graphene svg="svg" additional-data="additionalData" force-layout="forceLayout" node-size="nodeSize" height="subgraph.height" width="subgraph.width" charge="-1200" linkDistance="80" layout-complete="'myCb'" template="template/tidal.html"></sg-graphene>
       <button class="btn btn-primary" ng-click="svgToUrl(); showDownload = true;">Get SVG Image</button>

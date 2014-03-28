@@ -3,9 +3,6 @@
 angular.module('sg.graphene')
   .controller('sgTidalLayoutCtrl', function($scope) {
 
-    $scope.aspectRatio = $scope.nodeSize.width / $scope.nodeSize.height; // ratio of width to height
-    $scope.scaleFactor = 0.1; // decrease of the original size
-
     $scope.spacer = 10;
 
     function checkLineIntersection(line1StartX, line1StartY, line1EndX,
