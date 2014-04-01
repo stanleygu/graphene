@@ -30,7 +30,7 @@ angular.module('sg.graphene')
       return (window.URL || window.webkitURL).createObjectURL(blob);
     };
     $scope.svgToUrl = function() {
-      var svg = $scope.svg.find('svg')[0];
+      var svg = $window.document.querySelector('svg');
       var x = new XMLSerializer();
       $scope.svgUrl = urlify(x.serializeToString(svg));
     };
