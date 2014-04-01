@@ -11,16 +11,10 @@
   <script src="../src/controllers/tidalLayoutCtrl.js"></script>
   <script src="../src/directives/graphene.js"></script>
   <script src="../build/graphene-templates.js"></script>
-  <script>
-    window.myCb = function()
-    {
-      console.log('layout done!');
-    };
-  </script>
 </head>
 
 <body>
-  <div ng-init="
+  <div id="myApp" ng-init="
     nodeSize={min: {width: 80, height: 30}, max: {width: 160, height: 60}};
     subgraph={height: 200, width: 800};
     layoutComplete='myCb';
@@ -28,7 +22,7 @@
     linkDistance=80;
     jsonUrl = 'sampleJSONwithProps.json'">
     <div ng-controller="sgTidalDataCtrl">
-      <button class="btn btn-warning" ng-click="reload()">RELOAD</button>
+      <button class="btn btn-warning" ng-click="callWindowFunction('loadJson')">Change JSON</button>
       <div>
         <button class="btn btn-primary" ng-click="svgToUrl(); showDownload = true;">Get SVG Image</button>
         <a ng-show="showDownload" ng-href="{{svgUrl}}" download="network.svg">
@@ -39,6 +33,70 @@
       <sg-graphene svg="svg" imports="exports" template="template/tidal.html"></sg-graphene>
     </div>
   </div>
+  <script>
+    window.myCb = function()
+    {
+      console.log('layout done!');
+    };
+    window.loadJson = function()
+    {
+      var scope = angular.element(document.querySelector('div#myApp')).scope();
+      scope.json = {
+        "nodes": [
+        {
+          "size": 341,
+          "label": "TF",
+          "id": 0,
+          "name": "FOSL1"
+        },
+        {
+          "size": 174,
+          "label": "TF",
+          "id": 1,
+          "name": "SREBF2"
+        },
+        {
+          "size": 96,
+          "label": "TF",
+          "id": 2,
+          "name": "EGR4"
+        }, ],
+        "edges": [
+        {
+          "nodes": [
+            1,
+            0
+          ],
+          "type": "prb"
+        },
+        {
+          "nodes": [
+            0,
+            2
+          ],
+          "type": "pr"
+        },
+        {
+          "nodes": [
+            1,
+            2
+          ],
+          "type": "pr"
+        }],
+        "timeSlots":
+        {
+          "\t4 hours": [
+            0,
+            1
+          ],
+          "\t8 hours": [
+            2
+          ]
+        }
+      };
+      scope.$apply();
+    };
+  </script>
 </body>
 
 </html>

@@ -122,7 +122,7 @@ angular.module('sg.graphene')
       link.y2 = sourceToTarget.y;
     };
 
-    var unwatch = $scope.$watch('imports.edges', function(val) {
+    $scope.$watchCollection('imports.edges', function(val) {
       if (val) {
         $scope.links = $scope.imports.edges;
         _.each($scope.links, function(l) {
@@ -133,8 +133,6 @@ angular.module('sg.graphene')
           });
           updateLinkPosition(l);
         });
-
-        unwatch();
       }
     });
 

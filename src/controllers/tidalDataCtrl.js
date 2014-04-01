@@ -3,13 +3,25 @@
 angular.module('sg.graphene')
   .controller('sgTidalDataCtrl', function($scope, $http, $window) {
 
-    if ($scope.jsonUrl) {
-      $http.get($scope.jsonUrl).success(function(data) {
-        $scope.data = data;
-      });
-    } else if ($scope.json) {
-      $scope.data = $scope.json;
-    }
+    $scope.callWindowFunction = function(f) {
+      if (_.isFunction($window[f])) {
+        $window[f]();
+      }
+    };
+
+    $scope.$watch('jsonUrl', function(newVal) {
+      if (newVal) {
+        $http.get($scope.jsonUrl).success(function(data) {
+          $scope.data = data;
+          $window.copy = angular.copy(data);
+        });
+      }
+    });
+    $scope.$watch('json', function(newVal) {
+      if (newVal) {
+        $scope.data = $scope.json;
+      }
+    });
 
     var urlify = function(content) {
       var blob = new Blob([content], {
@@ -116,9 +128,7 @@ angular.module('sg.graphene')
                 force.stop();
                 $scope.$digest();
                 if ($scope.layoutComplete) {
-                  if (_.isFunction($window[$scope.layoutComplete])) {
-                    $window[$scope.layoutComplete]();
-                  }
+                  $scope.callWindowFunction($scope.layoutComplete);
                 }
               }
             })
