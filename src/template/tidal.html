@@ -1,4 +1,4 @@
-<svg ng-controller="sgTidalLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{additionalData && additionalData.groups.length * height || 500}}" ng-attr-width="{{(width || 800) + 80}}">
+<svg ng-controller="sgTidalLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{imports && imports.groups.length * imports.subgraph.height || 500}}" ng-attr-width="{{(imports.subgraph.width || 800) + 80}}">
   <style scoped>
     svg .node {
       stroke: #FFB800;
@@ -64,65 +64,60 @@
   </defs>
   <g ng-attr-transform="translate({{translate.x}}, {{translate.y}})scale({{scale}})">
     <g>
-    <line ng-attr-stroke="{{{'prb': 'green', 'pr': 'red'}[link.type]}}" ng-attr-opacity="{{link.opacity || OPACITY.normal}}" ng-mouseover="mouseoverLink(link)" ng-mouseleave="mouseleaveLink(link)" ng-repeat="link in additionalData.edges" ng-if="link.target.id !== link.source.id" class="link" ng-attr-x1="{{getLineIntersectionWithRectangle({
+      <line ng-attr-stroke="{{{'prb': 'green', 'pr': 'red'}[link.type]}}" ng-attr-opacity="{{link.opacity || OPACITY.normal}}" ng-mouseover="mouseoverLink(link)" ng-mouseleave="mouseleaveLink(link)" ng-repeat="link in imports.edges" ng-if="link.target.id !== link.source.id"
+      class="link" ng-attr-x1="{{getLineIntersectionWithRectangle({
         x1: link.source.x,
-        y1: link.source.y + link.source.group * height,
+        y1: link.source.y + link.source.group * imports.subgraph.height,
         x2: link.target.x,
-        y2: link.target.y + link.target.group * height
+        y2: link.target.y + link.target.group * imports.subgraph.height
       }, {
         x1: link.source.x - link.source.width/2 + spacer,
-        y1: link.source.y - link.source.height/2 + spacer + link.source.group * height,
+        y1: link.source.y - link.source.height/2 + spacer + link.source.group * imports.subgraph.height,
         x2: link.source.x + link.source.width/2 + spacer,
-        y2: link.source.y + link.source.height/2 + spacer + link.source.group * height
+        y2: link.source.y + link.source.height/2 + spacer + link.source.group * imports.subgraph.height
       }).x}}" ng-attr-y1="{{getLineIntersectionWithRectangle({
         x1: link.source.x,
-        y1: link.source.y + link.source.group * height,
+        y1: link.source.y + link.source.group * imports.subgraph.height,
         x2: link.target.x,
-        y2: link.target.y + link.target.group * height
+        y2: link.target.y + link.target.group * imports.subgraph.height
       }, {
         x1: link.source.x - link.source.width/2 + spacer,
-        y1: link.source.y - link.source.height/2 + spacer + link.source.group * height,
+        y1: link.source.y - link.source.height/2 + spacer + link.source.group * imports.subgraph.height,
         x2: link.source.x + link.source.width/2 + spacer,
-        y2: link.source.y + link.source.height/2 + spacer + link.source.group * height
+        y2: link.source.y + link.source.height/2 + spacer + link.source.group * imports.subgraph.height
       }).y}}" ng-attr-x2="{{getLineIntersectionWithRectangle({
         x1: link.source.x,
-        y1: link.source.y + link.source.group * height,
+        y1: link.source.y + link.source.group * imports.subgraph.height,
         x2: link.target.x,
-        y2: link.target.y + link.target.group * height
+        y2: link.target.y + link.target.group * imports.subgraph.height
       }, {
         x1: link.target.x - link.target.width/2 + spacer,
-        y1: link.target.y - link.target.height/2 + spacer + link.target.group * height,
+        y1: link.target.y - link.target.height/2 + spacer + link.target.group * imports.subgraph.height,
         x2: link.target.x + link.target.width/2 + spacer,
-        y2: link.target.y + link.target.height/2 + spacer + link.target.group * height
+        y2: link.target.y + link.target.height/2 + spacer + link.target.group * imports.subgraph.height
       }).x}}" ng-attr-y2="{{getLineIntersectionWithRectangle({
         x1: link.source.x,
-        y1: link.source.y + link.source.group * height,
+        y1: link.source.y + link.source.group * imports.subgraph.height,
         x2: link.target.x,
-        y2: link.target.y + link.target.group * height
+        y2: link.target.y + link.target.group * imports.subgraph.height
       }, {
         x1: link.target.x - link.target.width/2 + spacer,
-        y1: link.target.y - link.target.height/2 + spacer + link.target.group * height,
+        y1: link.target.y - link.target.height/2 + spacer + link.target.group * imports.subgraph.height,
         x2: link.target.x + link.target.width/2 + spacer,
-        y2: link.target.y + link.target.height/2 + spacer + link.target.group * height
+        y2: link.target.y + link.target.height/2 + spacer + link.target.group * imports.subgraph.height
       }).y}}" marker-end="url(#arrow)">
       </line>
     </g>
-    <g ng-repeat="group in additionalData.groups">
-      <g draggable ng-mouseover="mouseoverNode(node)" ng-mouseleave="mouseleaveNode(node)" ng-attr-opacity="{{node.opacity}}" ng-repeat="node in group.nodes" class="node" ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * height}})">
-        <rect ng-attr-x="{{-node.width/2}}" 
-        ng-attr-y="{{-node.height/2}}" 
-        ng-attr-width="{{node.width}}" 
-        ng-attr-height="{{node.height}}" 
-        ng-attr-ry="{{node.width}}" 
-        fill="url(#gradient)">
+    <g ng-repeat="group in imports.groups">
+      <g draggable ng-mouseover="mouseoverNode(node)" ng-mouseleave="mouseleaveNode(node)" ng-attr-opacity="{{node.opacity}}" ng-repeat="node in group.nodes" class="node" ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * imports.subgraph.height}})">
+        <rect ng-attr-x="{{-node.width/2}}" ng-attr-y="{{-node.height/2}}" ng-attr-width="{{node.width}}" ng-attr-height="{{node.height}}" ng-attr-ry="{{node.height / 2}}" fill="url(#gradient)">
           <title>ID: {{node.id}}, Name: {{node.name}}</title>
         </rect>
         <text class="node-label">{{node.name}}</text>
       </g>
-      <line ng-show="!$last" class="box" ng-attr-x1="{{0}}" ng-attr-x2="{{width}}" ng-attr-y1="{{($index + 1) * height}}" ng-attr-y2="{{($index + 1) * height}}" />
+      <line ng-show="!$last" class="box" ng-attr-x1="{{0}}" ng-attr-x2="{{imports.subgraph.width}}" ng-attr-y1="{{($index + 1) * imports.subgraph.height}}" ng-attr-y2="{{($index + 1) * imports.subgraph.height}}" />
       <g>
-      <text ng-attr-transform="rotate({{90}}, {{width}}, {{$index * height + 10 }})" opacity="0.5" 
-      ng-attr-x="{{width}}" ng-attr-y="{{$index * height + 10 }}" font-family="Georgia" font-size="28">{{group.name}}</text>
+        <text ng-attr-transform="rotate({{90}}, {{imports.subgraph.width}}, {{$index * imports.subgraph.height + 10 }})" opacity="0.5" ng-attr-x="{{imports.subgraph.width}}" ng-attr-y="{{$index * imports.subgraph.height + 10 }}" font-family="Georgia" font-size="28">{{group.name}}</text>
       </g>
     </g>
   </g>

@@ -20,27 +20,21 @@
 </head>
 
 <body>
-  <div ng-init="
-    nodeSize={min: {width: 80, height: 30}, max: {width: 160, height: 60}}; 
-    jsonUrl = 'sampleJSONwithProps.json';
-    sbmlUrl='MSinai.xml';
-    width=800;
-    height=500;
+  <div ng-init="nodeSize={min: {width: 80, height: 30}, max: {width: 160, height: 60}}; 
     subgraph={height: 200, width: 800};
-    charge=-850;
+    layoutComplete='myCb';
+    charge=-1200;
     linkDistance=80;
-    nodeSize = {
-      width: 80,
-      height: 30
-    };
-    ">
+    jsonUrl = 'sampleJSONwithProps.json'">
     <div ng-controller="sgTidalDataCtrl">
-      <sg-graphene svg="svg" additional-data="additionalData" force-layout="forceLayout" node-size="nodeSize" height="subgraph.height" width="subgraph.width" charge="-1200" linkDistance="80" layout-complete="'myCb'" template="template/tidal.html"></sg-graphene>
-      <button class="btn btn-primary" ng-click="svgToUrl(); showDownload = true;">Get SVG Image</button>
-      <a ng-show="showDownload" ng-href="{{svgUrl}}" download="network.svg">
-        <button class="btn btn-default">
-          <span class="glyphicon glyphicon-download-alt"></span>&nbsp;Download</button>
-      </a>
+      <div>
+        <button class="btn btn-primary" ng-click="svgToUrl(); showDownload = true;">Get SVG Image</button>
+        <a ng-show="showDownload" ng-href="{{svgUrl}}" download="network.svg">
+          <button class="btn btn-default">
+            <span class="glyphicon glyphicon-download-alt"></span>&nbsp;Download</button>
+        </a>
+      </div>
+      <sg-graphene svg="svg" imports="exports" template="template/tidal.html"></sg-graphene>
     </div>
   </div>
 </body>

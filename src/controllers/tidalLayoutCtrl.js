@@ -91,7 +91,11 @@ angular.module('sg.graphene')
       return intersection;
     };
 
-    // $scope.$watch('additionalData')
+    $scope.arrow = d3.svg.symbol().size(function(d) {
+      return d.size;
+    }).type(function(d) {
+      return d.type;
+    });
 
     $scope.OPACITY = {
       focused: 1,
@@ -100,14 +104,14 @@ angular.module('sg.graphene')
     };
     $scope.mouseoverNode = function(node) {
       node.opacity = $scope.OPACITY.focused;
-      _.each($scope.additionalData.groups, function(g) {
+      _.each($scope.imports.groups, function(g) {
         _.each(g.nodes, function(n) {
           if (n.id !== node.id) {
             n.opacity = $scope.OPACITY.unfocused;
           }
         });
       });
-      _.each($scope.additionalData.edges, function(edge) {
+      _.each($scope.imports.edges, function(edge) {
         if (edge.source.id !== node.id && edge.target.id !== node.id) {
           edge.opacity = $scope.OPACITY.unfocused;
         } else {
@@ -118,12 +122,12 @@ angular.module('sg.graphene')
       });
     };
     $scope.mouseleaveNode = function() {
-      _.each($scope.additionalData.groups, function(g) {
+      _.each($scope.imports.groups, function(g) {
         _.each(g.nodes, function(n) {
           n.opacity = 1;
         });
       });
-      _.each($scope.additionalData.edges, function(edge) {
+      _.each($scope.imports.edges, function(edge) {
         edge.opacity = $scope.OPACITY.normal;
       });
 
