@@ -48,7 +48,7 @@ angular.module('sg.graphene')
       return result;
     }
 
-    $scope.getLineIntersectionWithRectangle = function(line, rect) {
+    var getLineIntersectionWithRectangle = function(line, rect) {
       var sides = [{
         x1: rect.x1, //left side
         y1: rect.y1,
@@ -90,6 +90,53 @@ angular.module('sg.graphene')
       }
       return intersection;
     };
+
+    // COMPUTED LINK PROPERTY
+    var updateLinkPosition = function(link) {
+      var targetToSource = getLineIntersectionWithRectangle({
+        x1: link.source.x,
+        y1: link.source.y + link.source.group * $scope.imports.subgraph.height,
+        x2: link.target.x,
+        y2: link.target.y + link.target.group * $scope.imports.subgraph.height
+      }, {
+        x1: link.source.x - (link.source.width / 2 + $scope.spacer),
+        y1: link.source.y - (link.source.height / 2 + $scope.spacer) + link.source.group * $scope.imports.subgraph.height,
+        x2: link.source.x + link.source.width / 2 + $scope.spacer,
+        y2: link.source.y + link.source.height / 2 + $scope.spacer + link.source.group * $scope.imports.subgraph.height
+      });
+      var sourceToTarget = getLineIntersectionWithRectangle({
+        x1: link.source.x,
+        y1: link.source.y + link.source.group * $scope.imports.subgraph.height,
+        x2: link.target.x,
+        y2: link.target.y + link.target.group * $scope.imports.subgraph.height
+      }, {
+        x1: link.target.x - (link.target.width / 2 + $scope.spacer),
+        y1: link.target.y - (link.target.height / 2 + $scope.spacer) + link.target.group * $scope.imports.subgraph.height,
+        x2: link.target.x + link.target.width / 2 + $scope.spacer,
+        y2: link.target.y + link.target.height / 2 + $scope.spacer + link.target.group * $scope.imports.subgraph.height
+      });
+
+      link.x1 = targetToSource.x;
+      link.y1 = targetToSource.y;
+      link.x2 = sourceToTarget.x;
+      link.y2 = sourceToTarget.y;
+    };
+
+    var unwatch = $scope.$watch('imports.edges', function(val) {
+      if (val) {
+        $scope.links = $scope.imports.edges;
+        _.each($scope.links, function(l) {
+          $scope.$watch(function() {
+            return l.source.x + l.source.y + l.target.x + l.target.y;
+          }, function() {
+            updateLinkPosition(l);
+          });
+          updateLinkPosition(l);
+        });
+
+        unwatch();
+      }
+    });
 
     $scope.arrow = d3.svg.symbol().size(function(d) {
       return d.size;

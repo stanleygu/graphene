@@ -2,5 +2,5 @@ angular.module('graphene-standalone', ['template/sbml.html', 'template/tidal.htm
 angular.element(document).ready(function() {
   'use strict';
   angular.module('myApp', ['graphene-standalone']);
-  angular.bootstrap(document, ['myApp']);
+  angular.bootstrap(document.querySelector('div'), ['myApp']);
 });

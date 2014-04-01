@@ -2,6 +2,7 @@
 
 angular.module('sg.graphene')
   .controller('sgTidalDataCtrl', function($scope, $http, $window) {
+
     if ($scope.jsonUrl) {
       $http.get($scope.jsonUrl).success(function(data) {
         $scope.data = data;

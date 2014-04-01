@@ -20,13 +20,15 @@
 </head>
 
 <body>
-  <div ng-init="nodeSize={min: {width: 80, height: 30}, max: {width: 160, height: 60}}; 
+  <div ng-init="
+    nodeSize={min: {width: 80, height: 30}, max: {width: 160, height: 60}};
     subgraph={height: 200, width: 800};
     layoutComplete='myCb';
     charge=-1200;
     linkDistance=80;
     jsonUrl = 'sampleJSONwithProps.json'">
     <div ng-controller="sgTidalDataCtrl">
+      <button class="btn btn-warning" ng-click="reload()">RELOAD</button>
       <div>
         <button class="btn btn-primary" ng-click="svgToUrl(); showDownload = true;">Get SVG Image</button>
         <a ng-show="showDownload" ng-href="{{svgUrl}}" download="network.svg">

@@ -65,47 +65,7 @@
   <g ng-attr-transform="translate({{translate.x}}, {{translate.y}})scale({{scale}})">
     <g>
       <line ng-attr-stroke="{{{'prb': 'green', 'pr': 'red'}[link.type]}}" ng-attr-opacity="{{link.opacity || OPACITY.normal}}" ng-mouseover="mouseoverLink(link)" ng-mouseleave="mouseleaveLink(link)" ng-repeat="link in imports.edges" ng-if="link.target.id !== link.source.id"
-      class="link" ng-attr-x1="{{getLineIntersectionWithRectangle({
-        x1: link.source.x,
-        y1: link.source.y + link.source.group * imports.subgraph.height,
-        x2: link.target.x,
-        y2: link.target.y + link.target.group * imports.subgraph.height
-      }, {
-        x1: link.source.x - link.source.width/2 + spacer,
-        y1: link.source.y - link.source.height/2 + spacer + link.source.group * imports.subgraph.height,
-        x2: link.source.x + link.source.width/2 + spacer,
-        y2: link.source.y + link.source.height/2 + spacer + link.source.group * imports.subgraph.height
-      }).x}}" ng-attr-y1="{{getLineIntersectionWithRectangle({
-        x1: link.source.x,
-        y1: link.source.y + link.source.group * imports.subgraph.height,
-        x2: link.target.x,
-        y2: link.target.y + link.target.group * imports.subgraph.height
-      }, {
-        x1: link.source.x - link.source.width/2 + spacer,
-        y1: link.source.y - link.source.height/2 + spacer + link.source.group * imports.subgraph.height,
-        x2: link.source.x + link.source.width/2 + spacer,
-        y2: link.source.y + link.source.height/2 + spacer + link.source.group * imports.subgraph.height
-      }).y}}" ng-attr-x2="{{getLineIntersectionWithRectangle({
-        x1: link.source.x,
-        y1: link.source.y + link.source.group * imports.subgraph.height,
-        x2: link.target.x,
-        y2: link.target.y + link.target.group * imports.subgraph.height
-      }, {
-        x1: link.target.x - link.target.width/2 + spacer,
-        y1: link.target.y - link.target.height/2 + spacer + link.target.group * imports.subgraph.height,
-        x2: link.target.x + link.target.width/2 + spacer,
-        y2: link.target.y + link.target.height/2 + spacer + link.target.group * imports.subgraph.height
-      }).x}}" ng-attr-y2="{{getLineIntersectionWithRectangle({
-        x1: link.source.x,
-        y1: link.source.y + link.source.group * imports.subgraph.height,
-        x2: link.target.x,
-        y2: link.target.y + link.target.group * imports.subgraph.height
-      }, {
-        x1: link.target.x - link.target.width/2 + spacer,
-        y1: link.target.y - link.target.height/2 + spacer + link.target.group * imports.subgraph.height,
-        x2: link.target.x + link.target.width/2 + spacer,
-        y2: link.target.y + link.target.height/2 + spacer + link.target.group * imports.subgraph.height
-      }).y}}" marker-end="url(#arrow)">
+      class="link" ng-attr-x1="{{link.x1}}" ng-attr-y1="{{link.y1}}" ng-attr-x2="{{link.x2}}" ng-attr-y2="{{link.y2}}" marker-end="url(#arrow)">
       </line>
     </g>
     <g ng-repeat="group in imports.groups">
