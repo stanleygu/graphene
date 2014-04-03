@@ -19,10 +19,10 @@
     subgraph={height: 200, width: 800};
     layoutComplete='myCb';
     charge=-1200;
-    linkDistance=80;
-    jsonUrl = 'sampleJSONwithProps.json'">
+    linkDistance=80;">
     <div ng-controller="sgTidalDataCtrl">
-      <button class="btn btn-warning" ng-click="callWindowFunction('loadJson')">Change JSON</button>
+      <button id="loadJson" class="btn btn-warning">Load JSON</button>
+      <!--ng-click="callWindowFunction('loadJson')"-->
       <div>
         <button class="btn btn-primary" ng-click="svgToUrl(); showDownload = true;">Get SVG Image</button>
         <a ng-show="showDownload" ng-href="{{svgUrl}}" download="network.svg">
@@ -34,6 +34,12 @@
     </div>
   </div>
   <script>
+    angular.element(document).ready(function()
+    {
+      angular.bootstrap(document.querySelector('div#myApp'), ['graphene-standalone']);
+      var button = document.querySelector('button#loadJson');
+      button.addEventListener('click', window.loadJson, false);
+    });
     window.myCb = function()
     {
       console.log('layout done!');
