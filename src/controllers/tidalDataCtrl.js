@@ -109,7 +109,6 @@ angular.module('sg.graphene')
           var ran = false;
           force
             .nodes(nodes)
-            .links(links)
             .on('tick', function() {
               if ($scope.subgraph.height && $scope.subgraph.width) {
                 _.each(nodes, function(n) {
