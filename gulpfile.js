@@ -26,7 +26,7 @@ var names = {
 };
 
 var paths = {
-  srcs: ['src/app.js', 'src/controllers/*.js', 'src/directives/*.js'],
+  srcs: ['src/app.js', 'src/controllers/*.js', 'src/directives/*.js', 'src/services/*.js'],
   built: ['build/*.js'],
   standalone: ['bower_components/angular/angular.js',
     'bower_components/d3/d3.js', 'bower_components/x2js/xml2json.js',
@@ -109,6 +109,12 @@ gulp.task('clean', function() {
 gulp.task('watch', function() {
   gulp.watch(paths.srcs, ['connect-standalone']);
   gulp.watch(paths.templates, ['connect-standalone']);
+});
+
+// Rerun the task when a file changes
+gulp.task('watch-build', function() {
+  gulp.watch(paths.srcs, ['build']);
+  gulp.watch(paths.templates, ['build']);
 });
 
 // The default task (called when you run `gulp` from cli)
