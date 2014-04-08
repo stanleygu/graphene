@@ -104,62 +104,22 @@ ng-attr-width="{{width || 800}}">
   <g ng-attr-transform="translate({{translate.x}}, {{translate.y}})scale({{scale}})">
     <g ng-repeat="link in lines.production">
       <line
-        class="reaction production link" 
-        ng-attr-x1="{{getReactionPosition(link).x}}"
-        marker-end="url(#production)" 
-        ng-attr-y1="{{getReactionPosition(link).y}}"
-        ng-attr-x2="{{getLineIntersectionWithRectangle({
-          x1: getReactionPosition(link).x,
-          y1: getReactionPosition(link).y,
-          x2: link.target.x,
-          y2: link.target.y
-        }, {
-          x1: link.target.x - (link.target.width/2 + spacer),
-          y1: link.target.y - (link.target.height/2 + spacer),
-          x2: link.target.x + (link.target.width/2 + spacer),
-          y2: link.target.y + (link.target.height/2 + spacer)
-        }).x}}" 
-        ng-attr-y2="{{getLineIntersectionWithRectangle({
-          x1: getReactionPosition(link).x,
-          y1: getReactionPosition(link).y,
-          x2: link.target.x,
-          y2: link.target.y
-        }, {
-          x1: link.target.x - (link.target.width/2 + spacer),
-          y1: link.target.y - (link.target.height/2 + spacer),
-          x2: link.target.x + (link.target.width/2 + spacer),
-          y2: link.target.y + (link.target.height/2 + spacer)
-        }).y}}">
+        class="reaction production link"
+        marker-end="url(#production)"
+        ng-attr-x1="{{link.x1}}"
+        ng-attr-y1="{{link.y1}}"
+        ng-attr-x2="{{link.x2}}"
+        ng-attr-y2="{{link.y2}}">
       </line>
     </g>
      <g ng-repeat="link in lines.generation">
       <line
         class="reaction generation link" 
-        ng-attr-x1="{{getReactionPosition(link).x}}"
         marker-end="url(#production)" 
-        ng-attr-y1="{{getReactionPosition(link).y}}"
-        ng-attr-x2="{{getLineIntersectionWithRectangle({
-          x1: getReactionPosition(link).x,
-          y1: getReactionPosition(link).y,
-          x2: link.target.x,
-          y2: link.target.y
-        }, {
-          x1: link.target.x - (link.target.width/2 + spacer),
-          y1: link.target.y - (link.target.height/2 + spacer),
-          x2: link.target.x + (link.target.width/2 + spacer),
-          y2: link.target.y + (link.target.height/2 + spacer)
-        }).x}}" 
-        ng-attr-y2="{{getLineIntersectionWithRectangle({
-          x1: getReactionPosition(link).x,
-          y1: getReactionPosition(link).y,
-          x2: link.target.x,
-          y2: link.target.y
-        }, {
-          x1: link.target.x - (link.target.width/2 + spacer),
-          y1: link.target.y - (link.target.height/2 + spacer),
-          x2: link.target.x + (link.target.width/2 + spacer),
-          y2: link.target.y + (link.target.height/2 + spacer)
-        }).y}}">
+        ng-attr-x1="{{link.x1}}"
+        ng-attr-y1="{{link.y1}}"
+        ng-attr-x2="{{link.x2}}"
+        ng-attr-y2="{{link.y2}}">
       </line>
       <g class="null-symbol">
         <circle 
@@ -180,32 +140,32 @@ ng-attr-width="{{width || 800}}">
         ng-click="App.selectReaction(link.target.id); isSelected = !isSelected" 
         ng-class="{selected: isSelected}" 
         class="reaction reactant link" 
-        ng-attr-x1="{{link.source.x}}"
-        ng-attr-y1="{{link.source.y}}" 
-        ng-attr-x2="{{getReactionPosition(link).x}}"
-        ng-attr-y2="{{getReactionPosition(link).y}}">
+        ng-attr-x1="{{link.x1}}"
+        ng-attr-y1="{{link.y1}}" 
+        ng-attr-x2="{{link.x2}}"
+        ng-attr-y2="{{link.y2}}">
       </line>
     </g>
     <g ng-repeat="link in lines.degradation">
       <line
         class="reaction degradation link" 
-        ng-attr-x1="{{link.source.x}}" 
         marker-end="url(#degradation)"
-        ng-attr-y1="{{link.source.y}}" 
-        ng-attr-x2="{{extendPoint(link.source, link.target, 20).x}}"
-        ng-attr-y2="{{extendPoint(link.source, link.target, 20).y}}">
+        ng-attr-x1="{{link.x1}}"
+        ng-attr-y1="{{link.y1}}" 
+        ng-attr-x2="{{link.x2}}"
+        ng-attr-y2="{{link.y2}}">
       </line>
       <g class="null-symbol">
         <circle 
-          ng-attr-cx="{{extendPoint(link.source, link.target, 45).x}}" 
-          ng-attr-cy="{{extendPoint(link.source, link.target, 45).y}}"
+        ng-attr-cx="{{extendPoint({x: link.x1, y: link.y1}, {x: link.x2, y: link.y2}, 35).x}}" 
+          ng-attr-cy="{{extendPoint({x: link.x1, y: link.y1}, {x: link.x2, y: link.y2}, 35).y}}"
           r="8">
         </circle>
         <line 
-          ng-attr-x1="{{extendPoint(link.source, link.target, 45).x - 8}}" 
-          ng-attr-y1="{{extendPoint(link.source, link.target, 45).y + 8}}"
-          ng-attr-x2="{{extendPoint(link.source, link.target, 45).x + 8}}" 
-          ng-attr-y2="{{extendPoint(link.source, link.target, 45).y - 8}}">
+          ng-attr-x1="{{extendPoint({x: link.x1, y: link.y1}, {x: link.x2, y: link.y2}, 35).x - 8}}" 
+          ng-attr-y1="{{extendPoint({x: link.x1, y: link.y1}, {x: link.x2, y: link.y2}, 35).y + 8}}"
+          ng-attr-x2="{{extendPoint({x: link.x1, y: link.y1}, {x: link.x2, y: link.y2}, 35).x + 8}}" 
+          ng-attr-y2="{{extendPoint({x: link.x1, y: link.y1}, {x: link.x2, y: link.y2}, 35).y - 8}}">
         </line>
       </g>
     </g>
@@ -215,10 +175,10 @@ ng-attr-width="{{width || 800}}">
         ng-repeat="link in lines.modifier"
         ng-class="{selected: isSelected}" 
         class="modifier link" 
-        ng-attr-x1="{{link.source.x}}"
-        ng-attr-y1="{{link.source.y}}" 
-        ng-attr-x2="{{extendPoint(link.source, getReactionPosition(link), -19).x}}"
-        ng-attr-y2="{{extendPoint(link.source, getReactionPosition(link), -19).y}}"
+        ng-attr-x1="{{link.x1}}"
+        ng-attr-y1="{{link.y1}}" 
+        ng-attr-x2="{{link.x2}}" 
+        ng-attr-y2="{{link.y2}}"
         marker-end="url(#modifier)">
       </line>
     </g>

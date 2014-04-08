@@ -3,7 +3,7 @@
 angular.module('sg.graphene')
   .controller('sgSbmlLayoutCtrl', function($scope) {
 
-    $scope.spacer = 18;
+    var nodeLookup;
 
     $scope.classifyLinks = function(links) {
       var lines = {
@@ -39,8 +39,10 @@ angular.module('sg.graphene')
             if (linkMap[source.id].asTarget.length > 0) {
               // source has some edges from it
               lines.production.push(line);
+              line.classes = _.union(line.classes, ['production']);
             } else {
               lines.generation.push(line);
+              line.classes = _.union(line.classes, ['generation']);
             }
           }
         } else if (_.contains(source.classes, 'species')) {
@@ -48,9 +50,11 @@ angular.module('sg.graphene')
             if (linkMap[target.id].asSource.length > 0) {
               // target has some edges from it, which makes it a reactant
               lines.reactant.push(line);
+              line.classes = _.union(line.classes, ['reactant']);
             } else {
               // target has no edges out so make it a degradation term
               lines.degradation.push(line);
+              line.classes = _.union(line.classes, ['degradation']);
             }
           }
         }
@@ -58,14 +62,14 @@ angular.module('sg.graphene')
       return lines;
     };
 
-    var generateIdLookup = _.memoize(function(array, id) {
+    var generateIdLookup = function(array, id) {
       //generates a lookup hashtable for an array with objects containing IDs
       var lookup = {};
       angular.forEach(array, function(value) {
         lookup[value[id || 'id']] = value;
       });
       return lookup;
-    });
+    };
     $scope.textVisibilityLookup = {
       species: true,
       reaction: false
@@ -88,26 +92,25 @@ angular.module('sg.graphene')
       reaction: 5
     };
 
-    // $scope.getProductionLinePosition = function(link) {
-    //   checkLineIntersection
-
-    //   $scope.getLineIntersectionWithRectangle
-
-    // };
-
-    $scope.getReactionPosition = function(link) {
+    var getReactionNode = function(link) {
       var reaction = link.rInfo;
-      var node = generateIdLookup($scope.nodes);
+      return nodeLookup[reaction.id];
+    };
+
+    var getReactionPosition = function(link) {
+      var reaction = link.rInfo;
+      var reactionNode = getReactionNode(link);
       var species = _.union(reaction.products, reaction.reactants);
       if (species.length <= 1) {
-        return node[reaction.id];
+        return reactionNode;
       } else {
 
         var sumX = 0;
         var sumY = 0;
         angular.forEach(species, function(s) {
-          sumX += node[s].x;
-          sumY += node[s].y;
+          var speciesNode = nodeLookup[s];
+          sumX += speciesNode.x;
+          sumY += speciesNode.y;
         });
         return {
           x: sumX / species.length,
@@ -159,7 +162,7 @@ angular.module('sg.graphene')
       return result;
     }
 
-    $scope.getLineIntersectionWithRectangle = function(line, rect) {
+    var getLineIntersectionWithRectangle = function(line, rect) {
       var sides = [{
         x1: rect.x1, //left side
         y1: rect.y1,
@@ -219,16 +222,106 @@ angular.module('sg.graphene')
       return d.type;
     });
 
+    // COMPUTED LINK PROPERTY
+    var updateLinkPosition = function(link) {
+      var reactionPosition = getReactionPosition(link);
+      var reactionNode = getReactionNode(link);
+      reactionNode.x = reactionPosition.x;
+      reactionNode.y = reactionPosition.y;
+
+      var sourceSpacer;
+      var targetSpacer;
+      if (_.isEqual(link.source.width, 0)) {
+        sourceSpacer = 0;
+      } else {
+        sourceSpacer = 18;
+      }
+      if (_.isEqual(link.target.width, 0)) {
+        targetSpacer = 0;
+      } else {
+        targetSpacer = 18;
+      }
+      var targetToSource = getLineIntersectionWithRectangle({
+        x1: link.target.x,
+        y1: link.target.y,
+        x2: link.source.x,
+        y2: link.source.y
+      }, {
+        x1: link.source.x - (link.source.width / 2 + sourceSpacer),
+        y1: link.source.y - (link.source.height / 2 + sourceSpacer),
+        x2: link.source.x + (link.source.width / 2 + sourceSpacer),
+        y2: link.source.y + (link.source.height / 2 + sourceSpacer)
+      });
+      var sourceToTarget = getLineIntersectionWithRectangle({
+        x1: link.source.x,
+        y1: link.source.y,
+        x2: link.target.x,
+        y2: link.target.y
+      }, {
+        x1: link.target.x - (link.target.width / 2 + targetSpacer),
+        y1: link.target.y - (link.target.height / 2 + targetSpacer),
+        x2: link.target.x + (link.target.width / 2 + targetSpacer),
+        y2: link.target.y + (link.target.height / 2 + targetSpacer)
+      });
+
+      //if(_.contains(link.classes, 'degradation')) {
+
+      //} else if (_.contains(link.classes, 'geneartion')) {
+
+      //} else if (_.contains(link.classes, 'degradation')) {
+
+      //} else if (_.contains(link.classes, '')) {
+
+      //} else if (_.contains(link.classes, 'modifier')) {
+
+      //} else {
+      //  link.x1 = targetToSource.x;
+      //  link.y1 = targetToSource.y;
+      //  link.x2 = sourceToTarget.x;
+      //  link.y2 = sourceToTarget.y;
+      //}
+      link.x1 = targetToSource.x;
+      link.y1 = targetToSource.y;
+      link.x2 = sourceToTarget.x;
+      link.y2 = sourceToTarget.y;
+
+    };
+
+    var linkWatchers = []; // storing node watchers to be removed if unnecessary
+    var nodeWatchers = []; // storing node watchers to be removed if unnecessary
+
     $scope.$watchCollection('imports.links', function(newVal) {
       if (newVal) {
+        /*
+         * unwatch all link watchers
+         */
+        _.each(linkWatchers, function(w) {
+          w();
+        });
+        linkWatchers = [];
         $scope.links = $scope.imports.links;
         $scope.lines = $scope.classifyLinks($scope.links);
+        nodeLookup = generateIdLookup($scope.imports.nodes); //sometimes run before node watcher
+        _.each($scope.links, function(l) {
+          var watch = $scope.$watch(function() {
+            return l.source.x + l.source.y + l.target.x + l.target.y;
+          }, function() {
+            updateLinkPosition(l);
+          });
+          updateLinkPosition(l);
+          linkWatchers.push(watch);
+        });
       }
     });
 
     $scope.$watchCollection('imports.nodes', function(newVal) {
       if (newVal) {
+        _.each(nodeWatchers, function(w) {
+          w();
+        });
+        nodeWatchers = [];
         $scope.nodes = $scope.imports.nodes;
+        nodeLookup = generateIdLookup($scope.nodes);
         $scope.species = _.filter($scope.nodes, function(n) {
           return _.contains(n.classes, 'species');
         });

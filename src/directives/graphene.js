@@ -50,17 +50,19 @@ angular.module('sg.graphene')
       }
     };
   })
-  .directive('caseSensitive', function() {
+  .directive('caseSensitive', function($timeout) {
     return {
       link: function(scope, element, attr) {
-        scope.attr = attr;
-        var caseSensitive = attr.caseSensitive.split(',');
-        angular.forEach(caseSensitive, function(a) {
-          var lowercase = a.toLowerCase();
-          scope.$watch('attr[lowercase]', function() {
-            element[0].setAttribute(a, element[0].getAttribute(lowercase));
+        $timeout(function() { // bug where sometimes ng-attr hasn't linked yet
+          scope.attr = attr;
+          var caseSensitive = attr.caseSensitive.split(',');
+          angular.forEach(caseSensitive, function(a) {
+            var lowercase = a.toLowerCase();
+            scope.$watch('attr[lowercase]', function() {
+              element[0].setAttribute(a, element[0].getAttribute(lowercase));
+            });
           });
-        });
+        }, 0);
       }
     };
   })
@@ -84,23 +86,30 @@ angular.module('sg.graphene')
           // Prevent default dragging of selected content
           event.preventDefault();
           event.stopPropagation();
-          offset.x = element.scope().node.x - event.pageX / scope.scale;
-          offset.y = element.scope().node.y - event.pageY / scope.scale;
+          var node = element.scope().node;
+          node.fixed = true;
+          offset.x = node.x - event.pageX / scope.scale;
+          offset.y = node.y - event.pageY / scope.scale;
           $document.on('mousemove', mousemove);
           $document.on('mouseup', mouseup);
         });
 
         function mousemove(event) {
           var node = element.scope().node;
-          node.x = event.pageX / scope.scale + offset.x;
-          node.y = event.pageY / scope.scale + offset.y;
+          node.px = event.pageX / scope.scale + offset.x;
+          node.py = event.pageY / scope.scale + offset.y;
           element.scope().$apply();
           if (scope.onDrag) {
             scope.onDrag(event, node);
           }
+          if (scope.imports && scope.imports.force) {
+            scope.imports.force.resume();
+          }
         }
 
         function mouseup() {
+          var node = element.scope().node;
+          delete node.fixed;
           $document.unbind('mousemove', mousemove);
           $document.unbind('mouseup', mouseup);
         }

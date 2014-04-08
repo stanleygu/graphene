@@ -1,20 +1,27 @@
 'use strict';
 
 angular.module('sg.graphene')
-  .controller('sgSbmlDataCtrl', function($scope, $http, $window) {
+  .controller('sgSbmlDataCtrl', function($scope, $http, $window, sgSbmlValidator) {
+
+    $scope.exports = {};
+
     if ($scope.sbmlUrl) {
       $http.get($scope.sbmlUrl).success(function(data) {
-        var x2js = new X2JS();
-        $scope.ngModel = x2js.xml_str2json(data);
-        runForceLayout();
+        var sbml = sgSbmlValidator.process(data);
+        if (sbml) {
+          $scope.ngModel = sbml;
+          $scope.force = runForceLayout();
+        }
       });
     }
 
     $scope.$watch('sbml', function(newVal) {
       if (newVal) {
-        var x2js = new X2JS();
-        $scope.ngModel = x2js.xml_str2json(newVal);
-        runForceLayout();
+        var sbml = sgSbmlValidator.process(newVal);
+        if (sbml) {
+          $scope.ngModel = sbml;
+          $scope.force = runForceLayout();
+        }
       }
     });
 
@@ -32,8 +39,13 @@ angular.module('sg.graphene')
       var d3NodeLookup = {};
       angular.forEach($scope.nodes, function(node) {
         d3NodeLookup[node.id] = node;
-        node.width = $scope.nodeSize.width;
-        node.height = $scope.nodeSize.height;
+        if (_.contains(node.classes, 'reaction')){
+          node.width = 0;
+          node.height = 0;
+        } else {
+          node.width = $scope.nodeSize.width;
+          node.height = $scope.nodeSize.height;
+        }
       });
 
       $scope.links = _.map($scope.edges, function(edge) {
@@ -81,11 +93,13 @@ angular.module('sg.graphene')
               }
             }
           }
+          $scope.$digest();
         })
         .start();
       $scope.exports = {
         links: $scope.links,
-        nodes: $scope.nodes
+        nodes: $scope.nodes,
+        force: force
       };
       return force;
     }
