@@ -38,7 +38,7 @@ angular.module('sg.graphene')
           .scaleExtent([0.5, 8])
           .on('zoom', zoomed);
 
-        scope.$watch('enable-zoom', function(newVal) {
+        scope.$watch('imports.zoom', function(newVal) {
           if (newVal) {
             d3.select(element.find('svg')[0]).call(zoom);
           }

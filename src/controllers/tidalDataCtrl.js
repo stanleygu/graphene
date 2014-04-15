@@ -143,7 +143,8 @@ angular.module('sg.graphene')
         $scope.exports = {
           groups: $scope.groups,
           edges: $scope.edges,
-          subgraph: $scope.subgraph
+          subgraph: $scope.subgraph,
+          events: $scope.events
         };
       }
     });

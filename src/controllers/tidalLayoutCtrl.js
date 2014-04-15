@@ -142,40 +142,33 @@ angular.module('sg.graphene')
       return d.type;
     });
 
-    $scope.OPACITY = {
-      focused: 1,
-      unfocused: 0.1,
-      normal: 0.6
-    };
-    $scope.mouseoverNode = function(node) {
-      node.opacity = $scope.OPACITY.focused;
-      _.each($scope.imports.groups, function(g) {
-        _.each(g.nodes, function(n) {
-          if (n.id !== node.id) {
-            n.opacity = $scope.OPACITY.unfocused;
-          }
-        });
-      });
-      _.each($scope.imports.edges, function(edge) {
-        if (edge.source.id !== node.id && edge.target.id !== node.id) {
-          edge.opacity = $scope.OPACITY.unfocused;
-        } else {
-          edge.opacity = $scope.OPACITY.focused;
-          edge.target.opacity = $scope.OPACITY.focused;
-          edge.source.opacity = $scope.OPACITY.focused;
-        }
-      });
-    };
-    $scope.mouseleaveNode = function() {
-      _.each($scope.imports.groups, function(g) {
-        _.each(g.nodes, function(n) {
-          n.opacity = 1;
-        });
-      });
-      _.each($scope.imports.edges, function(edge) {
-        edge.opacity = $scope.OPACITY.normal;
-      });
 
+    $scope.clickNode = function(node, $event) {
+      var f = $scope.imports.events.click;
+      if (_.isFunction(f)) {
+        f(node, $scope, $event);
+      }
+    };
+
+    $scope.dblClickNode = function(node, $event) {
+      var f = $scope.imports.events.dblClick;
+      if (_.isFunction(f)) {
+        f(node, $scope, $event);
+      }
+    };
+
+    $scope.mouseoverNode = function(node, $event) {
+      var f = $scope.imports.events.mouseover;
+      if (_.isFunction(f)) {
+        f(node, $scope, $event);
+      }
+    };
+
+    $scope.mouseleaveNode = function(node, $event) {
+      var f = $scope.imports.events.mouseleave;
+      if (_.isFunction(f)){
+        f(node, $scope, $event);
+      }
     };
 
   });

@@ -122,6 +122,7 @@ gulp.task('default', ['standalone', 'watch', 'connect']);
 
 gulp.task('dist', ['min'], function() {
   return gulp.src(['demo/index.html', 'demo/sampleJSONwithProps.json',
+    'demo/init.js',
     'build/graphene.min.js', 'build/graphene-templates.min.js',
     'build/graphene-standalone.min.js', 'bower.json'
   ])

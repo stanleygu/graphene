@@ -69,7 +69,7 @@
       </line>
     </g>
     <g ng-repeat="group in imports.groups">
-      <g draggable ng-mouseover="mouseoverNode(node)" ng-mouseleave="mouseleaveNode(node)" ng-attr-opacity="{{node.opacity}}" ng-repeat="node in group.nodes" class="node" ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * imports.subgraph.height}})">
+      <g draggable ng-click="clickNode(node, $event)" ng-dblClick="dblClickNode(node, $event)" ng-mouseover="mouseoverNode(node, $event)" ng-mouseleave="mouseleaveNode(node.$event)" ng-attr-opacity="{{node.opacity}}" ng-repeat="node in group.nodes" class="node" ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * imports.subgraph.height}})">
         <rect ng-attr-x="{{-node.width/2}}" ng-attr-y="{{-node.height/2}}" ng-attr-width="{{node.width}}" ng-attr-height="{{node.height}}" ng-attr-ry="{{node.height / 2}}" fill="url(#gradient)">
           <title>ID: {{node.id}}, Name: {{node.name}}</title>
         </rect>
