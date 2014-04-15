@@ -3,15 +3,16 @@
 
 <head>
   <script src="graphene-standalone.min.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
 </head>
 
 <body>
-  <div id="myApp" ng-init="
-    nodeSize={min: {width: 80, height: 30}, max: {width: 160, height: 60}};
-    subgraph={height: 200, width: 800};
-    layoutComplete='myCb';
-    charge=-1200;
-    linkDistance=80;">
+  <div id="myApp">
     <div ng-controller="sgTidalDataCtrl">
       <button id="loadJson" class="btn btn-warning">Load JSON</button>
       <!--ng-click="callWindowFunction('loadJson')"-->
@@ -25,75 +26,8 @@
       <sg-graphene svg="svg" imports="exports" template="template/tidal.html"></sg-graphene>
     </div>
   </div>
-  <script>
-    angular.element(document).ready(function()
-    {
-      angular.bootstrap(document.querySelector('div#myApp'), ['graphene-standalone']);
-      var button = document.querySelector('button#loadJson');
-      button.addEventListener('click', window.loadJson, false);
-    });
-    window.myCb = function()
-    {
-      console.log('layout done!');
-    };
-    window.loadJson = function()
-    {
-      var scope = angular.element(document.querySelector('div#myApp')).scope();
-      scope.json = {
-        "nodes": [
-        {
-          "size": 341,
-          "label": "TF",
-          "id": 0,
-          "name": "FOSL1"
-        },
-        {
-          "size": 174,
-          "label": "TF",
-          "id": 1,
-          "name": "SREBF2"
-        },
-        {
-          "size": 96,
-          "label": "TF",
-          "id": 2,
-          "name": "EGR4"
-        }, ],
-        "edges": [
-        {
-          "nodes": [
-            1,
-            0
-          ],
-          "type": "prb"
-        },
-        {
-          "nodes": [
-            0,
-            2
-          ],
-          "type": "pr"
-        },
-        {
-          "nodes": [
-            1,
-            2
-          ],
-          "type": "pr"
-        }],
-        "timeSlots":
-        {
-          "\t4 hours": [
-            0,
-            1
-          ],
-          "\t8 hours": [
-            2
-          ]
-        }
-      };
-      scope.$apply();
-    };
+
+  <script src="init.js">
   </script>
 
   <script>
