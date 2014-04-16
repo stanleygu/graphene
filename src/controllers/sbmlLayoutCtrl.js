@@ -172,18 +172,18 @@ angular.module('sg.graphene')
       reactionNode.x = reactionPosition.x;
       reactionNode.y = reactionPosition.y;
 
-      var sourceSpacer;
-      var targetSpacer;
-      if (_.isEqual(link.source.width, 0)) {
-        sourceSpacer = 0;
-      } else {
-        sourceSpacer = 18;
-      }
-      if (_.isEqual(link.target.width, 0)) {
-        targetSpacer = 0;
-      } else {
-        targetSpacer = 18;
-      }
+      var sourceSpacer = link.source.height || 0;
+      var targetSpacer = link.target.height || 0;
+      //if (_.isEqual(link.source.width, 0)) {
+      //  sourceSpacer = 0;
+      //} else {
+      //  sourceSpacer = 18;
+      //}
+      //if (_.isEqual(link.target.width, 0)) {
+      //  targetSpacer = 0;
+      //} else {
+      //  targetSpacer = 18;
+      //}
       var targetToSource = getLineIntersectionWithRectangle({
         x1: link.target.x,
         y1: link.target.y,
@@ -207,26 +207,18 @@ angular.module('sg.graphene')
         y2: link.target.y + (link.target.height / 2 + targetSpacer)
       });
 
-      //if(_.contains(link.classes, 'degradation')) {
-
-      //} else if (_.contains(link.classes, 'geneartion')) {
-
-      //} else if (_.contains(link.classes, 'degradation')) {
-
-      //} else if (_.contains(link.classes, '')) {
-
-      //} else if (_.contains(link.classes, 'modifier')) {
-
-      //} else {
-      //  link.x1 = targetToSource.x;
-      //  link.y1 = targetToSource.y;
-      //  link.x2 = sourceToTarget.x;
-      //  link.y2 = sourceToTarget.y;
-      //}
-      link.x1 = targetToSource.x;
-      link.y1 = targetToSource.y;
-      link.x2 = sourceToTarget.x;
-      link.y2 = sourceToTarget.y;
+      if(_.contains(link.classes, 'modifier')) {
+        var newPoint = $scope.extendPoint(targetToSource, sourceToTarget, -15);
+        link.x1 = targetToSource.x;
+        link.y1 = targetToSource.y;
+        link.x2 = newPoint.x;
+        link.y2 = newPoint.y;
+      } else {
+        link.x1 = targetToSource.x;
+        link.y1 = targetToSource.y;
+        link.x2 = sourceToTarget.x;
+        link.y2 = sourceToTarget.y;
+      }
 
     };
 

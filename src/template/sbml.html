@@ -107,29 +107,6 @@ ng-attr-width="{{width || 800}}">
         ng-attr-y2="{{link.y2}}">
       </line>
     </g>
-     <g ng-repeat="link in lines.generation">
-      <line
-        class="reaction generation link" 
-        marker-end="url(#production)" 
-        ng-attr-x1="{{link.x1}}"
-        ng-attr-y1="{{link.y1}}"
-        ng-attr-x2="{{link.x2}}"
-        ng-attr-y2="{{link.y2}}">
-      </line>
-      <g class="null-symbol">
-        <circle 
-          ng-attr-cx="{{extendPoint(link.target, link.source, 15).x}}" 
-          ng-attr-cy="{{extendPoint(link.target, link.source, 15).y}}"
-          r="8">
-        </circle>
-        <line 
-          ng-attr-x1="{{extendPoint(link.target, link.source, 15).x - 8}}" 
-          ng-attr-y1="{{extendPoint(link.target, link.source, 15).y + 8}}"
-          ng-attr-x2="{{extendPoint(link.target, link.source, 15).x + 8}}" 
-          ng-attr-y2="{{extendPoint(link.target, link.source, 15).y - 8}}">
-        </line>
-      </g>
-    </g>
     <g ng-repeat="link in lines.reactant">
       <line 
         ng-click="App.selectReaction(link.target.id); isSelected = !isSelected" 
@@ -140,29 +117,6 @@ ng-attr-width="{{width || 800}}">
         ng-attr-x2="{{link.x2}}"
         ng-attr-y2="{{link.y2}}">
       </line>
-    </g>
-    <g ng-repeat="link in lines.degradation">
-      <line
-        class="reaction degradation link" 
-        marker-end="url(#degradation)"
-        ng-attr-x1="{{link.x1}}"
-        ng-attr-y1="{{link.y1}}" 
-        ng-attr-x2="{{link.x2}}"
-        ng-attr-y2="{{link.y2}}">
-      </line>
-      <g class="null-symbol">
-        <circle 
-        ng-attr-cx="{{extendPoint({x: link.x1, y: link.y1}, {x: link.x2, y: link.y2}, 35).x}}" 
-          ng-attr-cy="{{extendPoint({x: link.x1, y: link.y1}, {x: link.x2, y: link.y2}, 35).y}}"
-          r="8">
-        </circle>
-        <line 
-          ng-attr-x1="{{extendPoint({x: link.x1, y: link.y1}, {x: link.x2, y: link.y2}, 35).x - 8}}" 
-          ng-attr-y1="{{extendPoint({x: link.x1, y: link.y1}, {x: link.x2, y: link.y2}, 35).y + 8}}"
-          ng-attr-x2="{{extendPoint({x: link.x1, y: link.y1}, {x: link.x2, y: link.y2}, 35).x + 8}}" 
-          ng-attr-y2="{{extendPoint({x: link.x1, y: link.y1}, {x: link.x2, y: link.y2}, 35).y - 8}}">
-        </line>
-      </g>
     </g>
     <g>
       <line 
@@ -233,27 +187,33 @@ ng-attr-width="{{width || 800}}">
       draggable 
       ng-repeat="node in sourceNodes" 
       ng-attr-transform="translate({{node.x}},{{node.y}})">
-      <circle 
-        ng-class="node.classes" 
-        class="node" 
-        ng-attr-r="{{sizeLookup.reaction}}"
-        fill="url(#reactionGradient)">
-        <title>ID: {{node.id}}, Name: {{node.name}}</title>
-      </circle>
-      <text class="node-label">{{node.name}}</text>
+      <g class="null-symbol">
+        <circle 
+          ng-attr-r="{{node.height / 2}}">
+        </circle>
+        <line 
+          ng-attr-x1="{{-10}}" 
+          ng-attr-y1="{{10}}"
+          ng-attr-x2="{{10}}" 
+          ng-attr-y2="{{-10}}">
+        </line>
+      </g>
     </g>
     <g 
       draggable 
       ng-repeat="node in sinkNodes" 
       ng-attr-transform="translate({{node.x}},{{node.y}})">
-      <circle 
-        ng-class="node.classes" 
-        class="node" 
-        ng-attr-r="{{sizeLookup.reaction}}"
-        fill="url(#reactionGradient)">
-        <title>ID: {{node.id}}, Name: {{node.name}}</title>
-      </circle>
-      <text class="node-label">{{node.name}}</text>
+      <g class="null-symbol">
+        <circle 
+          ng-attr-r="{{node.height / 2}}">
+        </circle>
+        <line 
+          ng-attr-x1="{{-10}}" 
+          ng-attr-y1="{{10}}"
+          ng-attr-x2="{{10}}" 
+          ng-attr-y2="{{-10}}">
+        </line>
+      </g>
     </g>
   </g>
 </svg>

@@ -60,8 +60,8 @@ angular.module('sg.graphene')
 
       var sourceAndSink = sgSbml.getSourceAndSinkNodes($scope.nodes, $scope.links);
       _.each(sourceAndSink.nodes, function(n) {
-        n.width = $scope.nodeSize.width;
-        n.height = $scope.nodeSize.height;
+        n.width = 16;
+        n.height = 16;
       });
       $scope.nodes = $scope.nodes.concat(sourceAndSink.nodes);
       $scope.links = $scope.links.concat(sourceAndSink.edges);
