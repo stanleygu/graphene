@@ -115,4 +115,17 @@ angular.module('sg.graphene')
         }
       }
     };
+  })
+  .filter('truncateTo', function () {
+    return function (input, limit) {
+      if (!_.isNumber(limit)) {
+        return input;
+      } else {
+        if (_.size(input) > limit) {
+          return  _.first(input, limit - 3).join('') + '...';
+        } else {
+          return input;
+        }
+      }
+    };
   });

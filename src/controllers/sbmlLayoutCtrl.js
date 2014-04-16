@@ -1,66 +1,9 @@
 'use strict';
 
 angular.module('sg.graphene')
-  .controller('sgSbmlLayoutCtrl', function($scope) {
+  .controller('sgSbmlLayoutCtrl', function($scope, sgSbml) {
 
     var nodeLookup;
-
-    $scope.classifyLinks = function(links) {
-      var lines = {
-        production: [],
-        generation: [],
-        reactant: [],
-        degradation: [],
-        modifier: []
-      };
-
-      var linkMap = {};
-      _.each(links, function(link) {
-        var init = function(id) {
-          linkMap[id] = linkMap[id] || {
-            asSource: [],
-            asTarget: []
-          };
-        };
-
-        init(link.source.id);
-        init(link.target.id);
-        linkMap[link.source.id].asSource.push(link);
-        linkMap[link.target.id].asTarget.push(link);
-      });
-
-      _.each(links, function(line) {
-        var source = line.source;
-        var target = line.target;
-        if (_.contains(line.classes, 'modifier')) {
-          lines.modifier.push(line);
-        } else if (_.contains(source.classes, 'reaction')) {
-          if (_.contains(target.classes, 'species')) {
-            if (linkMap[source.id].asTarget.length > 0) {
-              // source has some edges from it
-              lines.production.push(line);
-              line.classes = _.union(line.classes, ['production']);
-            } else {
-              lines.generation.push(line);
-              line.classes = _.union(line.classes, ['generation']);
-            }
-          }
-        } else if (_.contains(source.classes, 'species')) {
-          if (_.contains(target.classes, 'reaction')) {
-            if (linkMap[target.id].asSource.length > 0) {
-              // target has some edges from it, which makes it a reactant
-              lines.reactant.push(line);
-              line.classes = _.union(line.classes, ['reactant']);
-            } else {
-              // target has no edges out so make it a degradation term
-              lines.degradation.push(line);
-              line.classes = _.union(line.classes, ['degradation']);
-            }
-          }
-        }
-      });
-      return lines;
-    };
 
     var generateIdLookup = function(array, id) {
       //generates a lookup hashtable for an array with objects containing IDs
@@ -300,7 +243,7 @@ angular.module('sg.graphene')
         });
         linkWatchers = [];
         $scope.links = $scope.imports.links;
-        $scope.lines = $scope.classifyLinks($scope.links);
+        $scope.lines = sgSbml.classifyLinks($scope.links);
         nodeLookup = generateIdLookup($scope.imports.nodes); //sometimes run before node watcher
         _.each($scope.links, function(l) {
           var watch = $scope.$watch(function() {
@@ -327,6 +270,12 @@ angular.module('sg.graphene')
         });
         $scope.reactions = _.filter($scope.nodes, function(n) {
           return _.contains(n.classes, 'reaction');
+        });
+        $scope.sourceNodes = _.filter($scope.nodes, function(n) {
+          return _.contains(n.classes, 'source');
+        });
+        $scope.sinkNodes = _.filter($scope.nodes, function(n) {
+          return _.contains(n.classes, 'sink');
         });
       }
     });

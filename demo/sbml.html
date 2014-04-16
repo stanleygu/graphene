@@ -10,14 +10,15 @@
   <script src="../src/controllers/sbmlDataCtrl.js"></script>
   <script src="../src/controllers/sbmlLayoutCtrl.js"></script>
   <script src="../src/directives/graphene.js"></script>
+  <script src="../src/services/sbml.js"></script>
   <script src="../build/graphene-templates.js"></script>
 </head>
 
 <body ng-app="graphene-standalone">
   <div ng-init="
     sbmlUrl='MSinai.xml';
-    width=800;
-    height=500;
+    width=1000;
+    height=1000;
     charge=-850;
     linkDistance=80;
     nodeSize = {

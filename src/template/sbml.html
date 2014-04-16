@@ -6,11 +6,6 @@ ng-attr-width="{{width || 800}}">
     stroke-width: 3px;
     size: 300px;
   }
-  svg .node.reaction {
-    stroke: #8089F7;
-    opacity: 0;
-    stroke-width: 1.5px;
-  }
   svg .link {
     stroke: black;
     stroke-width: 3px;
@@ -101,7 +96,7 @@ ng-attr-width="{{width || 800}}">
       <stop offset="95%" stop-color="#FFF"></stop>
     </linearGradient>
   </defs>
-  <g ng-attr-transform="translate({{translate.x}}, {{translate.y}})scale({{scale}})">
+  <g ng-attr-transform="translate({{translate.x || 0}}, {{translate.y || 0}})scale({{scale || 1}})">
     <g ng-repeat="link in lines.production">
       <line
         class="reaction production link"
@@ -182,6 +177,25 @@ ng-attr-width="{{width || 800}}">
         marker-end="url(#modifier)">
       </line>
     </g>
+    <g
+      ng-repeat="link in lines.source">
+      <line
+        class="source link"
+        ng-attr-x1="{{link.x1}}"
+        ng-attr-y1="{{link.y1}}" 
+        ng-attr-x2="{{link.x2}}" 
+        ng-attr-y2="{{link.y2}}"></line>
+    </g>
+    <g
+      ng-repeat="link in lines.sink">
+      <line
+        class="sink link"
+        ng-attr-x1="{{link.x1}}"
+        ng-attr-y1="{{link.y1}}" 
+        ng-attr-x2="{{link.x2}}" 
+        ng-attr-y2="{{link.y2}}"
+        marker-end="url(#production)"></line>
+    </g>
     <g 
       draggable 
       ng-repeat="node in species" 
@@ -198,7 +212,7 @@ ng-attr-width="{{width || 800}}">
         ng-click="App.selectSpecies(node.id); isSelected = !isSelected;">
         <title>ID: {{node.id}}, Name: {{node.name}}</title>
       </rect>
-      <text class="node-label">{{node.id}}</text>
+      <text class="node-label">{{node.id | truncateTo:8}}</text>
     </g>
     <g 
       draggable 
@@ -207,12 +221,39 @@ ng-attr-width="{{width || 800}}">
       <circle 
         ng-class="node.classes" 
         class="node" 
-        ng-attr-r="{{sizeLookup.reaction}}"
-        fill="url(#reactionGradient)" 
+        ng-attr-r="{{3}}"
+        fill="black" 
+        stroke="black"
         ng-click="openReactionModal(node)">
         <title>ID: {{node.id}}, Name: {{node.name}}</title>
       </circle>
       <text class="node-label">{{}}</text>
+    </g>
+    <g 
+      draggable 
+      ng-repeat="node in sourceNodes" 
+      ng-attr-transform="translate({{node.x}},{{node.y}})">
+      <circle 
+        ng-class="node.classes" 
+        class="node" 
+        ng-attr-r="{{sizeLookup.reaction}}"
+        fill="url(#reactionGradient)">
+        <title>ID: {{node.id}}, Name: {{node.name}}</title>
+      </circle>
+      <text class="node-label">{{node.name}}</text>
+    </g>
+    <g 
+      draggable 
+      ng-repeat="node in sinkNodes" 
+      ng-attr-transform="translate({{node.x}},{{node.y}})">
+      <circle 
+        ng-class="node.classes" 
+        class="node" 
+        ng-attr-r="{{sizeLookup.reaction}}"
+        fill="url(#reactionGradient)">
+        <title>ID: {{node.id}}, Name: {{node.name}}</title>
+      </circle>
+      <text class="node-label">{{node.name}}</text>
     </g>
   </g>
 </svg>

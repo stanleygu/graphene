@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('sg.graphene')
-  .controller('sgSbmlDataCtrl', function($scope, $http, $window, sgSbmlValidator) {
+  .controller('sgSbmlDataCtrl', function($scope, $http, $window, sgSbml) {
 
     $scope.exports = {};
 
     if ($scope.sbmlUrl) {
       $http.get($scope.sbmlUrl).success(function(data) {
-        var sbml = sgSbmlValidator.process(data);
+        var sbml = sgSbml.sbmlToJson(data);
         if (sbml) {
           $scope.ngModel = sbml;
           $scope.force = runForceLayout();
@@ -17,7 +17,7 @@ angular.module('sg.graphene')
 
     $scope.$watch('sbml', function(newVal) {
       if (newVal) {
-        var sbml = sgSbmlValidator.process(newVal);
+        var sbml = sgSbml.sbmlToJson(newVal);
         if (sbml) {
           $scope.ngModel = sbml;
           $scope.force = runForceLayout();
@@ -27,8 +27,8 @@ angular.module('sg.graphene')
 
     function runForceLayout() {
       $scope.reactionInfo = {};
-      $scope.nodes = getNodes($scope.ngModel.sbml.model);
-      $scope.edges = getEdges($scope.ngModel.sbml.model);
+      $scope.nodes = sgSbml.getNodes($scope.ngModel.sbml);
+      $scope.edges = sgSbml.getEdges($scope.ngModel.sbml);
       $scope.species = _.filter($scope.nodes, function(n) {
         return _.contains(n.classes, 'species');
       });
@@ -57,6 +57,15 @@ angular.module('sg.graphene')
           classes: edge.classes
         };
       });
+
+      var sourceAndSink = sgSbml.getSourceAndSinkNodes($scope.nodes, $scope.links);
+      _.each(sourceAndSink.nodes, function(n) {
+        n.width = $scope.nodeSize.width;
+        n.height = $scope.nodeSize.height;
+      });
+      $scope.nodes = $scope.nodes.concat(sourceAndSink.nodes);
+      $scope.links = $scope.links.concat(sourceAndSink.edges);
+
 
       var force = d3.layout.force()
         .charge($scope.charge || -700)
@@ -104,124 +113,4 @@ angular.module('sg.graphene')
       return force;
     }
 
-
-    function getNodes(model) {
-      // TODO: not very DRY
-
-      var species = (((model || {}).listOfSpecies || {}).species || {}) || [];
-      var reactions = (((model || {}).listOfReactions || {}).reaction || {}) || [];
-
-      var speciesNodes;
-      species = arrayify(species);
-      speciesNodes = _.map(species, function(specie) {
-        return {
-          id: specie._id,
-          name: specie._name,
-          classes: ['species'],
-          species: specie
-        };
-      });
-
-      var reactionNodes;
-      reactions = arrayify(reactions);
-      reactionNodes = _.map(reactions, function(reaction) {
-        return {
-          id: reaction._id,
-          name: reaction._name,
-          classes: ['reaction'],
-          reaction: reaction
-        };
-      });
-
-      return speciesNodes.concat(reactionNodes);
-    }
-
-    function getEdges(model) {
-      // TODO: not very DRY
-
-      var edges = [];
-      $scope.reactionInfo = {};
-
-      var reactions = (((model || {}).listOfReactions || {}).reaction || {}) || [];
-
-      var species;
-
-      var getEdge = function(reaction) {
-        var rInfo = {
-          id: reaction._id,
-          reactants: [],
-          products: [],
-          modifiers: []
-        };
-
-        var reactant = reaction.listOfReactants;
-        if (reactant) {
-          species = arrayify(reactant.speciesReference);
-          _.each(species, function(r) {
-            edges.push({
-              source: r._species,
-              target: reaction._id,
-              reaction: reaction,
-              rInfo: rInfo,
-              classes: ['reaction', 'consumption']
-            });
-            rInfo.reactants.push(r._species);
-          });
-        }
-
-        var product = reaction.listOfProducts;
-        if (product) {
-          species = arrayify(product.speciesReference);
-          _.each(species, function(r) {
-            edges.push({
-              source: reaction._id,
-              target: r._species,
-              reaction: reaction,
-              rInfo: rInfo,
-              classes: ['reaction', 'production']
-            });
-            rInfo.products.push(r._species);
-          });
-
-        }
-
-        var modifier = reaction.listOfModifiers;
-        if (modifier) {
-          species = arrayify(modifier.modifierSpeciesReference);
-          _.each(species, function(r) {
-            edges.push({
-              source: r._species,
-              target: reaction._id,
-              reaction: reaction,
-              rInfo: rInfo,
-              classes: ['modifier']
-            });
-            rInfo.modifiers.push(r._species);
-          });
-        }
-
-        return rInfo;
-      };
-
-      var reaction = arrayify(reactions);
-
-      _.each(reaction, function(reaction) {
-        var rInfo = getEdge(reaction);
-        $scope.reactionInfo[reaction._id] = rInfo;
-      });
-      return edges;
-    }
-
-    function arrayify(s) {
-      if (typeof s === 'object') {
-        if (s.length) {
-          // already an array-like object
-          return s;
-        } else {
-          return [s];
-        }
-      } else if (typeof s === 'string') {
-        return s.split();
-      }
-    }
   });
