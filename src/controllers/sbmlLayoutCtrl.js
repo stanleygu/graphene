@@ -172,18 +172,17 @@ angular.module('sg.graphene')
       reactionNode.x = reactionPosition.x;
       reactionNode.y = reactionPosition.y;
 
-      var sourceSpacer = link.source.height || 0;
-      var targetSpacer = link.target.height || 0;
-      //if (_.isEqual(link.source.width, 0)) {
-      //  sourceSpacer = 0;
-      //} else {
-      //  sourceSpacer = 18;
-      //}
-      //if (_.isEqual(link.target.width, 0)) {
-      //  targetSpacer = 0;
-      //} else {
-      //  targetSpacer = 18;
-      //}
+      var sourceSpacer, targetSpacer;
+      if (_.isEqual(link.source.width, 0)) {
+        sourceSpacer = 0;
+      } else {
+        sourceSpacer = 8;
+      }
+      if (_.isEqual(link.target.width, 0)) {
+        targetSpacer = 0;
+      } else {
+        targetSpacer = 15;
+      }
       var targetToSource = getLineIntersectionWithRectangle({
         x1: link.target.x,
         y1: link.target.y,
