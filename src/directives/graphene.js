@@ -26,10 +26,12 @@ angular.module('sg.graphene')
         // Zooming behavior
 
         function zoomed() {
-          scope.scale = d3.event.scale;
-          scope.translate.x = d3.event.translate[0];
-          scope.translate.y = d3.event.translate[1];
-          scope.$digest();
+          if (scope.imports.zoom) {
+            scope.scale = d3.event.scale;
+            scope.translate.x = d3.event.translate[0];
+            scope.translate.y = d3.event.translate[1];
+            scope.$digest();
+          }
         }
 
         var zoom = d3.behavior.zoom()
@@ -116,13 +118,13 @@ angular.module('sg.graphene')
       }
     };
   })
-  .filter('truncateTo', function () {
-    return function (input, limit) {
+  .filter('truncateTo', function() {
+    return function(input, limit) {
       if (!_.isNumber(limit)) {
         return input;
       } else {
         if (_.size(input) > limit) {
-          return  _.first(input, limit - 3).join('') + '...';
+          return _.first(input, limit - 3).join('') + '...';
         } else {
           return input;
         }

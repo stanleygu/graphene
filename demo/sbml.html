@@ -26,7 +26,13 @@
       height: 30
     };
     ">
-    <sg-graphene ng-controller="sgSbmlDataCtrl" imports="exports" template="template/sbml.html"></sg-graphene>
+    <div ng-controller="sgSbmlDataCtrl">
+      Charge <input type="number" ng-model="charge"></input>
+      Gravity <input type="number" ng-model="gravity"></input>
+      Link Distance <input type="number" ng-model="linkDistance"></input>
+      Zoom <input type="checkbox" ng-model="exports.zoom"></input>
+      <sg-graphene imports="exports" template="template/sbml.html"></sg-graphene>
+    </div>
   </div>
 </body>
 

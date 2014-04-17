@@ -108,9 +108,23 @@ angular.module('sg.graphene')
       $scope.exports = {
         links: $scope.links,
         nodes: $scope.nodes,
-        force: force
+        force: force,
+        zoom: true
       };
       return force;
     }
+
+    $scope.zoom = true;
+    var watchList = ['charge', 'linkDistance', 'gravity'];
+    _.each(watchList, function(w) {
+      $scope.$watch(w, function(newVal) {
+        if (newVal) {
+          if ($scope.force) {
+            console.log('Change %s to ' + newVal, w);
+            $scope.force[w](newVal).start();
+          }
+        }
+      });
+    });
 
   });
