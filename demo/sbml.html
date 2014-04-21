@@ -17,20 +17,23 @@
 <body ng-app="graphene-standalone">
   <div ng-init="
     sbmlUrl='BIOMD0000000012.xml';
-    width=1000;
+    width=1300;
     height=1000;
-    charge=-550;
-    linkDistance=80;
+    charge=-1000;
+    gravity=0.0;
+    linkDistance=5;
     nodeSize = {
       width: 90,
       height: 30
     };
     ">
     <div ng-controller="sgSbmlDataCtrl">
+      Allow unstick <input type="checkbox" ng-model="exports.allowUnstick"></input>
       Charge <input type="number" ng-model="charge"></input>
       Gravity <input type="number" ng-model="gravity"></input>
       Link Distance <input type="number" ng-model="linkDistance"></input>
       Zoom <input type="checkbox" ng-model="exports.zoom"></input>
+      Show Modifiers <input type="checkbox" ng-model="linkModifiers"></input>
       <sg-graphene imports="exports" template="template/sbml.html"></sg-graphene>
     </div>
   </div>

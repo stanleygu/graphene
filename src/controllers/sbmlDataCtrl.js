@@ -5,6 +5,9 @@ angular.module('sg.graphene')
 
     $scope.exports = {};
 
+    $scope.linkModifers = false;
+    $scope.allowUnstick = true;
+
     if ($scope.sbmlUrl) {
       $http.get($scope.sbmlUrl).success(function(data) {
         var sbml = sgSbml.sbmlToJson(data);
@@ -39,7 +42,7 @@ angular.module('sg.graphene')
       var d3NodeLookup = {};
       angular.forEach($scope.nodes, function(node) {
         d3NodeLookup[node.id] = node;
-        if (_.contains(node.classes, 'reaction')){
+        if (_.contains(node.classes, 'reaction')) {
           node.width = 0;
           node.height = 0;
         } else {
@@ -57,6 +60,12 @@ angular.module('sg.graphene')
           classes: edge.classes
         };
       });
+
+      if (!$scope.linkModifiers) {
+        $scope.links = _.filter($scope.links, function(link) {
+          return !_.contains(link.classes, 'modifier');
+        });
+      }
 
       var sourceAndSink = sgSbml.getSourceAndSinkNodes($scope.nodes, $scope.links);
       _.each(sourceAndSink.nodes, function(n) {
@@ -109,6 +118,9 @@ angular.module('sg.graphene')
         links: $scope.links,
         nodes: $scope.nodes,
         force: force,
+        height: $scope.height,
+        width: $scope.width,
+        allowUnstick: $scope.allowUnstick,
         zoom: true
       };
       return force;
@@ -125,6 +137,12 @@ angular.module('sg.graphene')
           }
         }
       });
+    });
+
+    $scope.$watch('linkModifiers', function(newVal) {
+      if(!_.isUndefined(newVal)) {
+        $scope.force = runForceLayout();
+      };
     });
 
   });

@@ -1,5 +1,5 @@
-<svg ng-controller="sgSbmlLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{height || 800}}"
-ng-attr-width="{{width || 800}}">
+<svg ng-controller="sgSbmlLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{imports.height || 800}}"
+ng-attr-width="{{imports.width || 800}}">
   <style>
   svg .node.species {
     stroke: #FFB800;
@@ -20,9 +20,10 @@ ng-attr-width="{{width || 800}}">
     text-anchor: middle;
     dominant-baseline: middle;
   }
-  /*  svg .node.selected {
+  svg .node.selected {
     stroke: #FF0000;
   }
+  /*
   svg .link.selected {
     stroke: #FF0000;
   }*/
@@ -155,7 +156,7 @@ ng-attr-width="{{width || 800}}">
       ng-repeat="node in species" 
       ng-attr-transform="translate({{node.x}},{{node.y}})">
       <rect 
-        ng-class="{selected: isSelected}" 
+        ng-class="{selected: node.fixed}" 
         class="species node"
         ng-attr-x="{{-node.width/2}}"
         ng-attr-y="{{-node.height/2}}"
@@ -189,9 +190,14 @@ ng-attr-width="{{width || 800}}">
       ng-attr-transform="translate({{node.x}},{{node.y}})">
       <g class="null-symbol">
         <circle 
-          ng-attr-r="{{node.height / 2}}">
+          class = "node"
+          ng-class="{selected: node.fixed}" 
+          ng-attr-r="{{node.height / 2}}"
+          fill="white">
         </circle>
         <line 
+          class = "node"
+          ng-class="{selected: node.fixed}" 
           ng-attr-x1="{{-10}}" 
           ng-attr-y1="{{10}}"
           ng-attr-x2="{{10}}" 
@@ -205,9 +211,15 @@ ng-attr-width="{{width || 800}}">
       ng-attr-transform="translate({{node.x}},{{node.y}})">
       <g class="null-symbol">
         <circle 
-          ng-attr-r="{{node.height / 2}}">
+          ng-attr-r="{{node.height / 2}}"
+          class = "node"
+          ng-class="{selected: node.fixed}" 
+          fill="white"
+          >
         </circle>
         <line 
+          class = "node"
+          ng-class="{selected: node.fixed}" 
           ng-attr-x1="{{-10}}" 
           ng-attr-y1="{{10}}"
           ng-attr-x2="{{10}}" 

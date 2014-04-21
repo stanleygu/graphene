@@ -89,6 +89,7 @@ angular.module('sg.graphene')
           event.preventDefault();
           event.stopPropagation();
           var node = element.scope().node;
+          node.wasFixed = node.fixed;
           node.fixed = true;
           offset.x = node.x - event.pageX / scope.scale;
           offset.y = node.y - event.pageY / scope.scale;
@@ -98,20 +99,27 @@ angular.module('sg.graphene')
 
         function mousemove(event) {
           var node = element.scope().node;
-          node.px = event.pageX / scope.scale + offset.x;
-          node.py = event.pageY / scope.scale + offset.y;
-          element.scope().$apply();
+          if (scope.imports && scope.imports.force) {
+            node.px = event.pageX / scope.scale + offset.x;
+            node.py = event.pageY / scope.scale + offset.y;
+            scope.imports.force.resume();
+          } else {
+            node.x = event.pageX / scope.scale + offset.x;
+            node.y = event.pageY / scope.scale + offset.y;
+          }
           if (scope.onDrag) {
             scope.onDrag(event, node);
           }
-          if (scope.imports && scope.imports.force) {
-            scope.imports.force.resume();
-          }
+          element.scope().$apply();
         }
 
         function mouseup() {
           var node = element.scope().node;
-          delete node.fixed;
+          if (scope.imports.allowUnstick) {
+            if (node.wasFixed) {
+              delete node.fixed;
+            }
+          }
           $document.unbind('mousemove', mousemove);
           $document.unbind('mouseup', mouseup);
         }
