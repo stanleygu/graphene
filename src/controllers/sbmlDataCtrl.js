@@ -7,6 +7,7 @@ angular.module('sg.graphene')
 
     $scope.linkModifers = false;
     $scope.allowUnstick = true;
+    $scope.showReactionNodes = false;
 
     if ($scope.sbmlUrl) {
       $http.get($scope.sbmlUrl).success(function(data) {
@@ -121,6 +122,7 @@ angular.module('sg.graphene')
         height: $scope.height,
         width: $scope.width,
         allowUnstick: $scope.allowUnstick,
+        showReactionNodes: $scope.showReactionNodes,
         zoom: true
       };
       return force;

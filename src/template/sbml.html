@@ -172,6 +172,7 @@ ng-attr-width="{{imports.width || 800}}">
     <g 
       draggable 
       ng-repeat="node in reactions" 
+      ng-attr-opacity="{{imports.showReactionNodes ? 1 : 0}}"
       ng-attr-transform="translate({{node.x}},{{node.y}})">
       <circle 
         ng-class="node.classes" 
