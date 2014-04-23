@@ -1,18 +1,9 @@
 'use strict';
 
 angular.module('sg.graphene')
-  .controller('sgSbmlLayoutCtrl', function($scope, sgSbml, $log) {
+  .controller('sgSbmlLayoutCtrl', function($scope, sgSbml) {
 
     var nodeLookup;
-
-    var generateIdLookup = function(array, id) {
-      //generates a lookup hashtable for an array with objects containing IDs
-      var lookup = {};
-      angular.forEach(array, function(value) {
-        lookup[value[id || 'id']] = value;
-      });
-      return lookup;
-    };
 
     $scope.textVisibilityLookup = {
       species: true,
