@@ -98,8 +98,17 @@ ng-attr-width="{{imports.width || 800}}">
     </linearGradient>
   </defs>
   <g ng-attr-transform="translate({{translate.x || 0}}, {{translate.y || 0}})scale({{scale || 1}})">
-    <g ng-repeat="link in lines.production">
+    <g ng-repeat="link in lines.production" ng-switch on="imports.showArcs">
+      <path 
+        ng-switch-when="true"
+        class="reaction production link"
+        ng-attr-d={{linkArc(link)}}
+        ng-attr-opacity="{{link.opacity}}"
+        marker-end="url(#production)"
+        fill="none"
+        ></path>
       <line
+        ng-switch-default
         class="reaction production link"
         ng-attr-opacity="{{link.opacity}}"
         marker-end="url(#production)"
@@ -109,22 +118,37 @@ ng-attr-width="{{imports.width || 800}}">
         ng-attr-y2="{{link.y2}}">
       </line>
     </g>
-    <g ng-repeat="link in lines.reactant">
-      <line 
-        ng-click="App.selectReaction(link.target.id); isSelected = !isSelected" 
-        ng-class="{selected: isSelected}" 
+    <g ng-repeat="link in lines.reactant" ng-switch on="imports.showArcs">
+      <path 
+        ng-switch-when="true"
         class="reaction reactant link" 
         ng-attr-opacity="{{link.opacity}}"
+        ng-attr-d={{linkArc(link)}}
+        fill="none"
+        ></path>
+      <line 
+        ng-switch-default
+        ng-click="App.selectReaction(link.target.id); isSelected = !isSelected" 
+        ng-class="{selected: isSelected}"
+        class="reaction reactant link"
+        ng-attr-opacity="{{link.opacity}}"
         ng-attr-x1="{{link.x1}}"
-        ng-attr-y1="{{link.y1}}" 
+        ng-attr-y1="{{link.y1}}"
         ng-attr-x2="{{link.x2}}"
         ng-attr-y2="{{link.y2}}">
       </line>
     </g>
-    <g>
+    <g ng-repeat="link in lines.modifier" ng-switch on="imports.showArcs">
+      <path 
+        ng-switch-when="true"
+        class="modifier link" 
+        ng-attr-opacity="{{link.opacity}}"
+        ng-attr-d={{linkArc(link)}}
+        fill="none"
+        ></path>
       <line 
+        ng-switch-default
         ng-click="App.selectReaction(link.target.id); isSelected = !isSelected" 
-        ng-repeat="link in lines.modifier"
         ng-class="{selected: isSelected}" 
         class="modifier link" 
         ng-attr-opacity="{{link.opacity}}"
@@ -136,8 +160,18 @@ ng-attr-width="{{imports.width || 800}}">
       </line>
     </g>
     <g
-      ng-repeat="link in lines.source">
+      ng-repeat="link in lines.source" 
+      ng-switch on="imports.showArcs"
+      >
+      <path 
+        ng-switch-when="true"
+        class="source link"
+        ng-attr-opacity="{{link.opacity}}"
+        ng-attr-d={{linkArc(link)}}
+        fill="none"
+        ></path>
       <line
+        ng-switch-default
         class="source link"
         ng-attr-x1="{{link.x1}}"
         ng-attr-y1="{{link.y1}}" 
@@ -145,8 +179,18 @@ ng-attr-width="{{imports.width || 800}}">
         ng-attr-y2="{{link.y2}}"></line>
     </g>
     <g
-      ng-repeat="link in lines.sink">
+      ng-repeat="link in lines.sink"
+      ng-switch on="imports.showArcs"
+      >
+      <path 
+        ng-switch-when="true"
+        class="sink link"
+        ng-attr-opacity="{{link.opacity}}"
+        ng-attr-d={{linkArc(link)}}
+        fill="none"
+        ></path>
       <line
+        ng-switch-default
         class="sink link"
         ng-attr-opacity="{{link.opacity}}"
         ng-attr-x1="{{link.x1}}"
@@ -173,9 +217,9 @@ ng-attr-width="{{imports.width || 800}}">
         ng-attr-ry="{{node.height/2}}"
         fill="url(#gradient)"
         ng-click="App.selectSpecies(node.id); isSelected = !isSelected;">
-        <title>ID: {{node.id}}, Name: {{node.name}}</title>
       </rect>
       <text class="node-label">{{node.id | truncateTo:8}}</text>
+      <title>ID: {{node.id}}, Name: {{node.name}}</title>
     </g>
     <g 
       draggable 
@@ -185,7 +229,7 @@ ng-attr-width="{{imports.width || 800}}">
       <circle 
         ng-class="node.classes" 
         class="node" 
-        ng-attr-r="{{3}}"
+        ng-attr-r="{{4}}"
         fill="black" 
         stroke="black"
         ng-click="openReactionModal(node)">

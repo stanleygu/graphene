@@ -13,6 +13,7 @@ angular.module('sg.graphene')
       });
       return lookup;
     };
+
     $scope.textVisibilityLookup = {
       species: true,
       reaction: false
@@ -147,6 +148,13 @@ angular.module('sg.graphene')
         };
       }
       return intersection;
+    };
+
+    $scope.linkArc = function(d) {
+      var dx = d.x2 - d.x1,
+      dy = d.y2 - d.y1,
+      dr = Math.sqrt(dx * dx + dy * dy);
+      return 'M' + d.x1 + ',' + d.y1 + 'A' + dr + ',' + dr + ' 0 0,1 ' + d.x2 + ',' + d.y2;
     };
 
     $scope.extendPoint = function(start, end, distance) {

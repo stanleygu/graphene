@@ -198,6 +198,7 @@ angular.module('sg.graphene')
         height: $scope.height,
         width: $scope.width,
         allowUnstick: $scope.allowUnstick,
+        showArcs: $scope.showArcs,
         showReactionNodes: $scope.showReactionNodes,
         events: events,
         zoom: true
