@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sg.graphene')
-  .controller('sgSbmlLayoutCtrl', function($scope, sgSbml) {
+  .controller('sgSbmlLayoutCtrl', function($scope, sgSbml, $log) {
 
     var nodeLookup;
 
@@ -221,6 +221,22 @@ angular.module('sg.graphene')
 
     };
 
+
+   // $scope.getSpeciesInfo = function(node) {
+   //   var info = {};
+
+   //   if (_.isUndefined(node.species)) {
+   //     $log.error('Node is missing species')
+   //   } else {
+   //     node.species
+   //   }
+   // };
+
+
+    /*
+     * Watchers
+     */
+
     var linkWatchers = []; // storing node watchers to be removed if unnecessary
     var nodeWatchers = []; // storing node watchers to be removed if unnecessary
 
@@ -235,7 +251,7 @@ angular.module('sg.graphene')
         linkWatchers = [];
         $scope.links = $scope.imports.links;
         $scope.lines = sgSbml.classifyLinks($scope.links);
-        nodeLookup = generateIdLookup($scope.imports.nodes); //sometimes run before node watcher
+        nodeLookup = $scope.imports.nodeLookup; //generateIdLookup($scope.imports.nodes); //sometimes run before node watcher
         _.each($scope.links, function(l) {
           var watch = $scope.$watch(function() {
             return l.source.x + l.source.y + l.target.x + l.target.y;
@@ -255,19 +271,15 @@ angular.module('sg.graphene')
         });
         nodeWatchers = [];
         $scope.nodes = $scope.imports.nodes;
-        nodeLookup = generateIdLookup($scope.nodes);
-        $scope.species = _.filter($scope.nodes, function(n) {
-          return _.contains(n.classes, 'species');
-        });
-        $scope.reactions = _.filter($scope.nodes, function(n) {
-          return _.contains(n.classes, 'reaction');
-        });
-        $scope.sourceNodes = _.filter($scope.nodes, function(n) {
-          return _.contains(n.classes, 'source');
-        });
-        $scope.sinkNodes = _.filter($scope.nodes, function(n) {
-          return _.contains(n.classes, 'sink');
-        });
+        $scope.species = $scope.imports.species;
+        $scope.reactions = $scope.imports.reactions;
+        nodeLookup = $scope.imports.nodeLookup; //generateIdLookup($scope.nodes);
+       // $scope.species = _.filter($scope.nodes, function(n) {
+       //   return _.contains(n.classes, 'species');
+       // });
+       // $scope.reactions = _.filter($scope.nodes, function(n) {
+       //   return _.contains(n.classes, 'reaction');
+       // });
       }
     });
 

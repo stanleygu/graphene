@@ -45,7 +45,7 @@ angular.module('sg.graphene')
 
       var species;
 
-      var getEdge = function(reaction) {
+      var parseReactionAndAddEdges = function(reaction) {
         var rInfo = {
           id: reaction._id,
           reactants: [],
@@ -106,10 +106,13 @@ angular.module('sg.graphene')
 
       var reactionInfo = {};
       _.each(reaction, function(reaction) {
-        var rInfo = getEdge(reaction);
+        var rInfo = parseReactionAndAddEdges(reaction);
         reactionInfo[reaction._id] = rInfo;
       });
-      return edges;
+      return {
+        edges: edges,
+        reactionInfo: reactionInfo
+      };
     }
 
     function arrayify(s) {

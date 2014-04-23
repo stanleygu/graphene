@@ -44,12 +44,10 @@ angular.element(document).ready(function() {
     console.log('mousing over', el);
 
     node.opacity = OPACITY.focused;
-    _.each($scope.imports.groups, function(g) {
-      _.each(g.nodes, function(n) {
-        if (n.id !== node.id) {
-          n.opacity = OPACITY.unfocused;
-        }
-      });
+    _.each($scope.imports.nodes, function(n) {
+      if (n.id !== node.id) {
+        n.opacity = OPACITY.unfocused;
+      }
     });
 
     _.each($scope.imports.edges, function(edge) {

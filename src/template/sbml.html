@@ -101,6 +101,7 @@ ng-attr-width="{{imports.width || 800}}">
     <g ng-repeat="link in lines.production">
       <line
         class="reaction production link"
+        ng-attr-opacity="{{link.opacity}}"
         marker-end="url(#production)"
         ng-attr-x1="{{link.x1}}"
         ng-attr-y1="{{link.y1}}"
@@ -113,6 +114,7 @@ ng-attr-width="{{imports.width || 800}}">
         ng-click="App.selectReaction(link.target.id); isSelected = !isSelected" 
         ng-class="{selected: isSelected}" 
         class="reaction reactant link" 
+        ng-attr-opacity="{{link.opacity}}"
         ng-attr-x1="{{link.x1}}"
         ng-attr-y1="{{link.y1}}" 
         ng-attr-x2="{{link.x2}}"
@@ -125,6 +127,7 @@ ng-attr-width="{{imports.width || 800}}">
         ng-repeat="link in lines.modifier"
         ng-class="{selected: isSelected}" 
         class="modifier link" 
+        ng-attr-opacity="{{link.opacity}}"
         ng-attr-x1="{{link.x1}}"
         ng-attr-y1="{{link.y1}}" 
         ng-attr-x2="{{link.x2}}" 
@@ -145,6 +148,7 @@ ng-attr-width="{{imports.width || 800}}">
       ng-repeat="link in lines.sink">
       <line
         class="sink link"
+        ng-attr-opacity="{{link.opacity}}"
         ng-attr-x1="{{link.x1}}"
         ng-attr-y1="{{link.y1}}" 
         ng-attr-x2="{{link.x2}}" 
@@ -154,6 +158,10 @@ ng-attr-width="{{imports.width || 800}}">
     <g 
       draggable 
       ng-repeat="node in species" 
+      ng-click="imports.events.click(node, this, $event)"
+      ng-mouseover="imports.events.mouseover(node, this, $event)"
+      ng-mouseleave="imports.events.mouseleave(node, this, $event)"
+      ng-attr-opacity="{{node.opacity}}"
       ng-attr-transform="translate({{node.x}},{{node.y}})">
       <rect 
         ng-class="{selected: node.fixed}" 

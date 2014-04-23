@@ -16,7 +16,7 @@
 
 <body ng-app="graphene-standalone">
   <div ng-init="
-    sbmlUrl='BIOMD0000000012.xml';
+    sbmlUrl='Glycolysis.xml';
     width=1300;
     height=1000;
     charge=-1000;
@@ -30,9 +30,9 @@
     <div ng-controller="sgSbmlDataCtrl">
       Allow unstick <input type="checkbox" ng-model="exports.allowUnstick"></input>
       Show reaction nodes <input type="checkbox" ng-model="exports.showReactionNodes"></input>
-      Charge <input type="number" ng-model="charge"></input>
-      Gravity <input type="number" ng-model="gravity"></input>
-      Link Distance <input type="number" ng-model="linkDistance"></input>
+      Charge <input type="number" ng-model="charge" step="10" min="-5000" max="0"></input>
+      Gravity <input type="number" ng-model="gravity" min="0" max="1" step="0.1"></input>
+      Link Distance <input type="number" ng-model="linkDistance" min="0" max="100" step="1"></input>
       Zoom <input type="checkbox" ng-model="exports.zoom"></input>
       Show Modifiers <input type="checkbox" ng-model="linkModifiers"></input>
       <sg-graphene imports="exports" template="template/sbml.html"></sg-graphene>
