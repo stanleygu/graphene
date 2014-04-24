@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sg.graphene')
-  .directive('sgGraphene', function($http, $templateCache, $compile) {
+  .directive('sgGraphene', function($http, $templateCache, $compile, $log) {
     return {
       restrict: 'E',
       scope: {
@@ -40,8 +40,9 @@ angular.module('sg.graphene')
           .scaleExtent([0.5, 8])
           .on('zoom', zoomed);
 
-        scope.$watch('imports.zoom', function(newVal) {
+        scope.$watch('svg', function(newVal) {
           if (newVal) {
+            $log.info(element.find('svg'));
             d3.select(element.find('svg')[0]).call(zoom);
           }
         });
@@ -137,5 +138,14 @@ angular.module('sg.graphene')
           return input;
         }
       }
+    };
+  })
+  .filter('jsonToHtmlTable', function() {
+    return function(input) {
+      var json = '<table>' +
+        '<tr><th>Key</th><th class="pull-right">Value</th></tr>' +
+        '<% _.forEach(json, function(value, key) { %><tr><td><%- key %>&nbsp;&nbsp;&nbsp;</td><td class="pull-right"><%- value %></td></tr><% }); %>' +
+        '</table>';
+      return _.template(json, { 'json': input });
     };
   });
