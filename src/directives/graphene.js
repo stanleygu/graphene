@@ -123,6 +123,7 @@ angular.module('sg.graphene')
           }
           $document.unbind('mousemove', mousemove);
           $document.unbind('mouseup', mouseup);
+          element.scope().$digest();
         }
       }
     };
