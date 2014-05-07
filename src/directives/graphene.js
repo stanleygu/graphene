@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sg.graphene')
-  .directive('sgGraphene', function($http, $templateCache, $compile, $log) {
+  .directive('sgGraphene', function($http, $templateCache, $compile) {
     return {
       restrict: 'E',
       scope: {
@@ -16,15 +16,19 @@ angular.module('sg.graphene')
             .success(function(templateContent) {
               element.children().remove();
               element.append($compile(templateContent)(scope));
-              initializeGraph();
+              scope.svg = element;
             });
         }
         loadTemplate(scope.template);
-
+      }
+    };
+  })
+  .directive('zoomable', function() {
+    return {
+      link: function(scope, element) {
+        // Zooming behavior
         scope.translate = {};
         scope.scale = 1;
-        // Zooming behavior
-
         function zoomed() {
           if (scope.imports.zoom) {
             scope.scale = d3.event.scale;
@@ -42,14 +46,9 @@ angular.module('sg.graphene')
 
         scope.$watch('svg', function(newVal) {
           if (newVal) {
-            $log.info(element.find('svg'));
-            d3.select(element.find('svg')[0]).call(zoom);
+            d3.select(element[0]).call(zoom);
           }
         });
-
-        function initializeGraph() {
-          scope.svg = element;
-        }
       }
     };
   })
