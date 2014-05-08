@@ -9,8 +9,12 @@ angular.module('sg.graphene')
     $scope.allowUnstick = true;
     $scope.showReactionNodes = false;
 
-    $scope.maxReactants = 2;
-    $scope.maxProducts = 2;
+    $scope.max = {
+      links: {
+        in: 1,
+        out: 1
+      }
+    };
 
     var OPACITY = {
       focused: 1,
@@ -147,19 +151,63 @@ angular.module('sg.graphene')
         } else {
           node.width = $scope.nodeSize.width;
           node.height = $scope.nodeSize.height;
+          node.linksToHere = [];
+          node.linksFromHere = [];
         }
       });
 
       $scope.links = _.map($scope.edges, function(edge) {
-        return {
-          source: d3NodeLookup[edge.source],
-          target: d3NodeLookup[edge.target],
+        var source = d3NodeLookup[edge.source];
+        var target = d3NodeLookup[edge.target];
+        source.linksFromHere = source.linksFromHere || [];
+        target.linksToHere = target.linksToHere || [];
+        var link = {
+          source: source,
+          target: target,
           reaction: d3NodeLookup[edge.rInfo.id],
           reactionSbml: edge.reaction,
           rInfo: edge.rInfo,
           classes: edge.classes
         };
+        source.linksFromHere.push(link);
+        target.linksToHere.push(link);
+        return link;
       });
+
+      _.each($scope.species, function(n) {
+        var rest;
+        if (n.linksFromHere.length > $scope.max.links.out) {
+          rest = _.rest(n.linksFromHere);
+          n.linksFromHere = [_.first(n.linksFromHere)];
+          _.each(rest, function(l) {
+            var alias = _.clone(n);
+            alias.linksFromHere = [l];
+            l.source = alias;
+            var ind = _.findKey(l.reaction.reactants, function(r) {
+              return r.id === alias.id;
+            });
+            l.reaction.reactants[ind] = alias;
+            $scope.nodes.push(alias);
+            $scope.species.push(alias);
+          });
+        }
+        if (n.linksToHere.length > $scope.max.links.in) {
+          rest = _.rest(n.linksToHere);
+          n.linksToHere = [_.first(n.linksToHere)];
+          _.each(rest, function(l) {
+            var alias = _.clone(n);
+            alias.linksToHere = [l];
+            l.target = alias;
+            var ind = _.findKey(l.reaction.products, function(r) {
+              return r.id === alias.id;
+            });
+            l.reaction.products[ind] = alias;
+            $scope.nodes.push(alias);
+            $scope.species.push(alias);
+          });
+        }
+      });
+
 
       if (!$scope.linkModifiers) {
         $scope.links = _.filter($scope.links, function(link) {

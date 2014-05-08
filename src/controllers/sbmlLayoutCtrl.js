@@ -27,25 +27,18 @@ angular.module('sg.graphene')
       reaction: 5
     };
 
-    var getReactionNode = function(link) {
-      var reaction = link.rInfo;
-      return nodeLookup[reaction.id];
-    };
-
     var getReactionPosition = function(link) {
-      var reaction = link.rInfo;
-      var reactionNode = getReactionNode(link);
+      var reaction = link.reaction;
       var species = _.union(reaction.products, reaction.reactants);
       if (species.length <= 1) {
-        return reactionNode;
+        return reaction;
       } else {
 
         var sumX = 0;
         var sumY = 0;
         angular.forEach(species, function(s) {
-          var speciesNode = nodeLookup[s];
-          sumX += speciesNode.x;
-          sumY += speciesNode.y;
+          sumX += s.x;
+          sumY += s.y;
         });
         return {
           x: sumX / species.length,
@@ -80,7 +73,7 @@ angular.module('sg.graphene')
     // COMPUTED LINK PROPERTY
     var updateLinkPosition = function(link) {
       var reactionPosition = getReactionPosition(link);
-      var reactionNode = getReactionNode(link);
+      var reactionNode = link.reaction;
       reactionNode.x = reactionPosition.x;
       reactionNode.y = reactionPosition.y;
 
