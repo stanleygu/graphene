@@ -156,6 +156,11 @@ angular.module('sg.graphene')
           y: y
         };
       }, {x: 0, y: 0});
+
+      n.deg = 180 / Math.PI * Math.atan((n.y - n.centroid.reactants.y)/(n.centroid.reactants.x - n.x));
+      if (n.centroid.reactants.x < n.x) {
+        n.deg += 180;
+      }
     };
 
     /*
