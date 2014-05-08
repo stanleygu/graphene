@@ -1,13 +1,17 @@
 'use strict';
 
 angular.module('sg.graphene')
-  .controller('sgSbmlDataCtrl', function($scope, $http, $window, sgSbml) {
+  .controller('sgSbmlDataCtrl', function($scope, $http, $window, sgSbml, $log) {
 
     $scope.exports = {};
 
     $scope.linkModifers = false;
     $scope.allowUnstick = true;
     $scope.showReactionNodes = false;
+
+    $scope.maxReactants = 2;
+    $scope.maxProducts = 2;
+
     var OPACITY = {
       focused: 1,
       unfocused: 0.1,
@@ -22,9 +26,7 @@ angular.module('sg.graphene')
       console.log('Double clicked on ' + node.name);
     };
 
-    var mouseoverNode = function(node, $scope, $event) {
-      var el = $event.target;
-      console.log('mousing over', el);
+    var mouseoverNode = function(node, $scope) {
 
       node.opacity = OPACITY.focused;
       if (_.contains(node.classes, 'species')) {
@@ -47,7 +49,7 @@ angular.module('sg.graphene')
         });
 
         _.each($scope.imports.links, function(edge) {
-          if(_.contains(_.map(reactions, 'id'), edge.rInfo.id)) {
+          if (_.contains(_.map(reactions, 'id'), edge.rInfo.id)) {
             edge.opacity = OPACITY.focused;
           } else {
             edge.opacity = OPACITY.unfocused;
@@ -112,6 +114,36 @@ angular.module('sg.graphene')
           node.width = 0;
           node.height = 0;
           node.rInfo = $scope.reactionInfo[node.id];
+          node.d = 10;
+          node.deg = 0;
+          node.getCp1 = function() {
+            return {
+              x: this.x + this.d * Math.cos(this.deg / 180 * Math.PI),
+              y: this.y - this.d * Math.sin(this.deg / 180 * Math.PI)
+            };
+          };
+          node.getCp2 = function() {
+            return {
+              x: this.x + this.d * Math.cos((this.deg + 180) / 180 * Math.PI),
+              y: this.y - this.d * Math.sin((this.deg + 180) / 180 * Math.PI)
+            };
+          };
+          node.reactants = [];
+          _.each(node.rInfo.reactants, function(r) {
+            var reactant = d3NodeLookup[r];
+            if (!reactant) {
+              $log.error('Could not find reactant node %s', r);
+            }
+            node.reactants.push(d3NodeLookup[r]);
+          });
+          node.products = [];
+          _.each(node.rInfo.products, function(p) {
+            var product = d3NodeLookup[p];
+            if (!product) {
+              $log.error('Could not find product node %s', p);
+            }
+            node.products.push(d3NodeLookup[p]);
+          });
         } else {
           node.width = $scope.nodeSize.width;
           node.height = $scope.nodeSize.height;
@@ -122,7 +154,8 @@ angular.module('sg.graphene')
         return {
           source: d3NodeLookup[edge.source],
           target: d3NodeLookup[edge.target],
-          reaction: edge.reaction,
+          reaction: d3NodeLookup[edge.rInfo.id],
+          reactionSbml: edge.reaction,
           rInfo: edge.rInfo,
           classes: edge.classes
         };
@@ -134,7 +167,7 @@ angular.module('sg.graphene')
         });
       }
 
-      var sourceAndSink = sgSbml.getSourceAndSinkNodes($scope.nodes, $scope.links);
+      var sourceAndSink = sgSbml.getSourceAndSinkNodes($scope.nodes, $scope.links, d3NodeLookup);
       _.each(sourceAndSink.nodes, function(n) {
         n.width = 16;
         n.height = 16;
@@ -142,12 +175,13 @@ angular.module('sg.graphene')
       $scope.nodes = $scope.nodes.concat(sourceAndSink.nodes);
       $scope.links = $scope.links.concat(sourceAndSink.edges);
 
-      $scope.sourceNodes = _.filter($scope.nodes, function(n) {
-        return _.contains(n.classes, 'source');
-      });
-      $scope.sinkNodes = _.filter($scope.nodes, function(n) {
-        return _.contains(n.classes, 'sink');
-      });
+
+      // $scope.sourceNodes = _.filter($scope.nodes, function(n) {
+      //   return _.contains(n.classes, 'source');
+      // });
+      // $scope.sinkNodes = _.filter($scope.nodes, function(n) {
+      //   return _.contains(n.classes, 'sink');
+      // });
 
       var force = d3.layout.force()
         .charge($scope.charge || -700)

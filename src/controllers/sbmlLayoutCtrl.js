@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sg.graphene')
-  .controller('sgSbmlLayoutCtrl', function($scope, sgSbml) {
+  .controller('sgSbmlLayoutCtrl', function($scope, sgSbml, sgGeo) {
 
     var nodeLookup;
 
@@ -54,93 +54,6 @@ angular.module('sg.graphene')
       }
     };
 
-    function checkLineIntersection(line1StartX, line1StartY, line1EndX,
-      line1EndY, line2StartX, line2StartY, line2EndX, line2EndY) {
-      // if the lines intersect, the result contains the x and y of the intersection (treating the lines as infinite) and booleans for whether line segment 1 or line segment 2 contain the point
-      var denominator, a, b, numerator1, numerator2, result = {
-          x: null,
-          y: null,
-          onLine1: false,
-          onLine2: false
-        };
-      denominator = ((line2EndY - line2StartY) * (line1EndX - line1StartX)) -
-        ((line2EndX - line2StartX) * (line1EndY - line1StartY));
-      if (denominator === 0) {
-        return result;
-      }
-      a = line1StartY - line2StartY;
-      b = line1StartX - line2StartX;
-      numerator1 = ((line2EndX - line2StartX) * a) - ((line2EndY -
-        line2StartY) * b);
-      numerator2 = ((line1EndX - line1StartX) * a) - ((line1EndY -
-        line1StartY) * b);
-      a = numerator1 / denominator;
-      b = numerator2 / denominator;
-
-      // if we cast these lines infinitely in both directions, they intersect here:
-      result.x = line1StartX + (a * (line1EndX - line1StartX));
-      result.y = line1StartY + (a * (line1EndY - line1StartY));
-      /*
-        // it is worth noting that this should be the same as:
-        x = line2StartX + (b * (line2EndX - line2StartX));
-        y = line2StartX + (b * (line2EndY - line2StartY));
-        */
-      // if line1 is a segment and line2 is infinite, they intersect if:
-      if (a > 0 && a < 1) {
-        result.onLine1 = true;
-      }
-      // if line2 is a segment and line1 is infinite, they intersect if:
-      if (b > 0 && b < 1) {
-        result.onLine2 = true;
-      }
-      // if line1 and line2 are segments, they intersect if both of the above are true
-      return result;
-    }
-
-    var getLineIntersectionWithRectangle = function(line, rect) {
-      var sides = [{
-        x1: rect.x1, //left side
-        y1: rect.y1,
-        x2: rect.x1,
-        y2: rect.y2
-      }, {
-        x1: rect.x1, // top side
-        y1: rect.y1,
-        x2: rect.x2,
-        y2: rect.y1
-      }, {
-        x1: rect.x2, // right side
-        y1: rect.y1,
-        x2: rect.x2,
-        y2: rect.y2
-      }, {
-        x1: rect.x1, // bottom side
-        y1: rect.y2,
-        x2: rect.x2,
-        y2: rect.y2
-      }];
-
-      var intersection;
-      _.each(sides, function(s) {
-        if (!intersection) {
-          var result = checkLineIntersection(line.x1, line.y1, line.x2,
-            line.y2,
-            s.x1, s.y1, s.x2, s.y2);
-          if (result.onLine1 && result.onLine2) {
-            intersection = result;
-          }
-        }
-      });
-
-      if (!intersection) {
-        intersection = {
-          x: (rect.x1 + rect.x2) / 2,
-          y: (rect.y1 + rect.y2) / 2
-        };
-      }
-      return intersection;
-    };
-
     $scope.linkArc = function(d) {
       var dx = d.x2 - d.x1,
       dy = d.y2 - d.y1,
@@ -182,7 +95,7 @@ angular.module('sg.graphene')
       } else {
         targetSpacer = 15;
       }
-      var targetToSource = getLineIntersectionWithRectangle({
+      var targetToSource = sgGeo.getLineIntersectionWithRectangle({
         x1: link.target.x,
         y1: link.target.y,
         x2: link.source.x,
@@ -193,7 +106,7 @@ angular.module('sg.graphene')
         x2: link.source.x + (link.source.width / 2 + sourceSpacer),
         y2: link.source.y + (link.source.height / 2 + sourceSpacer)
       });
-      var sourceToTarget = getLineIntersectionWithRectangle({
+      var sourceToTarget = sgGeo.getLineIntersectionWithRectangle({
         x1: link.source.x,
         y1: link.source.y,
         x2: link.target.x,
@@ -211,26 +124,39 @@ angular.module('sg.graphene')
         link.y1 = targetToSource.y;
         link.x2 = newPoint.x;
         link.y2 = newPoint.y;
+        link.cp1 = $scope.extendPoint(sourceToTarget, targetToSource, 10);
+        link.cp2 = $scope.extendPoint(targetToSource, sourceToTarget, -20);
       } else {
         link.x1 = targetToSource.x;
         link.y1 = targetToSource.y;
         link.x2 = sourceToTarget.x;
         link.y2 = sourceToTarget.y;
+        link.cp1 = $scope.extendPoint(sourceToTarget, targetToSource, 10);
+        link.cp2 = $scope.extendPoint(targetToSource, sourceToTarget, -10);
       }
 
     };
 
-
-   // $scope.getSpeciesInfo = function(node) {
-   //   var info = {};
-
-   //   if (_.isUndefined(node.species)) {
-   //     $log.error('Node is missing species')
-   //   } else {
-   //     node.species
-   //   }
-   // };
-
+    var updateReactionNode = function(n) {
+      // update centroids for reactants and products
+      n.centroid = {};
+      n.centroid.reactants = _.reduce(n.reactants, function(centroid, r) {
+        var x = centroid.x + r.x / n.reactants.length;
+        var y = centroid.y + r.y / n.reactants.length;
+        return {
+          x: x,
+          y: y
+        };
+      }, {x: 0, y: 0});
+      n.centroid.products = _.reduce(n.products, function(centroid, p) {
+        var x = centroid.x + p.x / n.products.length;
+        var y = centroid.y + p.y / n.products.length;
+        return {
+          x: x,
+          y: y
+        };
+      }, {x: 0, y: 0});
+    };
 
     /*
      * Watchers
@@ -249,8 +175,8 @@ angular.module('sg.graphene')
         });
         linkWatchers = [];
         $scope.links = $scope.imports.links;
-        $scope.lines = sgSbml.classifyLinks($scope.links);
         nodeLookup = $scope.imports.nodeLookup; //generateIdLookup($scope.imports.nodes); //sometimes run before node watcher
+        $scope.lines = sgSbml.classifyLinks($scope.links, nodeLookup);
         _.each($scope.links, function(l) {
           var watch = $scope.$watch(function() {
             return l.source.x + l.source.y + l.target.x + l.target.y;
@@ -273,6 +199,22 @@ angular.module('sg.graphene')
         $scope.species = $scope.imports.species;
         $scope.reactions = $scope.imports.reactions;
         nodeLookup = $scope.imports.nodeLookup; //generateIdLookup($scope.nodes);
+
+        _.each($scope.imports.reactions, function(n) {
+          var watch = $scope.$watch(function() {
+            var total = 0;
+            _.each(n.reactants, function(r) {
+              total += r.x + r.y;
+            });
+            _.each(n.products, function(p) {
+              total += p.x + p.y;
+            });
+            return total;
+          }, function() {
+            updateReactionNode(n);
+          });
+          nodeWatchers.push(watch);
+        });
        // $scope.species = _.filter($scope.nodes, function(n) {
        //   return _.contains(n.classes, 'species');
        // });

@@ -128,7 +128,7 @@ angular.module('sg.graphene')
       }
     }
 
-    function classifyLinks(links) {
+    function classifyLinks(links, nodeLookup) {
       var lines = {
         production: [],
         generation: [],
@@ -171,6 +171,16 @@ angular.module('sg.graphene')
               // source has some edges from it
               lines.production.push(line);
               line.classes = _.union(line.classes, ['production']);
+              if (source.rInfo.products.length > 1) {
+                _.each(source.rInfo.products, function(p) {
+                  if (p !== target.id) {
+                    line.siblings = line.siblings || [];
+                    var sibling = nodeLookup[p];
+                    line.siblings = _.union(line.siblings, sibling);
+                  }
+                });
+              }
+
             } else {
               lines.generation.push(line);
               line.classes = _.union(line.classes, ['generation']);
@@ -183,6 +193,15 @@ angular.module('sg.graphene')
               // target has some edges from it, which makes it a reactant
               lines.reactant.push(line);
               line.classes = _.union(line.classes, ['reactant']);
+              if (target.rInfo.reactants.length > 1) {
+                _.each(target.rInfo.reactants , function(p) {
+                  if (p !== target.id) {
+                    line.siblings = line.siblings || [];
+                    var sibling = nodeLookup[p];
+                    line.siblings = _.union(line.siblings, sibling);
+                  }
+                });
+              }
             } else {
               // target has no edges out so make it a degradation term
               lines.degradation.push(line);
@@ -197,10 +216,10 @@ angular.module('sg.graphene')
       return lines;
     }
 
-    function getSourceAndSinkNodes(nodes, edges) {
+    function getSourceAndSinkNodes(nodes, edges, nodeLookup) {
       var newNodes = [];
       var newEdges = [];
-      var classifiedLinks = classifyLinks(edges);
+      var classifiedLinks = classifyLinks(edges, nodeLookup);
       _.each(classifiedLinks.generation, function(edge) {
         var reaction = edge.source;
         var sourceNode = {
@@ -245,8 +264,8 @@ angular.module('sg.graphene')
     }
     // Public API
     return {
-      getSourceAndSinkNodes: function(nodes, edges) {
-        return getSourceAndSinkNodes(nodes, edges);
+      getSourceAndSinkNodes: function(nodes, edges, nodeLookup) {
+        return getSourceAndSinkNodes(nodes, edges, nodeLookup);
       },
       getNodes: function(sbml) {
         return getNodes(sbml.model);
@@ -254,8 +273,8 @@ angular.module('sg.graphene')
       getEdges: function(sbml) {
         return getEdges(sbml.model);
       },
-      classifyLinks: function(links) {
-        return classifyLinks(links);
+      classifyLinks: function(links, nodeLookup) {
+        return classifyLinks(links, nodeLookup);
       },
       sbmlToJson: function(sbml) {
         var sbmlJson = x2js.xml_str2json(sbml);

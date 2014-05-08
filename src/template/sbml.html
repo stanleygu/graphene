@@ -99,6 +99,19 @@ ng-attr-width="{{imports.width || 800}}">
   </defs>
   <g ng-attr-transform="translate({{translate.x || 0}}, {{translate.y || 0}})scale({{scale || 1}})">
     <g ng-repeat="link in lines.production" ng-switch on="imports.showArcs">
+      <path
+        class="reaction production link"
+        ng-attr-d="
+          M {{link.x1}} {{link.y1}}
+          C
+          {{link.reaction.getCp2().x}} {{link.reaction.getCp2().y}}
+          {{link.cp2.x}} {{link.cp2.y}}
+          {{link.x2}} {{link.y2}}
+        "
+        marker-end="url(#production)"
+        ng-attr-opacity="{{link.opacity}}"
+        fill="none"
+      />
       <path 
         ng-switch-when="true"
         class="reaction production link"
@@ -109,6 +122,7 @@ ng-attr-width="{{imports.width || 800}}">
         ></path>
       <line
         ng-switch-default
+        ng-if="false"
         class="reaction production link"
         ng-attr-opacity="{{link.opacity}}"
         marker-end="url(#production)"
@@ -119,6 +133,18 @@ ng-attr-width="{{imports.width || 800}}">
       </line>
     </g>
     <g ng-repeat="link in lines.reactant" ng-switch on="imports.showArcs">
+      <path
+        class="reaction reactant link"
+        ng-attr-d="
+          M {{link.x1}} {{link.y1}}
+          C 
+          {{link.cp1.x}} {{link.cp1.y}}
+          {{link.reaction.getCp1().x}} {{link.reaction.getCp1().y}}
+          {{link.x2}} {{link.y2}}
+        "
+        fill="none"
+        ng-attr-opacity="{{link.opacity}}"
+      />
       <path 
         ng-switch-when="true"
         class="reaction reactant link" 
@@ -128,6 +154,7 @@ ng-attr-width="{{imports.width || 800}}">
         ></path>
       <line 
         ng-switch-default
+        ng-if="false"
         ng-click="App.selectReaction(link.target.id); isSelected = !isSelected" 
         ng-class="{selected: isSelected}"
         class="reaction reactant link"
