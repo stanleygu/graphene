@@ -23,43 +23,36 @@ angular.module('sg.graphene')
     };
 
     var clickNode = function(node) {
-      console.log('Clicked on ' + node.name);
+     $log.info('Clicked on ' + node.name);
     };
 
     var dblClickNode = function(node) {
-      console.log('Double clicked on ' + node.name);
+      $log.info('Double clicked on ' + node.name);
     };
 
     var mouseoverNode = function(node, $scope) {
 
       node.opacity = OPACITY.focused;
       if (_.contains(node.classes, 'species')) {
-        _.each($scope.imports.nodes, function(n) {
+        _.each($scope.imports.species, function(n) {
           if (n.id !== node.id) {
             n.opacity = OPACITY.unfocused;
           }
         });
 
-        var reactions = [];
-        _.each($scope.imports.reactionInfo, function(r) {
-          if (_.contains(r.products, node.id) || _.contains(r.reactants, node.id)) {
-            reactions.push(r);
-
-            var productsAndReactants = r.reactants.concat(r.products);
-            _.each(productsAndReactants, function(p) {
-              $scope.imports.nodeLookup[p].opacity = OPACITY.normal;
-            });
-          }
-        });
-
         _.each($scope.imports.links, function(edge) {
-          if (_.contains(_.map(reactions, 'id'), edge.rInfo.id)) {
-            edge.opacity = OPACITY.focused;
-          } else {
             edge.opacity = OPACITY.unfocused;
-          }
         });
 
+        var reactions = [];
+        _.each(_.union(node.linksFromHere, node.linksToHere), function(l) {
+          reactions.push(l.reaction);
+        });
+        _.each(reactions, function(r) {
+          _.each(_.union(r.products, r.reactants, r.linksFromHere, r.linksToHere), function(n) {
+            n.opacity = OPACITY.normal;
+          });
+        });
       }
     };
 
