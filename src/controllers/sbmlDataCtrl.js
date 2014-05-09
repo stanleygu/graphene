@@ -170,19 +170,22 @@ angular.module('sg.graphene')
       _.each($scope.species, function(n) {
         var rest;
         var aliasConstructor = function(direction) {
-          var linkArrayKey, speciesKey, linkTarget;
+          var linkArrayKey, otherLinkArrayKey, speciesKey, linkTarget;
           if (direction === 'from') {
             linkArrayKey = 'linksFromHere';
+            otherLinkArrayKey = 'linksToHere';
             speciesKey = 'reactants';
             linkTarget = 'source';
           } else {
             linkArrayKey = 'linksToHere';
+            otherLinkArrayKey = 'linksFromHere';
             speciesKey = 'products';
             linkTarget = 'target';
           }
           return function(l) {
             var alias = _.clone(n);
             alias[linkArrayKey] = [l];
+            alias[otherLinkArrayKey] = [];
             l[linkTarget] = alias;
             var ind = _.findKey(l.reaction[speciesKey], function(r) {
               return r.id === alias.id;
