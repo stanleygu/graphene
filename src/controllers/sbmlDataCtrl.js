@@ -8,6 +8,8 @@ angular.module('sg.graphene')
     $scope.linkModifers = false;
     $scope.allowUnstick = false;
     $scope.showReactionNodes = false;
+    $scope.height = $window.innerHeight - 20;
+    $scope.width = $window.innerWidth;
 
     $scope.max = {
       links: {
