@@ -98,9 +98,12 @@ ng-attr-width="{{imports.width || 800}}">
     </linearGradient>
   </defs>
   <g ng-attr-transform="translate({{translate.x || 0}}, {{translate.y || 0}})scale({{scale || 1}})">
-    <g ng-repeat="link in lines.production" ng-switch on="imports.showArcs">
+    <g 
+      ng-repeat="link in lines.production"
+      ng-switch on="imports.showArcs"
+      ng-click="clickLink(link)"
+      >
       <path
-        class="reaction production link"
         ng-attr-d="
           M {{link.x1}} {{link.y1}}
           C
@@ -110,18 +113,30 @@ ng-attr-width="{{imports.width || 800}}">
         "
         marker-end="url(#production)"
         ng-attr-opacity="{{link.opacity}}"
+        ng-attr-stroke="{{link.reaction.selected ? 'red' : 'black'}}"
+        ng-attr-stroke-width="{{'3px'}}"
         fill="none"
       />
-      <path 
-        ng-switch-when="true"
-        class="reaction production link"
-        ng-attr-d={{linkArc(link)}}
-        ng-attr-opacity="{{link.opacity}}"
-        marker-end="url(#production)"
-        fill="none"
-        ></path>
+      <g
+        ng-if="link.reaction.selected"
+      >
+        <line
+          stroke="red"
+          stroke-dasharray="10, 5"
+          ng-attr-x1="{{link.x2}}"
+          ng-attr-y1="{{link.y2}}"
+          ng-attr-x2="{{link.cp2.x}}"
+          ng-attr-y2="{{link.cp2.y}}"
+        />
+        <circle
+          stroke="red"
+          ng-attr-cx="{{link.cp2.x}}"
+          ng-attr-cy="{{link.cp2.y}}"
+          ng-attr-r="{{7}}"
+          fill="none"
+        />
+      </g>
       <line
-        ng-switch-default
         ng-if="false"
         class="reaction production link"
         ng-attr-opacity="{{link.opacity}}"
@@ -132,9 +147,12 @@ ng-attr-width="{{imports.width || 800}}">
         ng-attr-y2="{{link.y2}}">
       </line>
     </g>
-    <g ng-repeat="link in lines.reactant" ng-switch on="imports.showArcs">
+    <g 
+      ng-repeat="link in lines.reactant" 
+      ng-switch on="imports.showArcs"
+      ng-click="clickLink(link)"
+    >
       <path
-        class="reaction reactant link"
         ng-attr-d="
           M {{link.x1}} {{link.y1}}
           C 
@@ -143,15 +161,30 @@ ng-attr-width="{{imports.width || 800}}">
           {{link.x2}} {{link.y2}}
         "
         fill="none"
+        ng-attr-stroke="{{link.reaction.selected ? 'red' : 'black'}}"
+        ng-attr-stroke-width="{{'3px'}}"
         ng-attr-opacity="{{link.opacity}}"
       />
-      <path 
-        ng-switch-when="true"
-        class="reaction reactant link" 
-        ng-attr-opacity="{{link.opacity}}"
-        ng-attr-d={{linkArc(link)}}
-        fill="none"
-        ></path>
+      <g
+        ng-if="link.reaction.selected"
+      >
+        <line
+          stroke="red"
+          stroke-dasharray="10, 5"
+          ng-attr-x1="{{link.x1}}"
+          ng-attr-y1="{{link.y1}}"
+          ng-attr-x2="{{link.cp1.x}}"
+          ng-attr-y2="{{link.cp1.y}}"
+        />
+        <circle
+          stroke="red"
+          ng-attr-cx="{{link.cp1.x}}"
+          ng-attr-cy="{{link.cp1.y}}"
+          ng-attr-r="{{7}}"
+          fill="none"
+          
+        />
+      </g>
       <line 
         ng-switch-default
         ng-if="false"
@@ -251,17 +284,45 @@ ng-attr-width="{{imports.width || 800}}">
     <g 
       draggable 
       ng-repeat="node in reactions" 
-      ng-attr-opacity="{{imports.showReactionNodes ? 1 : 0}}"
-      ng-attr-transform="translate({{node.x}},{{node.y}})">
+      ng-click="clickNode(node)"
+    >
       <circle 
         ng-class="node.classes" 
         class="node" 
         ng-attr-r="{{4}}"
         fill="black" 
         stroke="black"
+        ng-attr-opacity="{{imports.showReactionNodes ? 1 : 0}}"
+        ng-attr-transform="translate({{node.x}},{{node.y}})"
         ng-click="openReactionModal(node)">
         <title>ID: {{node.id}}, Name: {{node.name}}</title>
       </circle>
+      <g
+        ng-if="node.selected"
+      >
+        <line
+          stroke="red"
+          stroke-dasharray="10, 5"
+          ng-attr-x1="{{node.getCp1().x}}"
+          ng-attr-y1="{{node.getCp1().y}}"
+          ng-attr-x2="{{node.getCp2().x}}"
+          ng-attr-y2="{{node.getCp2().y}}"
+        />
+        <circle
+          stroke="red"
+          ng-attr-cx="{{node.getCp1().x}}"
+          ng-attr-cy="{{node.getCp1().y}}"
+          ng-attr-r="{{7}}"
+          fill="none"
+        />
+        <circle
+          stroke="red"
+          ng-attr-cx="{{node.getCp2().x}}"
+          ng-attr-cy="{{node.getCp2().y}}"
+          ng-attr-r="{{7}}"
+          fill="none"
+        />
+      </g>
       <text class="node-label">{{}}</text>
     </g>
     <g 

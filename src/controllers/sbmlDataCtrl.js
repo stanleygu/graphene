@@ -6,12 +6,12 @@ angular.module('sg.graphene')
     $scope.exports = {};
 
     $scope.linkModifers = false;
-    $scope.allowUnstick = true;
+    $scope.allowUnstick = false;
     $scope.showReactionNodes = false;
 
     $scope.max = {
       links: {
-        in : 2,
+        in : 1,
         out: 1
       }
     };
@@ -111,7 +111,7 @@ angular.module('sg.graphene')
           node.width = 0;
           node.height = 0;
           node.rInfo = $scope.reactionInfo[node.id];
-          node.d = 10;
+          node.d = 30;
           node.deg = 0;
           node.getCp1 = function() {
             return {

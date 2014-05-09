@@ -54,6 +54,20 @@ angular.module('sg.graphene')
       return 'M' + d.x1 + ',' + d.y1 + 'A' + dr + ',' + dr + ' 0 0,1 ' + d.x2 + ',' + d.y2;
     };
 
+    $scope.clickLink = function(link) {
+      _.each($scope.imports.reactions, function(r) {
+        r.selected = false;
+      });
+      link.reaction.selected = true;
+    };
+
+    $scope.clickNode = function(node) {
+      _.each($scope.imports.reactions, function(r) {
+        r.selected = false;
+      });
+      node.selected = true;
+    };
+
     $scope.extendPoint = function(start, end, distance) {
       // var slope = (end.y - start.y) / (end.x - start.x);
       var length = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y -
@@ -117,15 +131,15 @@ angular.module('sg.graphene')
         link.y1 = targetToSource.y;
         link.x2 = newPoint.x;
         link.y2 = newPoint.y;
-        link.cp1 = $scope.extendPoint(sourceToTarget, targetToSource, 10);
+        link.cp1 = $scope.extendPoint(sourceToTarget, targetToSource, -20);
         link.cp2 = $scope.extendPoint(targetToSource, sourceToTarget, -20);
       } else {
         link.x1 = targetToSource.x;
         link.y1 = targetToSource.y;
         link.x2 = sourceToTarget.x;
         link.y2 = sourceToTarget.y;
-        link.cp1 = $scope.extendPoint(sourceToTarget, targetToSource, 10);
-        link.cp2 = $scope.extendPoint(targetToSource, sourceToTarget, -10);
+        link.cp1 = $scope.extendPoint(sourceToTarget, targetToSource, -20);
+        link.cp2 = $scope.extendPoint(targetToSource, sourceToTarget, -20);
       }
 
     };
