@@ -194,12 +194,12 @@ angular.module('sg.graphene')
         };
         while (n.linksFromHere.length > $scope.max.links.out) {
           rest = _.rest(n.linksFromHere, $scope.max.links.out);
-          n.linksFromHere = [_.first(n.linksFromHere, $scope.max.links.out)];
+          n.linksFromHere = _.first(n.linksFromHere, $scope.max.links.out);
           _.each(rest, aliasConstructor('from'));
         }
         while (n.linksToHere.length > $scope.max.links. in ) {
           rest = _.rest(n.linksToHere);
-          n.linksToHere = [_.first(n.linksToHere, $scope.max.links. in )];
+          n.linksToHere = _.first(n.linksToHere, $scope.max.links. in );
           _.each(rest, aliasConstructor('to'));
         }
       });
