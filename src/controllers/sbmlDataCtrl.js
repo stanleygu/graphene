@@ -11,7 +11,7 @@ angular.module('sg.graphene')
 
     $scope.max = {
       links: {
-        in: 1,
+        in : 2,
         out: 1
       }
     };
@@ -23,7 +23,7 @@ angular.module('sg.graphene')
     };
 
     var clickNode = function(node) {
-     $log.info('Clicked on ' + node.name);
+      $log.info('Clicked on ' + node.name);
     };
 
     var dblClickNode = function(node) {
@@ -41,7 +41,7 @@ angular.module('sg.graphene')
         });
 
         _.each($scope.imports.links, function(edge) {
-            edge.opacity = OPACITY.unfocused;
+          edge.opacity = OPACITY.unfocused;
         });
 
         var reactions = [];
@@ -169,35 +169,38 @@ angular.module('sg.graphene')
 
       _.each($scope.species, function(n) {
         var rest;
-        if (n.linksFromHere.length > $scope.max.links.out) {
-          rest = _.rest(n.linksFromHere);
-          n.linksFromHere = [_.first(n.linksFromHere)];
-          _.each(rest, function(l) {
+        var aliasConstructor = function(direction) {
+          var linkArrayKey, speciesKey, linkTarget;
+          if (direction === 'from') {
+            linkArrayKey = 'linksFromHere';
+            speciesKey = 'reactants';
+            linkTarget = 'source';
+          } else {
+            linkArrayKey = 'linksToHere';
+            speciesKey = 'products';
+            linkTarget = 'target';
+          }
+          return function(l) {
             var alias = _.clone(n);
-            alias.linksFromHere = [l];
-            l.source = alias;
-            var ind = _.findKey(l.reaction.reactants, function(r) {
+            alias[linkArrayKey] = [l];
+            l[linkTarget] = alias;
+            var ind = _.findKey(l.reaction[speciesKey], function(r) {
               return r.id === alias.id;
             });
-            l.reaction.reactants[ind] = alias;
+            l.reaction[speciesKey][ind] = alias;
             $scope.nodes.push(alias);
             $scope.species.push(alias);
-          });
+          };
+        };
+        while (n.linksFromHere.length > $scope.max.links.out) {
+          rest = _.rest(n.linksFromHere, $scope.max.links.out);
+          n.linksFromHere = [_.first(n.linksFromHere, $scope.max.links.out)];
+          _.each(rest, aliasConstructor('from'));
         }
-        if (n.linksToHere.length > $scope.max.links.in) {
+        while (n.linksToHere.length > $scope.max.links. in ) {
           rest = _.rest(n.linksToHere);
-          n.linksToHere = [_.first(n.linksToHere)];
-          _.each(rest, function(l) {
-            var alias = _.clone(n);
-            alias.linksToHere = [l];
-            l.target = alias;
-            var ind = _.findKey(l.reaction.products, function(r) {
-              return r.id === alias.id;
-            });
-            l.reaction.products[ind] = alias;
-            $scope.nodes.push(alias);
-            $scope.species.push(alias);
-          });
+          n.linksToHere = [_.first(n.linksToHere, $scope.max.links. in )];
+          _.each(rest, aliasConstructor('to'));
         }
       });
 
@@ -285,7 +288,7 @@ angular.module('sg.graphene')
     var watchList = ['charge', 'linkDistance', 'gravity'];
     _.each(watchList, function(w) {
       $scope.$watch(w, function(newVal) {
-        if (newVal) {
+        if (newVal && $scope.ngModel) {
           if ($scope.force) {
             console.log('Change %s to ' + newVal, w);
             $scope.force[w](newVal).start();
@@ -294,10 +297,13 @@ angular.module('sg.graphene')
       });
     });
 
-    $scope.$watch('linkModifiers', function(newVal) {
-      if (!_.isUndefined(newVal)) {
-        $scope.force = runForceLayout();
-      }
+    var watchListRestart = ['linkModifiers', 'max.links'];
+    _.each(watchListRestart, function(w) {
+      $scope.$watch(w, function(newVal) {
+        if (newVal && $scope.ngModel) {
+          $scope.force = runForceLayout();
+        }
+      }, true);
     });
 
   });
