@@ -1,5 +1,3 @@
-# Graphene
-
 ![Logo](https://raw.githubusercontent.com/stanleygu/graphene-logo/master/app/images/logo.png)
 
 Graphene is a drawing library using [Angular](https://angularjs.org/) and [D3](http://d3js.org/) that lets you create interactive web components!
