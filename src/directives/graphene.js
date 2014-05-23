@@ -20,6 +20,9 @@ angular.module('sg.graphene')
             });
         }
         loadTemplate(scope.template);
+        scope.$watch('template', function() {
+          loadTemplate(scope.template);
+        });
       }
     };
   })
