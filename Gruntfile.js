@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
-
+    pkg: grunt.file.readJSON('package.json'),
     buildcontrol: {
       options: {
         dir: 'dist',
@@ -27,6 +27,7 @@ module.exports = function(grunt) {
       pages: {
         options: {
           remote: 'https://github.com/stanleygu/graphene.git',
+          tag: '<%= pkg.version%>',
           branch: 'gh-pages'
         }
       }
