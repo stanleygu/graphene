@@ -32,24 +32,24 @@ angular.module('sg.graphene')
         // Zooming behavior
         scope.translate = {};
         scope.scale = 1;
-        function zoomed() {
+        scope.zoomed = function() {
           if (scope.imports.zoom) {
             scope.scale = d3.event.scale;
             scope.translate.x = d3.event.translate[0];
             scope.translate.y = d3.event.translate[1];
             scope.$digest();
           }
-        }
+        };
 
-        var zoom = d3.behavior.zoom()
+        scope.zoom = d3.behavior.zoom()
           .translate([0, 0])
           .scale(1)
           .scaleExtent([0.5, 8])
-          .on('zoom', zoomed);
+          .on('zoom', scope.zoomed);
 
         scope.$watch('svg', function(newVal) {
           if (newVal) {
-            d3.select(element[0]).call(zoom);
+            d3.select(element[0]).call(scope.zoom);
           }
         });
       }
