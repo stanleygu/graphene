@@ -124,6 +124,7 @@ gulp.task('dist', ['min'], function() {
   return gulp.src(['demo/index.html', 'demo/sampleJSONwithProps.json',
     'demo/init.js',
     'build/graphene.min.js', 'build/graphene-templates.min.js',
+    'build/graphene.js',
     'build/graphene-standalone.min.js', 'bower.json'
   ])
     .pipe(gulp.dest('dist'));
