@@ -45,50 +45,75 @@ angular.module('sg.graphene')
       return result;
     }
 
-    var getLineIntersectionWithRectangle = function(line, rect) {
-      var sides = [{
-        x1: rect.x1, //left side
-        y1: rect.y1,
-        x2: rect.x1,
-        y2: rect.y2
-      }, {
-        x1: rect.x1, // top side
-        y1: rect.y1,
-        x2: rect.x2,
-        y2: rect.y1
-      }, {
-        x1: rect.x2, // right side
-        y1: rect.y1,
-        x2: rect.x2,
-        y2: rect.y2
-      }, {
-        x1: rect.x1, // bottom side
-        y1: rect.y2,
-        x2: rect.x2,
-        y2: rect.y2
-      }];
+    var api = {
+      getLineIntersectionWithRectangle: function(line, rect) {
+        var sides = [{
+          x1: rect.x1, //left side
+          y1: rect.y1,
+          x2: rect.x1,
+          y2: rect.y2
+        }, {
+          x1: rect.x1, // top side
+          y1: rect.y1,
+          x2: rect.x2,
+          y2: rect.y1
+        }, {
+          x1: rect.x2, // right side
+          y1: rect.y1,
+          x2: rect.x2,
+          y2: rect.y2
+        }, {
+          x1: rect.x1, // bottom side
+          y1: rect.y2,
+          x2: rect.x2,
+          y2: rect.y2
+        }];
 
-      var intersection;
-      _.each(sides, function(s) {
-        if (!intersection) {
-          var result = checkLineIntersection(line.x1, line.y1, line.x2,
-            line.y2,
-            s.x1, s.y1, s.x2, s.y2);
-          if (result.onLine1 && result.onLine2) {
-            intersection = result;
+        var intersection;
+        _.each(sides, function(s) {
+          if (!intersection) {
+            var result = checkLineIntersection(line.x1, line.y1, line.x2,
+              line.y2,
+              s.x1, s.y1, s.x2, s.y2);
+            if (result.onLine1 && result.onLine2) {
+              intersection = result;
+            }
           }
+        });
+        if (!intersection) {
+          intersection = {
+            x: (rect.x1 + rect.x2) / 2,
+            y: (rect.y1 + rect.y2) / 2
+          };
         }
-      });
-      if (!intersection) {
-        intersection = {
-          x: (rect.x1 + rect.x2) / 2,
-          y: (rect.y1 + rect.y2) / 2
+        return intersection;
+      },
+
+      linkArc: function(d) {
+        var dx = d.x2 - d.x1,
+          dy = d.y2 - d.y1,
+          dr = Math.sqrt(dx * dx + dy * dy);
+        return 'M' + d.x1 + ',' + d.y1 + 'A' + dr + ',' + dr + ' 0 0,1 ' + d.x2 + ',' + d.y2;
+      },
+
+      extendPoint: function(start, end, distance) {
+        // var slope = (end.y - start.y) / (end.x - start.x);
+        var length = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y -
+          start.y, 2));
+        return {
+          x: end.x + (end.x - start.x) / length * distance,
+          y: end.y + (end.y - start.y) / length * distance
         };
-      }
-      return intersection;
+      },
+
+      arrow: d3.svg.symbol().size(function(d) {
+        return d.size;
+      }).type(function(d) {
+        return d.type;
+      })
+
     };
+
     // Public API
-    return {
-      getLineIntersectionWithRectangle: getLineIntersectionWithRectangle
-    };
+    return api;
   });

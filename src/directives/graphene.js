@@ -28,12 +28,12 @@ angular.module('sg.graphene')
   })
   .directive('zoomable', function() {
     return {
-      link: function(scope, element) {
+      link: function(scope, element, attrs) {
         // Zooming behavior
         scope.translate = {};
         scope.scale = 1;
         scope.zoomed = function() {
-          if (scope.imports.zoom) {
+          if (element.scope().$apply(attrs.zoomable)) {
             scope.scale = d3.event.scale;
             scope.translate.x = d3.event.translate[0];
             scope.translate.y = d3.event.translate[1];
@@ -74,9 +74,6 @@ angular.module('sg.graphene')
   .directive('draggable', function($document) {
     return {
       link: function(scope, element) {
-
-        // d3.select(element[0]).data([scope.node]).call(scope.node.force.drag);
-        // scope.node.force.drag(d3.select(element[0])[0]);
 
         var offset = {};
 
@@ -126,6 +123,41 @@ angular.module('sg.graphene')
           $document.unbind('mousemove', mousemove);
           $document.unbind('mouseup', mouseup);
           element.scope().$digest();
+        }
+      }
+    };
+  })
+  .directive('sgDrag', function($document) {
+    return {
+      link: function(scope, element, attrs) {
+
+        var offset = {};
+
+        element.on('mousedown', function(event) {
+          // Prevent default dragging of selected content
+          event.preventDefault();
+          event.stopPropagation();
+
+          // Function to return current position of object
+          var node = element.scope().$apply(attrs.sgDragBegin);
+
+          offset.x = node.x - event.pageX / scope.scale;
+          offset.y = node.y - event.pageY / scope.scale;
+          $document.on('mousemove', mousemove);
+          $document.on('mouseup', mouseup);
+        });
+
+        function mousemove(event) {
+          // Calls function to report new position
+          element.scope().$apply(attrs.sgDragMove)({
+            x: event.pageX / scope.scale + offset.x,
+            y: event.pageY / scope.scale + offset.y
+          });
+        }
+
+        function mouseup() {
+          $document.unbind('mousemove', mousemove);
+          $document.unbind('mouseup', mouseup);
         }
       }
     };
