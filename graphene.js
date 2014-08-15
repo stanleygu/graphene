@@ -877,7 +877,7 @@ angular.module('sg.graphene')
     return {
       link: function(scope, element, attrs) {
         // Zooming behavior
-        scope.translate = {};
+        scope.translate = scope.translate || {x: 0, y:0};
         scope.scale = 1;
         scope.zoomed = function() {
           if (element.scope().$apply(attrs.zoomable)) {
