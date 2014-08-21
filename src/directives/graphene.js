@@ -156,6 +156,10 @@ angular.module('sg.graphene')
         }
 
         function mouseup() {
+          element.scope().$apply(attrs.sgDragFinish)({
+            x: event.pageX / scope.scale + offset.x,
+            y: event.pageY / scope.scale + offset.y
+          });
           $document.unbind('mousemove', mousemove);
           $document.unbind('mouseup', mouseup);
         }
